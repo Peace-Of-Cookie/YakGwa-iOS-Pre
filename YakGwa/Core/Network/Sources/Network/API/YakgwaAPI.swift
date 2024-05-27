@@ -12,7 +12,7 @@ import Moya
 public protocol YakgwaAPI: TargetType {
     var domain: YakgwaDomain { get }
     var urlPath: String { get }
-    var errorMap: [Int: YakgwaError] { get }
+    var errorMap: [Int: NetworkError] { get }
 }
 
 extension YakgwaAPI {
@@ -21,51 +21,32 @@ extension YakgwaAPI {
     }
     
     public var path: String {
-        switch self {
-        case .login:
-            return "/login"
-        case .logout:
-            return "/logout"
-        }
+        domain.asURLString + urlPath
     }
     
-    public var method: Moya.Method {
-        switch self {
-        case .login:
-            return .post
-        case .logout:
-            return .get
-        }
+    var headers: [String: String]? {
+        [
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        ]
     }
     
-    public var sampleData: Data {
-        return Data()
-    }
-    
-    public var task: Task {
-        switch self {
-        case .login:
-            return .requestPlain
-        case .logout:
-            return .requestPlain
-        }
-    }
-    
-    public var headers: [String : String]? {
-        return ["Content-Type": "application/json"]
+    public var validationType: ValidationType {
+        return .successCodes
     }
 }
 
+/// API Domain
 public enum YakgwaDomain: String {
     case login
     case vote
 }
 
 extension YakgwaDomain {
+    var asURLString: String {
+        "\(self.path)"
+    }
     
-}
-
-extension YakgwaDomain {
     var path: String {
         switch self {
         case .login:
