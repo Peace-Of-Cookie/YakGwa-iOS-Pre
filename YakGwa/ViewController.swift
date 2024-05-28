@@ -7,8 +7,6 @@
 
 import UIKit
 
-import DesignSystem
-
 class ViewController: UIViewController {
 
     private lazy var titleLabel: UILabel = {
@@ -23,15 +21,6 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBlue
-        setUI()
-    }
-    
-    func setUI() {
-        self.view.addSubview(titleLabel)
-        titleLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(100)
-            make.centerX.equalToSuperview()
-        }
     }
 }
 

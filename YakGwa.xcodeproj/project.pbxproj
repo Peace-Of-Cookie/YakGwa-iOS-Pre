@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		462C32242BFC87AC004FA8D2 /* CoreKit in Frameworks */ = {isa = PBXBuildFile; productRef = 462C32232BFC87AC004FA8D2 /* CoreKit */; };
 		6A4C6CE12BF9E73E00DEBC2E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4C6CE02BF9E73E00DEBC2E /* AppDelegate.swift */; };
 		6A4C6CE32BF9E73E00DEBC2E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4C6CE22BF9E73E00DEBC2E /* SceneDelegate.swift */; };
 		6A4C6CE52BF9E73E00DEBC2E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4C6CE42BF9E73E00DEBC2E /* ViewController.swift */; };
@@ -16,6 +15,7 @@
 		6A4C6CF82BF9E73F00DEBC2E /* YakGwaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4C6CF72BF9E73F00DEBC2E /* YakGwaTests.swift */; };
 		6A4C6D022BF9E73F00DEBC2E /* YakGwaUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4C6D012BF9E73F00DEBC2E /* YakGwaUITests.swift */; };
 		6A4C6D042BF9E73F00DEBC2E /* YakGwaUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4C6D032BF9E73F00DEBC2E /* YakGwaUITestsLaunchTests.swift */; };
+		6AB0B2112C063093009502FB /* LoginScene in Frameworks */ = {isa = PBXBuildFile; productRef = 6AB0B2102C063093009502FB /* LoginScene */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,7 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				462C32242BFC87AC004FA8D2 /* CoreKit in Frameworks */,
+				6AB0B2112C063093009502FB /* LoginScene in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -177,7 +177,7 @@
 			);
 			name = YakGwa;
 			packageProductDependencies = (
-				462C32232BFC87AC004FA8D2 /* CoreKit */,
+				6AB0B2102C063093009502FB /* LoginScene */,
 			);
 			productName = YakGwa;
 			productReference = 6A4C6CDD2BF9E73E00DEBC2E /* YakGwa.app */;
@@ -636,9 +636,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		462C32232BFC87AC004FA8D2 /* CoreKit */ = {
+		6AB0B2102C063093009502FB /* LoginScene */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = CoreKit;
+			productName = LoginScene;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
