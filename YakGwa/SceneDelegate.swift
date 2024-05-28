@@ -7,6 +7,7 @@
 
 import UIKit
 
+import SceneKit
 import LoginScene
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
