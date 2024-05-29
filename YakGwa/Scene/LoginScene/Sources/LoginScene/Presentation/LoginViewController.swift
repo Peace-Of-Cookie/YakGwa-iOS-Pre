@@ -8,9 +8,14 @@
 import UIKit
 
 import CoreKit
+import Common
 
-public final class LoginViewController: UIViewController {
+import ReactorKit
+import RxCocoa
+
+public final class LoginViewController: UIViewController, View {
     // MARK: - Properties
+    public var disposeBag: DisposeBag = DisposeBag()
     
     // MARK: - UI Components
     private lazy var titleImageView: UIImageView = {
@@ -41,6 +46,7 @@ public final class LoginViewController: UIViewController {
     // MARK: - Initializers
     public init() {
         super.init(nibName: nil, bundle: nil)
+        self.reactor = LoginReactor(loginUseCase: LoginUseCase(loginService: LoginService()))
     }
     
     required init?(coder: NSCoder) {
@@ -70,5 +76,18 @@ public final class LoginViewController: UIViewController {
             $0.centerX.equalToSuperview()
             $0.leading.equalToSuperview().offset(16)
         }
+    }
+    
+    // MARK: - Binding
+    public func bind(reactor: LoginReactor) {
+        // Action
+        kakaoLoginButton.rx.tap
+            .map { Reactor.Action.kakaoLogin }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // State
+        
+        // View
     }
 }
