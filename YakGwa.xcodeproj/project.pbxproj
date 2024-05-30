@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		462C32242BFC87AC004FA8D2 /* CoreKit in Frameworks */ = {isa = PBXBuildFile; productRef = 462C32232BFC87AC004FA8D2 /* CoreKit */; };
 		6A4C6CE12BF9E73E00DEBC2E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4C6CE02BF9E73E00DEBC2E /* AppDelegate.swift */; };
 		6A4C6CE32BF9E73E00DEBC2E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4C6CE22BF9E73E00DEBC2E /* SceneDelegate.swift */; };
 		6A4C6CE52BF9E73E00DEBC2E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4C6CE42BF9E73E00DEBC2E /* ViewController.swift */; };
@@ -16,6 +15,7 @@
 		6A4C6CF82BF9E73F00DEBC2E /* YakGwaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4C6CF72BF9E73F00DEBC2E /* YakGwaTests.swift */; };
 		6A4C6D022BF9E73F00DEBC2E /* YakGwaUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4C6D012BF9E73F00DEBC2E /* YakGwaUITests.swift */; };
 		6A4C6D042BF9E73F00DEBC2E /* YakGwaUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4C6D032BF9E73F00DEBC2E /* YakGwaUITestsLaunchTests.swift */; };
+		6ABABE2C2C0643830068477D /* SceneKit in Frameworks */ = {isa = PBXBuildFile; productRef = 6ABABE2B2C0643830068477D /* SceneKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +53,8 @@
 		6A4C6CFD2BF9E73F00DEBC2E /* YakGwaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YakGwaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A4C6D012BF9E73F00DEBC2E /* YakGwaUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YakGwaUITests.swift; sourceTree = "<group>"; };
 		6A4C6D032BF9E73F00DEBC2E /* YakGwaUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YakGwaUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		6ABABE292C0643040068477D /* Common */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Common; sourceTree = "<group>"; };
+		6ABABE2A2C0643350068477D /* SceneKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = SceneKit; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,7 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				462C32242BFC87AC004FA8D2 /* CoreKit in Frameworks */,
+				6ABABE2C2C0643830068477D /* SceneKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,6 +86,7 @@
 		462C32192BFC8266004FA8D2 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				6ABABE292C0643040068477D /* Common */,
 				462C321F2BFC851B004FA8D2 /* Util */,
 				462C321E2BFC84FA004FA8D2 /* Network */,
 				462C321D2BFC84DC004FA8D2 /* DesignSystem */,
@@ -95,6 +98,7 @@
 		462C32202BFC8532004FA8D2 /* Scene */ = {
 			isa = PBXGroup;
 			children = (
+				6ABABE2A2C0643350068477D /* SceneKit */,
 				462C32212BFC8559004FA8D2 /* LoginScene */,
 			);
 			path = Scene;
@@ -177,7 +181,7 @@
 			);
 			name = YakGwa;
 			packageProductDependencies = (
-				462C32232BFC87AC004FA8D2 /* CoreKit */,
+				6ABABE2B2C0643830068477D /* SceneKit */,
 			);
 			productName = YakGwa;
 			productReference = 6A4C6CDD2BF9E73E00DEBC2E /* YakGwa.app */;
@@ -636,9 +640,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		462C32232BFC87AC004FA8D2 /* CoreKit */ = {
+		6ABABE2B2C0643830068477D /* SceneKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = CoreKit;
+			productName = SceneKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

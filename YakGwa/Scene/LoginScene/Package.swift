@@ -5,17 +5,34 @@ import PackageDescription
 
 let package = Package(
     name: "LoginScene",
+    platforms: [.iOS(.v13)],
     products: [
-        // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
             name: "LoginScene",
             targets: ["LoginScene"]),
     ],
+    dependencies: [
+        .package(path: "./CoreKit"),
+        .package(path: "./Common"),
+        .package(path: "./Network"),
+        .package(path: "/Util"),
+        .package(
+            url: "https://github.com/kakao/kakao-ios-sdk",
+            .upToNextMajor(from: "2.0.0")
+        ),
+    ],
     targets: [
-        // Targets are the basic building blocks of a package, defining a module or a test suite.
-        // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "LoginScene"),
+            name: "LoginScene",
+            dependencies: [
+                .product(name: "CoreKit", package: "CoreKit"),
+                .product(name: "Common", package: "Common"),
+                .product(name: "Network", package: "Network"),
+                .product(name: "Util", package: "Util"),
+                .product(name: "KakaoSDK", package: "kakao-ios-sdk"),
+            ],
+            resources: [.process("Assets")]
+        ),
         .testTarget(
             name: "LoginSceneTests",
             dependencies: ["LoginScene"]),

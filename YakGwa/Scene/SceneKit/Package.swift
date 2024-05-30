@@ -4,21 +4,28 @@
 import PackageDescription
 
 let package = Package(
-    name: "Util",
+    name: "SceneKit",
     platforms: [.iOS(.v13)],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
-            name: "Util",
-            targets: ["Util"]),
+            name: "SceneKit",
+            targets: ["SceneKit"]),
+    ],
+    dependencies: [
+        .package(path: "./LoginScene")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "Util"),
+            name: "SceneKit",
+            dependencies: [
+                .product(name: "LoginScene", package: "LoginScene")
+            ]
+        ),
         .testTarget(
-            name: "UtilTests",
-            dependencies: ["Util"]),
+            name: "SceneKitTests",
+            dependencies: ["SceneKit"]),
     ]
 )
