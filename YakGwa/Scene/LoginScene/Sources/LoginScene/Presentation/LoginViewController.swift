@@ -9,6 +9,7 @@ import UIKit
 
 import CoreKit
 import Common
+import Network
 
 import ReactorKit
 import RxCocoa
@@ -46,7 +47,7 @@ public final class LoginViewController: UIViewController, View {
     // MARK: - Initializers
     public init() {
         super.init(nibName: nil, bundle: nil)
-        self.reactor = LoginReactor(loginUseCase: LoginUseCase(loginService: LoginService()))
+        self.reactor = LoginReactor(loginUseCase: LoginUseCase(loginService: LoginService(apiDataSource: BaseRemoteDataSource<LoginAPI>())))
     }
     
     required init?(coder: NSCoder) {

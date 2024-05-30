@@ -14,6 +14,7 @@ let package = Package(
     dependencies: [
         .package(path: "./CoreKit"),
         .package(path: "./Common"),
+        .package(path: "./Network"),
         .package(
             url: "https://github.com/kakao/kakao-ios-sdk",
             .upToNextMajor(from: "2.0.0")
@@ -25,6 +26,7 @@ let package = Package(
             dependencies: [
                 .product(name: "CoreKit", package: "CoreKit"),
                 .product(name: "Common", package: "Common"),
+                .product(name: "Network", package: "Network"),
                 .product(name: "KakaoSDK", package: "kakao-ios-sdk"),
             ],
             resources: [.process("Assets")]
