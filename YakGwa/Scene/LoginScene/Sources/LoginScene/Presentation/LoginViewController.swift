@@ -10,6 +10,7 @@ import UIKit
 import CoreKit
 import Common
 import Network
+import Util
 
 import ReactorKit
 import RxCocoa
@@ -59,6 +60,13 @@ public final class LoginViewController: UIViewController, View {
         super.viewDidLoad()
         
         setUI()
+        
+        
+        AccessTokenManager.deleteAccessToken()
+        AccessTokenManager.deleteRefreshToken()
+        
+        print("억세스 \(AccessTokenManager.readAccessToken())")
+        print("리프레스 \(AccessTokenManager.readRefreshToken())")
     }
     
     // MARK: - Layout
