@@ -9,6 +9,7 @@ import UIKit
 
 import SceneKit
 import LoginScene
+import SplashScene
 import KakaoSDKAuth
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -20,7 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-        window?.rootViewController = LoginViewController() 
+        window?.rootViewController = SplashViewController()
         window?.makeKeyAndVisible()
     }
 

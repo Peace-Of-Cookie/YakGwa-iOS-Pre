@@ -13,7 +13,8 @@ let package = Package(
             targets: ["SceneKit"]),
     ],
     dependencies: [
-        .package(path: "./LoginScene")
+        .package(path: "./LoginScene"),
+        .package(path: "./SplashScene")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -21,7 +22,8 @@ let package = Package(
         .target(
             name: "SceneKit",
             dependencies: [
-                .product(name: "LoginScene", package: "LoginScene")
+                .product(name: "LoginScene", package: "LoginScene"),
+                .product(name: "SplashScene", package: "SplashScene")
             ]
         ),
         .testTarget(
