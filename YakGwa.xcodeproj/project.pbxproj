@@ -15,6 +15,7 @@
 		6A4C6CF82BF9E73F00DEBC2E /* YakGwaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4C6CF72BF9E73F00DEBC2E /* YakGwaTests.swift */; };
 		6A4C6D022BF9E73F00DEBC2E /* YakGwaUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4C6D012BF9E73F00DEBC2E /* YakGwaUITests.swift */; };
 		6A4C6D042BF9E73F00DEBC2E /* YakGwaUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4C6D032BF9E73F00DEBC2E /* YakGwaUITestsLaunchTests.swift */; };
+		6AAA7F342C0CA26400779AD4 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AAA7F332C0CA26400779AD4 /* AppCoordinator.swift */; };
 		6ABABE2C2C0643830068477D /* SceneKit in Frameworks */ = {isa = PBXBuildFile; productRef = 6ABABE2B2C0643830068477D /* SceneKit */; };
 /* End PBXBuildFile section */
 
@@ -54,6 +55,7 @@
 		6A4C6D012BF9E73F00DEBC2E /* YakGwaUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YakGwaUITests.swift; sourceTree = "<group>"; };
 		6A4C6D032BF9E73F00DEBC2E /* YakGwaUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YakGwaUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		6AAA7F322C0C862A00779AD4 /* SplashScene */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = SplashScene; path = "../../../../YakGwa-iOS/YakGwa/Scene/SplashScene"; sourceTree = "<group>"; };
+		6AAA7F332C0CA26400779AD4 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		6ABABE292C0643040068477D /* Common */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Common; sourceTree = "<group>"; };
 		6ABABE2A2C0643350068477D /* SceneKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = SceneKit; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -99,8 +101,8 @@
 		462C32202BFC8532004FA8D2 /* Scene */ = {
 			isa = PBXGroup;
 			children = (
-				6AAA7F322C0C862A00779AD4 /* SplashScene */,
 				6ABABE2A2C0643350068477D /* SceneKit */,
+				6AAA7F322C0C862A00779AD4 /* SplashScene */,
 				462C32212BFC8559004FA8D2 /* LoginScene */,
 			);
 			path = Scene;
@@ -141,6 +143,7 @@
 				462C32192BFC8266004FA8D2 /* Core */,
 				6A4C6CE02BF9E73E00DEBC2E /* AppDelegate.swift */,
 				6A4C6CE22BF9E73E00DEBC2E /* SceneDelegate.swift */,
+				6AAA7F332C0CA26400779AD4 /* AppCoordinator.swift */,
 				6A4C6CE42BF9E73E00DEBC2E /* ViewController.swift */,
 				6A4C6CE92BF9E73F00DEBC2E /* Assets.xcassets */,
 				6A4C6CEB2BF9E73F00DEBC2E /* LaunchScreen.storyboard */,
@@ -299,6 +302,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6AAA7F342C0CA26400779AD4 /* AppCoordinator.swift in Sources */,
 				6A4C6CE52BF9E73E00DEBC2E /* ViewController.swift in Sources */,
 				6A4C6CE12BF9E73E00DEBC2E /* AppDelegate.swift in Sources */,
 				6A4C6CE32BF9E73E00DEBC2E /* SceneDelegate.swift in Sources */,

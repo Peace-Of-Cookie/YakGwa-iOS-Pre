@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Ekko on 5/29/24.
 //
@@ -18,6 +18,7 @@ import RxCocoa
 public final class LoginViewController: UIViewController, View {
     // MARK: - Properties
     public var disposeBag: DisposeBag = DisposeBag()
+    weak var coordinator: LoginCoordinator?
     
     // MARK: - UI Components
     private lazy var titleImageView: UIImageView = {
