@@ -29,7 +29,8 @@ public class YakGwaPrimaryButton: UIButton, UIComponentBased {
     }
     
     public func attribute() {
-        self.setTitleColor(UIColor.primary700, for: .normal)
+        self.setTitleColor(UIColor.white, for: .normal)
+        self.backgroundColor = UIColor.primary700
         self.layer.cornerRadius = 12
     }
     

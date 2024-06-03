@@ -14,4 +14,8 @@ extension UIColor {
     public static var primary700: UIColor {
         return AppColor.setColor(.primary700)
     }
+    
+    public static var neutral200: UIColor {
+        return AppColor.setColor(.neutral200)
+    }
 }

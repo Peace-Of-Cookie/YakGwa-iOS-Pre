@@ -18,6 +18,10 @@ public final class HomeViewController: UIViewController, View {
     public var reactor: HomeReactor
     public var coordinator: HomeCoordinator?
     // MARK: - UI Componenets
+    private lazy var cardView: YakGwaDefaultCardView = {
+        let cardView = YakGwaDefaultCardView()
+        return cardView
+    }()
     
     // MARK: - Initializers
     public init(reactor: HomeReactor) {
@@ -32,7 +36,8 @@ public final class HomeViewController: UIViewController, View {
     // MARK: - Life cycles
     override public func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.primary700
+        
+        setUI()
     }
     
     // MARK: - Binding
@@ -42,6 +47,13 @@ public final class HomeViewController: UIViewController, View {
     
     // MARK: - Layout
     private func setUI() {
+        self.view.backgroundColor = .neutral200
         
+        self.view.addSubview(cardView)
+        cardView.snp.makeConstraints {
+            $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
+            $0.leading.equalToSuperview().offset(32)
+            $0.centerX.equalToSuperview()
+        }
     }
 }

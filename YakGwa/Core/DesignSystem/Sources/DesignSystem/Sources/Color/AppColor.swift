@@ -12,6 +12,8 @@ public enum AppColor: String {
     case primary100 = "Primary_100"
     case primary700 = "Primary_700"
     
+    case neutral200 = "Neutral_200"
+    
     public static func setColor(_ appColor: AppColor) -> UIColor {
         guard let palleteColor = UIColor(named: appColor.rawValue, in: Bundle.module, compatibleWith: nil) else {
             return UIColor.clear
