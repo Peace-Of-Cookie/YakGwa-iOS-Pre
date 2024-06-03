@@ -42,6 +42,7 @@
 		462C321E2BFC84FA004FA8D2 /* Network */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Network; sourceTree = "<group>"; };
 		462C321F2BFC851B004FA8D2 /* Util */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Util; sourceTree = "<group>"; };
 		462C32212BFC8559004FA8D2 /* LoginScene */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = LoginScene; sourceTree = "<group>"; };
+		466BA5DF2C0D3BDA00072930 /* SplashScene */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = SplashScene; sourceTree = "<group>"; };
 		6A4C6CDD2BF9E73E00DEBC2E /* YakGwa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YakGwa.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A4C6CE02BF9E73E00DEBC2E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6A4C6CE22BF9E73E00DEBC2E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -54,7 +55,6 @@
 		6A4C6CFD2BF9E73F00DEBC2E /* YakGwaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YakGwaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A4C6D012BF9E73F00DEBC2E /* YakGwaUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YakGwaUITests.swift; sourceTree = "<group>"; };
 		6A4C6D032BF9E73F00DEBC2E /* YakGwaUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YakGwaUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		6AAA7F322C0C862A00779AD4 /* SplashScene */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = SplashScene; path = "../../../../YakGwa-iOS/YakGwa/Scene/SplashScene"; sourceTree = "<group>"; };
 		6AAA7F332C0CA26400779AD4 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		6ABABE292C0643040068477D /* Common */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Common; sourceTree = "<group>"; };
 		6ABABE2A2C0643350068477D /* SceneKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = SceneKit; sourceTree = "<group>"; };
@@ -102,8 +102,8 @@
 			isa = PBXGroup;
 			children = (
 				6ABABE2A2C0643350068477D /* SceneKit */,
-				6AAA7F322C0C862A00779AD4 /* SplashScene */,
 				462C32212BFC8559004FA8D2 /* LoginScene */,
+				466BA5DF2C0D3BDA00072930 /* SplashScene */,
 			);
 			path = Scene;
 			sourceTree = "<group>";
