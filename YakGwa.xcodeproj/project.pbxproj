@@ -42,6 +42,7 @@
 		462C321E2BFC84FA004FA8D2 /* Network */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Network; sourceTree = "<group>"; };
 		462C321F2BFC851B004FA8D2 /* Util */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Util; sourceTree = "<group>"; };
 		462C32212BFC8559004FA8D2 /* LoginScene */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = LoginScene; sourceTree = "<group>"; };
+		4646B0F12C0D436C008B8582 /* HomeScene */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = HomeScene; sourceTree = "<group>"; };
 		466BA5DF2C0D3BDA00072930 /* SplashScene */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = SplashScene; sourceTree = "<group>"; };
 		6A4C6CDD2BF9E73E00DEBC2E /* YakGwa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YakGwa.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A4C6CE02BF9E73E00DEBC2E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -101,6 +102,7 @@
 		462C32202BFC8532004FA8D2 /* Scene */ = {
 			isa = PBXGroup;
 			children = (
+				4646B0F12C0D436C008B8582 /* HomeScene */,
 				6ABABE2A2C0643350068477D /* SceneKit */,
 				462C32212BFC8559004FA8D2 /* LoginScene */,
 				466BA5DF2C0D3BDA00072930 /* SplashScene */,

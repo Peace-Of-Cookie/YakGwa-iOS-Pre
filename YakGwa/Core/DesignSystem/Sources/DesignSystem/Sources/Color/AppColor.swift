@@ -10,6 +10,7 @@ import UIKit
 /// Yakgwa에서 사용되는 Color 집합
 public enum AppColor: String {
     case primary100 = "Primary_100"
+    case primary700 = "Primary_700"
     
     public static func setColor(_ appColor: AppColor) -> UIColor {
         guard let palleteColor = UIColor(named: appColor.rawValue, in: Bundle.module, compatibleWith: nil) else {
