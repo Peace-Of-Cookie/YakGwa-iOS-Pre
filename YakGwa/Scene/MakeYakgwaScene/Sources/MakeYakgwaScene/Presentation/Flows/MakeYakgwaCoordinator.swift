@@ -24,4 +24,8 @@ final public class MakeYakgwaCoordinator: Coordinator {
         
         navigationController?.pushViewController(makeYakgwaViewController, animated: true)
     }
+    
+    func popMakeYakgwa() {
+        parentCoordinator?.removeChildCoordinator(self)
+    }
 }
