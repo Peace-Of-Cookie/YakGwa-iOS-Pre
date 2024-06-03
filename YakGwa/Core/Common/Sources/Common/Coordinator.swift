@@ -1,14 +1,14 @@
 import UIKit
 
 public protocol Coordinator: AnyObject {
-    var navigationController: UINavigationController { get }
-    var parentCoordinator: Coordinator { get set }
+    var navigationController: UINavigationController? { get }
+    var parentCoordinator: Coordinator? { get set }
     var childCoordinators: [Coordinator] { get set }
     
     func start()
 }
 
-extension Coordinator {
+public extension Coordinator {
     func addChildCoordinator(_ coordinator: Coordinator) {
         childCoordinators.append(coordinator)
     }
