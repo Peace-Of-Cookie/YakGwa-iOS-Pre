@@ -11,22 +11,22 @@ import CoreKit
 import Util
 
 import ReactorKit
+import RxCocoa
 
 public final class HomeViewController: UIViewController, View {
     // MARK: - Properties
     public var disposeBag: DisposeBag = DisposeBag()
-    public var reactor: HomeReactor
     public var coordinator: HomeCoordinator?
     // MARK: - UI Componenets
-    private lazy var cardView: YakGwaDefaultCardView = {
+    private var cardView: YakGwaDefaultCardView = {
         let cardView = YakGwaDefaultCardView()
         return cardView
     }()
     
     // MARK: - Initializers
     public init(reactor: HomeReactor) {
-        self.reactor = reactor
         super.init(nibName: nil, bundle: nil)
+        self.reactor = reactor
     }
     
     required init?(coder: NSCoder) {
@@ -42,7 +42,21 @@ public final class HomeViewController: UIViewController, View {
     
     // MARK: - Binding
     public func bind(reactor: HomeReactor) {
-        print("바인딩")
+        // Action
+        cardView.confirmbutton.rx.tap
+            .map { Reactor.Action.moveToMakeAppointment }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // State
+        reactor.state
+            .map { $0.shouldNavigateToMakeAppointment }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .subscribe(onNext: { [weak self] _ in
+                self?.coordinator?.moveToMakeYakgwa()
+            })
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Layout

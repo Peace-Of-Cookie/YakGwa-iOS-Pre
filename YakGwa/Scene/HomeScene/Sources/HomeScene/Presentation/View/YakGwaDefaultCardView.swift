@@ -29,8 +29,9 @@ final class YakGwaDefaultCardView: UIView, UIComponentBased {
         return label
     }()
     
-    private lazy var button: YakGwaPrimaryButton = {
+    var confirmbutton: YakGwaPrimaryButton = {
         let button = YakGwaPrimaryButton()
+        button.isEnabled = true
         button.title = "약속 만들러 가기"
         return button
     }()
@@ -66,8 +67,8 @@ final class YakGwaDefaultCardView: UIView, UIComponentBased {
             $0.centerX.equalToSuperview()
         }
         
-        self.addSubview(button)
-        button.snp.makeConstraints {
+        self.addSubview(confirmbutton)
+        confirmbutton.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).offset(16)
             $0.leading.equalToSuperview().offset(16)
             $0.centerX.equalToSuperview()

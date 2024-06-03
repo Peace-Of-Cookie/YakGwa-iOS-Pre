@@ -7,6 +7,7 @@
 
 import UIKit
 import Common
+import MakeYakgwaScene
 
 final public class HomeCoordinator: Coordinator {
     public var navigationController: UINavigationController?
@@ -28,5 +29,12 @@ final public class HomeCoordinator: Coordinator {
         
         window.rootViewController = homeViewController
         window.makeKeyAndVisible()
+    }
+    
+    func moveToMakeYakgwa() {
+        let makeYakgwaCoordinator = MakeYakgwaCoordinator(navigationController: self.navigationController!)
+        makeYakgwaCoordinator.parentCoordinator = self
+        parentCoordinator?.addChildCoordinator(makeYakgwaCoordinator)
+        makeYakgwaCoordinator.start()
     }
 }

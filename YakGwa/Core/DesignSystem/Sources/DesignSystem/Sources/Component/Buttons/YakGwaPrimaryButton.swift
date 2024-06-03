@@ -18,7 +18,7 @@ public class YakGwaPrimaryButton: UIButton, UIComponentBased {
     }
     
     override public init(frame: CGRect) {
-        super.init(frame: .zero)
+        super.init(frame: frame)
         
         self.attribute()
         self.layout()

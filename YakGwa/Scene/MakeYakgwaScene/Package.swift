@@ -4,34 +4,32 @@
 import PackageDescription
 
 let package = Package(
-    name: "HomeScene",
+    name: "MakeYakgwaScene",
     platforms: [.iOS(.v13)],
     products: [
         .library(
-            name: "HomeScene",
-            targets: ["HomeScene"]),
+            name: "MakeYakgwaScene",
+            targets: ["MakeYakgwaScene"]),
     ],
     dependencies: [
         .package(path: "./CoreKit"),
         .package(path: "./Common"),
         .package(path: "./Network"),
-        .package(path: "./Util"),
-        .package(path: "./MakeYakgwaScene")
+        .package(path: "./Util")
     ],
     targets: [
         .target(
-            name: "HomeScene",
+            name: "MakeYakgwaScene",
             dependencies: [
                 .product(name: "CoreKit", package: "CoreKit"),
                 .product(name: "Common", package: "Common"),
                 .product(name: "Network", package: "Network"),
-                .product(name: "Util", package: "Util"),
-                .product(name: "MakeYakgwaScene", package: "MakeYakgwaScene")
+                .product(name: "Util", package: "Util")
             ],
             resources: [.process("Assets")]
         ),
         .testTarget(
-            name: "HomeSceneTests",
-            dependencies: ["HomeScene"]),
+            name: "MakeYakgwaSceneTests",
+            dependencies: ["MakeYakgwaScene"]),
     ]
 )

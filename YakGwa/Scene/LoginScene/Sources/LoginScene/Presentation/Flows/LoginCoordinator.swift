@@ -28,7 +28,6 @@ public final class LoginCoordinator: Coordinator {
     }
     
     public func moveToHomeScene() {
-        print("홈 화면으로 이동")
         let homeCoordinator = HomeCoordinator(window: window)
         homeCoordinator
             .parentCoordinator = self.parentCoordinator

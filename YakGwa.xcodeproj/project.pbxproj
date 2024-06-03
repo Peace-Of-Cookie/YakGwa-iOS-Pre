@@ -56,6 +56,7 @@
 		6A4C6CFD2BF9E73F00DEBC2E /* YakGwaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YakGwaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A4C6D012BF9E73F00DEBC2E /* YakGwaUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YakGwaUITests.swift; sourceTree = "<group>"; };
 		6A4C6D032BF9E73F00DEBC2E /* YakGwaUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YakGwaUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		6A935F482C0DF80A00926582 /* MakeYakgwaScene */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = MakeYakgwaScene; sourceTree = "<group>"; };
 		6AAA7F332C0CA26400779AD4 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		6ABABE292C0643040068477D /* Common */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Common; sourceTree = "<group>"; };
 		6ABABE2A2C0643350068477D /* SceneKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = SceneKit; sourceTree = "<group>"; };
@@ -102,6 +103,7 @@
 		462C32202BFC8532004FA8D2 /* Scene */ = {
 			isa = PBXGroup;
 			children = (
+				6A935F482C0DF80A00926582 /* MakeYakgwaScene */,
 				4646B0F12C0D436C008B8582 /* HomeScene */,
 				6ABABE2A2C0643350068477D /* SceneKit */,
 				462C32212BFC8559004FA8D2 /* LoginScene */,
