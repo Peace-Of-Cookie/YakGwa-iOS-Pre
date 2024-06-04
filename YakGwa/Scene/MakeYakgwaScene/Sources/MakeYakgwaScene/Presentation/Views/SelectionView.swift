@@ -20,7 +20,7 @@ final class SelectionView: UIView, UIComponentBased {
         return view
     }()
     
-    private lazy var firstLabel: UILabel = {
+    lazy var firstLabel: UILabel = {
         let label = UILabel()
         label.textColor = .neutral500
         label.font = UIFont.r14
@@ -32,7 +32,12 @@ final class SelectionView: UIView, UIComponentBased {
         return image
     }()
     
-    private lazy var secondLabel: UILabel = {
+    lazy var firstButton: UIButton = {
+        let button = UIButton()
+        return button
+    }()
+    
+    lazy var secondLabel: UILabel = {
         let label = UILabel()
         label.textColor = .neutral500
         label.font = UIFont.r14
@@ -42,6 +47,11 @@ final class SelectionView: UIView, UIComponentBased {
     private lazy var secondImage: UIImageView = {
         let image = UIImageView()
         return image
+    }()
+    
+    lazy var secondButton: UIButton = {
+        let button = UIButton()
+        return button
     }()
     
     // MARK: - Initializers
@@ -92,6 +102,7 @@ final class SelectionView: UIView, UIComponentBased {
         self.addSubview(firstLabel)
         firstLabel.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(16)
+            $0.trailing.equalTo(separatorView.snp.leading).offset(-16)
             $0.centerY.equalToSuperview()
         }
         
@@ -101,9 +112,17 @@ final class SelectionView: UIView, UIComponentBased {
             $0.centerY.equalToSuperview()
         }
         
+        self.addSubview(firstButton)
+        firstButton.snp.makeConstraints {
+            $0.leading.equalToSuperview()
+            $0.trailing.equalTo(separatorView.snp.leading)
+            $0.top.bottom.equalToSuperview()
+        }
+        
         self.addSubview(secondLabel)
         secondLabel.snp.makeConstraints {
             $0.leading.equalTo(separatorView.snp.trailing).offset(16)
+            $0.trailing.equalToSuperview().offset(-16)
             $0.centerY.equalToSuperview()
         }
         
@@ -111,6 +130,13 @@ final class SelectionView: UIView, UIComponentBased {
         secondImage.snp.makeConstraints {
             $0.trailing.equalToSuperview().offset(-16)
             $0.centerY.equalToSuperview()
+        }
+        
+        self.addSubview(secondButton)
+        secondButton.snp.makeConstraints {
+            $0.leading.equalTo(separatorView.snp.trailing)
+            $0.trailing.equalToSuperview()
+            $0.top.bottom.equalToSuperview()
         }
     }
 }

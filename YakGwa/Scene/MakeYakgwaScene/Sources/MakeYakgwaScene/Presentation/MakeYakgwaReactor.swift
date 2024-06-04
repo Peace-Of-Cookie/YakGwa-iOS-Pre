@@ -12,13 +12,25 @@ import ReactorKit
 public final class MakeYakgwaReactor: Reactor {
     public enum Action {
         case confirmButtonTapped
+        case alreadySelectedLocationChecked
+        case startDateButtonTapped
+        case endDateButtonTapped
+        case startTimeButtonTapped
+        case endTimeButtonTapped
+        case alreadySelectedDateChecked
     }
     
     public enum Mutation {
-        // case setYakgwaInfo()
+        case showStartDatePicker
+        case showEndDatePicker
+        case showStartTimePicker
+        case showEndTimePicker
     }
     
     public struct State {
+        
+        @Pulse var isDateViewShow: PickerSheetType?
+        
         /// 약속 타이틀
         var yakgwaTitle: String?
         /// 약속 설명
@@ -41,7 +53,6 @@ public final class MakeYakgwaReactor: Reactor {
         var yakgwaEndTime: Date?
         /// 초대 마감 시간
         var expiredDate: Date?
-        
     }
     
     public var initialState: State
@@ -51,10 +62,42 @@ public final class MakeYakgwaReactor: Reactor {
     }
     
     public func mutate(action: Action) -> Observable<Mutation> {
-        
+        switch action {
+        case .startDateButtonTapped:
+            return .just(.showStartDatePicker)
+        case .endDateButtonTapped:
+            return .just(.showEndDatePicker)
+        case .startTimeButtonTapped:
+            return .just(.showStartTimePicker)
+        case .endTimeButtonTapped:
+            return .just(.showEndTimePicker)
+        default:
+            return .empty()
+        }
     }
     
     public func reduce(state: State, mutation: Mutation) -> State {
+        var newState = state
+        switch mutation {
+        case .showStartDatePicker:
+            newState.isDateViewShow = .startDate
+        case .showEndDatePicker:
+            newState.isDateViewShow = .endDate
+        case .showStartTimePicker:
+            newState.isDateViewShow = .startTime
+        case .showEndTimePicker:
+            newState.isDateViewShow = .endTime
+        default:
+            break
+        }
         
+        return newState
     }
+}
+
+enum PickerSheetType {
+    case startDate
+    case endDate
+    case startTime
+    case endTime
 }

@@ -6,22 +6,23 @@
 //
 
 import UIKit
+import Combine
 
 import CoreKit
 import Util
 
 import ReactorKit
+import RxCocoa
 
-public final class MakeYakgwaViewController: UIViewController, View {
+public final class MakeYakgwaViewController: UIViewController, View, KeyboardReactable {
+    
     // MARK: - Properties
     public var disposeBag: DisposeBag = DisposeBag()
+    public var cancelBag: Set<AnyCancellable> = Set<AnyCancellable>()
     public weak var coordinator: MakeYakgwaCoordinator?
     
     // MARK: - UI Componenets
-    private lazy var scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        return scrollView
-    }()
+    public var scrollView: UIScrollView! = UIScrollView()
     
     private lazy var contentView: UIView = {
         let view = UIView()
@@ -54,10 +55,20 @@ public final class MakeYakgwaViewController: UIViewController, View {
     
     private lazy var yakgwaTitleTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "20자 이내로 입력해주세요."
-        textField.textColor = .neutral500
+        textField.textColor = .neutralBlack
         textField.font = UIFont.r14
+        
+        textField.delegate = self
+        
         return textField
+    }()
+    
+    private lazy var textFieldPlaceholderLabel: UILabel = {
+        let label = UILabel()
+        label.text = "20자 이내로 입력해주세요."
+        label.textColor = .neutral500
+        label.font = UIFont.r14
+        return label
     }()
     
     private lazy var yakgwaTitleTextCountLabel: UILabel = {
@@ -85,11 +96,21 @@ public final class MakeYakgwaViewController: UIViewController, View {
     
     private lazy var yakgwaDescriptionTextView: UITextView = {
         let textView = UITextView()
-        textView.text = "80자 이내로 입력해주세요."
-        textView.textColor = .neutral500
+        textView.textColor = .neutralBlack
         textView.font = UIFont.r14
         textView.backgroundColor = .white
+        
+        textView.delegate = self
+        
         return textView
+    }()
+    
+    private lazy var textViewPlaceholderLabel: UILabel = {
+        let label = UILabel()
+        label.text = "80자 이내로 입력해주세요."
+        label.textColor = .neutral500
+        label.font = UIFont.r14
+        return label
     }()
     
     private lazy var yakgwaDescriptionTextCountLabel: UILabel = {
@@ -151,7 +172,7 @@ public final class MakeYakgwaViewController: UIViewController, View {
     private lazy var alreadyLocationCheckBox: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "CheckBox", in: .module, with: nil), for: .normal)
-        // button.setImage(UIImage(named: "CheckBox_Checked", in: .module, with: nil), for: .selected)
+        button.setImage(UIImage(named: "CheckedBox", in: .module, with: nil), for: .selected)
         return button
     }()
     
@@ -203,7 +224,7 @@ public final class MakeYakgwaViewController: UIViewController, View {
     private lazy var alreadyTimeCheckBox: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "CheckBox", in: .module, with: nil), for: .normal)
-        // button.setImage(UIImage(named: "CheckBox_Checked", in: .module, with: nil), for: .selected)
+        button.setImage(UIImage(named: "CheckedBox", in: .module, with: nil), for: .selected)
         return button
     }()
     
@@ -298,10 +319,57 @@ public final class MakeYakgwaViewController: UIViewController, View {
         super.viewDidLoad()
         
         setUI()
+        
+        self.setTapGesture()
+        self.setKeyboardNotification()
     }
     
     // MARK: - Binding
     public func bind(reactor: MakeYakgwaReactor) {
+        // Action
+        self.daySelectionView.firstButton.rx.tap
+            .map { Reactor.Action.startDateButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        self.daySelectionView.secondButton.rx.tap
+            .map { Reactor.Action.endDateButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        self.timeSelectionView.firstButton.rx.tap
+            .map { Reactor.Action.startTimeButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        self.timeSelectionView.secondButton.rx.tap
+            .map { Reactor.Action.endTimeButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        self.alreadyLocationCheckBox.rx.tap
+            .map { Reactor.Action.alreadySelectedLocationChecked }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        self.alreadyTimeCheckBox.rx.tap
+            .map { Reactor.Action.alreadySelectedDateChecked }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // State
+        if #available(iOS 13.4, *) {
+            reactor.pulse(\.$isDateViewShow)
+                .compactMap { $0 }
+                .subscribe(onNext: { [weak self] type in
+                    self?.setPickerSheet(type: type)
+                })
+                .disposed(by: disposeBag)
+            
+        
+        } else {
+            // Fallback on earlier versions
+        }
     }
     
     // MARK: - Layout
@@ -350,6 +418,12 @@ public final class MakeYakgwaViewController: UIViewController, View {
             $0.bottom.equalToSuperview().offset(-8)
         }
         
+        self.yakgwaTitleTextField.addSubview(textFieldPlaceholderLabel)
+        textFieldPlaceholderLabel.snp.makeConstraints {
+            $0.top.equalTo(yakgwaTitleTextField.snp.top).offset(4)
+            $0.leading.equalTo(yakgwaTitleTextField.snp.leading).offset(16)
+        }
+        
         self.yakgwaTitleInputContainerView.addSubview(yakgwaTitleTextCountLabel)
         yakgwaTitleTextCountLabel.snp.makeConstraints {
             $0.trailing.equalToSuperview().offset(-16)
@@ -377,6 +451,12 @@ public final class MakeYakgwaViewController: UIViewController, View {
             $0.leading.equalToSuperview().offset(16)
             $0.trailing.equalToSuperview().offset(-16)
             $0.bottom.equalToSuperview().offset(-8)
+        }
+        
+        self.yakgwaDescriptionTextView.addSubview(textViewPlaceholderLabel)
+        textViewPlaceholderLabel.snp.makeConstraints {
+            $0.top.equalTo(yakgwaDescriptionTextView.snp.top).offset(4)
+            $0.leading.equalTo(yakgwaDescriptionTextView.snp.leading).offset(16)
         }
         
         self.yakgwaDescriptionInputContainerView.addSubview(yakgwaDescriptionTextCountLabel)
@@ -454,8 +534,8 @@ public final class MakeYakgwaViewController: UIViewController, View {
             $0.leading.equalToSuperview().offset(16)
         }
         
-        self.locationStack.addArrangedSubview(LocationTagView(location: "홍대"))
-        self.locationStack.addArrangedSubview(LocationTagView(location: "역삼역"))
+//        self.locationStack.addArrangedSubview(LocationTagView(location: "홍대"))
+//        self.locationStack.addArrangedSubview(LocationTagView(location: "역삼역"))
         
         self.contentView.addSubview(timeLabel)
         timeLabel.snp.makeConstraints {
@@ -515,7 +595,7 @@ public final class MakeYakgwaViewController: UIViewController, View {
         self.expireTimerContainerView.snp.makeConstraints{
             $0.height.equalTo(48)
             $0.top.equalTo(expireTimerTitleLabel.snp.bottom).offset(8)
-            $0.bottom.equalToSuperview().offset(-16)
+            $0.bottom.equalToSuperview().offset(-92)
             $0.leading.equalToSuperview().offset(16)
             $0.trailing.equalToSuperview().offset(-16)
         }
@@ -549,6 +629,58 @@ public final class MakeYakgwaViewController: UIViewController, View {
     }
 }
 
+extension MakeYakgwaViewController {
+    @available(iOS 13.4, *)
+    private func setPickerSheet(type: PickerSheetType) {
+        print("냠냠 :\(type)")
+        let pickerSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let datePicker = UIDatePicker()
+        
+        datePicker.preferredDatePickerStyle = .wheels
+        datePicker.locale = Locale(identifier: "ko_KR")
+        
+        switch type {
+        case .startDate, .endDate:
+            datePicker.datePickerMode = .date
+        case .startTime, .endTime:
+            datePicker.datePickerMode = .time
+            datePicker.minuteInterval = 5
+        }
+        
+        let dateFormatter = DateFormatter()
+        
+        let doneAction = UIAlertAction(title: "확인", style: .default) { _ in
+            switch type {
+            case .startDate:
+                dateFormatter.dateFormat = "yyyy-MM-dd"
+                self.daySelectionView.firstLabel.text = dateFormatter.string(from: datePicker.date)
+            case .endDate:
+                dateFormatter.dateFormat = "yyyy-MM-dd"
+                self.daySelectionView.secondLabel.text = dateFormatter.string(from: datePicker.date)
+            case .startTime:
+                dateFormatter.dateFormat = "HH:mm"
+                self.timeSelectionView.firstLabel.text = dateFormatter.string(from: datePicker.date)
+            case .endTime:
+                dateFormatter.dateFormat = "HH:mm"
+                self.timeSelectionView.secondLabel.text = dateFormatter.string(from: datePicker.date)
+            }
+        }
+        
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        
+        pickerSheet.addAction(doneAction)
+        pickerSheet.addAction(cancelAction)
+        
+        let vc = UIViewController()
+        vc.view = datePicker
+        
+        pickerSheet.setValue(vc, forKey: "contentViewController")
+        
+        self.present(pickerSheet, animated: true, completion: nil)
+    }
+}
+
 extension MakeYakgwaViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 10
@@ -562,5 +694,41 @@ extension MakeYakgwaViewController: UICollectionViewDelegate, UICollectionViewDa
         cell.configure()
         
         return cell
+    }
+}
+
+extension MakeYakgwaViewController: UITextFieldDelegate {
+    public func textFieldDidBeginEditing(_ textField: UITextField) {
+        textFieldPlaceholderLabel.isHidden = true
+    }
+    
+    public func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField.text?.isEmpty ?? true {
+            textFieldPlaceholderLabel.isHidden = false
+        }
+    }
+    
+    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        DispatchQueue.main.async {
+            self.textFieldPlaceholderLabel.isHidden = !(textField.text?.isEmpty ?? true)
+        }
+        return true
+    }
+}
+
+extension MakeYakgwaViewController: UITextViewDelegate {
+    
+    public func textViewDidChange(_ textView: UITextView) {
+        textViewPlaceholderLabel.isHidden = !textView.text.isEmpty
+    }
+    
+    public func textViewDidBeginEditing(_ textView: UITextView) {
+        textViewPlaceholderLabel.isHidden = true
+    }
+    
+    public func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textViewPlaceholderLabel.isHidden = false
+        }
     }
 }
