@@ -22,7 +22,8 @@ final class SelectionView: UIView, UIComponentBased {
     
     private lazy var firstLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .black
+        label.textColor = .neutral500
+        label.font = UIFont.r14
         return label
     }()
     
@@ -33,7 +34,8 @@ final class SelectionView: UIView, UIComponentBased {
     
     private lazy var secondLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .black
+        label.textColor = .neutral500
+        label.font = UIFont.r14
         return label
     }()
     

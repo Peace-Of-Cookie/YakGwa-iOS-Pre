@@ -32,7 +32,7 @@ public final class MakeYakgwaViewController: UIViewController, View {
     private lazy var titleDescriptionLabel: UILabel = {
         let label = UILabel()
         label.text = "잡으려는 약속에 대해 알려주세요"
-        label.textColor = .black
+        label.textColor = .neutral700
         label.font = UIFont.m14
         return label
     }()
@@ -40,7 +40,7 @@ public final class MakeYakgwaViewController: UIViewController, View {
     private lazy var yakgwaTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "약속의 이름이 무엇인가요?"
-        label.textColor = .black
+        label.textColor = .neutralBlack
         label.font = UIFont.m14
         return label
     }()
@@ -55,6 +55,7 @@ public final class MakeYakgwaViewController: UIViewController, View {
     private lazy var yakgwaTitleTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "20자 이내로 입력해주세요."
+        textField.textColor = .neutral500
         textField.font = UIFont.r14
         return textField
     }()
@@ -62,7 +63,7 @@ public final class MakeYakgwaViewController: UIViewController, View {
     private lazy var yakgwaTitleTextCountLabel: UILabel = {
         let label = UILabel()
         label.text = "0/20"
-        label.textColor = .black
+        label.textColor = .neutral600
         label.font = UIFont.r12
         return label
     }()
@@ -70,7 +71,8 @@ public final class MakeYakgwaViewController: UIViewController, View {
     private lazy var yakgwaDescriptionLabel: UILabel = {
         let label = UILabel()
         label.text = "약속에 대해 설명해주세요"
-        label.textColor = .black
+        label.textColor = .neutralBlack
+        label.font = UIFont.m14
         return label
     }()
     
@@ -84,7 +86,8 @@ public final class MakeYakgwaViewController: UIViewController, View {
     private lazy var yakgwaDescriptionTextView: UITextView = {
         let textView = UITextView()
         textView.text = "80자 이내로 입력해주세요."
-        textView.textColor = .black
+        textView.textColor = .neutral500
+        textView.font = UIFont.r14
         textView.backgroundColor = .white
         return textView
     }()
@@ -92,14 +95,16 @@ public final class MakeYakgwaViewController: UIViewController, View {
     private lazy var yakgwaDescriptionTextCountLabel: UILabel = {
         let label = UILabel()
         label.text = "0/80"
-        label.textColor = .black
+        label.textColor = .neutral600
+        label.font = UIFont.r12
         return label
     }()
     
     private lazy var themeLabel: UILabel = {
         let label = UILabel()
         label.text = "어떤 테마의 약속인가요?"
-        label.textColor = .black
+        label.textColor = .neutralBlack
+        label.font = UIFont.m14
         return label
     }()
     
@@ -122,21 +127,24 @@ public final class MakeYakgwaViewController: UIViewController, View {
     private lazy var locationLabel: UILabel = {
         let label = UILabel()
         label.text = "어디에서 모이나요?"
-        label.textColor = .black
+        label.textColor = .neutralBlack
+        label.font = UIFont.m14
         return label
     }()
     
     private lazy var locationSubLabel: UILabel = {
         let label = UILabel()
         label.text = "최대 3개 선택 가능"
-        label.textColor = .black
+        label.textColor = .neutral600
+        label.font = UIFont.m11
         return label
     }()
     
     private lazy var alreadyLocationLabel: UILabel = {
         let label = UILabel()
         label.text = "이미 장소를 정했어요"
-        label.textColor = .black
+        label.textColor = .neutral700
+        label.font = UIFont.m11
         return label
     }()
     
@@ -157,6 +165,8 @@ public final class MakeYakgwaViewController: UIViewController, View {
     private lazy var alreadyLocationTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "지역/지하철역을 검색해주세요"
+        textField.textColor = .neutral500
+        textField.font = UIFont.r14
         return textField
     }()
     
@@ -177,14 +187,16 @@ public final class MakeYakgwaViewController: UIViewController, View {
     private lazy var timeLabel: UILabel = {
         let label = UILabel()
         label.text = "언제부터 언제 사이에 모이나요?"
-        label.textColor = .black
+        label.textColor = .neutralBlack
+        label.font = UIFont.m14
         return label
     }()
     
     private lazy var alreadyTimeLabel: UILabel = {
         let label = UILabel()
         label.text = "이미 시간을 정했어요"
-        label.textColor = .black
+        label.textColor = .neutral700
+        label.font = UIFont.m11
         return label
     }()
     
@@ -198,7 +210,8 @@ public final class MakeYakgwaViewController: UIViewController, View {
     private lazy var selectDateLabel: UILabel = {
         let label = UILabel()
         label.text = "투표 가능한 기간을 선택해주세요 (최대 2주)"
-        label.textColor = .black
+        label.textColor = .neutral600
+        label.font = UIFont.m11
         return label
     }()
     
@@ -210,7 +223,8 @@ public final class MakeYakgwaViewController: UIViewController, View {
     private lazy var selectTimeLabel: UILabel = {
         let label = UILabel()
         label.text = "투표 가능한 시간 범위를 선택해주세요"
-        label.textColor = .black
+        label.textColor = .neutral600
+        label.font = UIFont.m11
         return label
     }()
     
@@ -222,7 +236,8 @@ public final class MakeYakgwaViewController: UIViewController, View {
     private lazy var expireTimerTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "초대 마감 시간을 설정해주세요"
-        label.textColor = .black
+        label.textColor = .neutralBlack
+        label.font = UIFont.m14
         return label
     }()
     
@@ -236,16 +251,31 @@ public final class MakeYakgwaViewController: UIViewController, View {
     private lazy var expireTimerLabel: UILabel = {
         let label = UILabel()
         label.text = "N시간 뒤 초대 마감"
-        label.textColor = .black
+        label.textColor = .neutralBlack
+        label.font = UIFont.r14
         return label
     }()
     
     private lazy var changeExpireTimerButton: UIButton = {
         let button = UIButton()
-        button.layer.cornerRadius = 20
+        button.layer.cornerRadius = 14
         button.backgroundColor = .neutral200
         button.setTitle("변경하기", for: .normal)
-        button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.font = UIFont.m12
+        button.setTitleColor(.neutral800, for: .normal)
+        return button
+    }()
+    
+    private lazy var bottomButtonContainer: UIView = {
+        let view = UIView()
+        view.backgroundColor = .neutralWhite
+        view.layer.applySketchShadow(color: .neutral600, alpha: 0.2, x: 0, y: -1, blur: 20, spread: 0)
+        return view
+    }()
+    
+    private lazy var confirmButton: YakGwaPrimaryButton = {
+        let button = YakGwaPrimaryButton()
+        button.title = "약속 만들기"
         return button
     }()
     
@@ -498,8 +528,23 @@ public final class MakeYakgwaViewController: UIViewController, View {
         
         self.expireTimerContainerView.addSubview(changeExpireTimerButton)
         changeExpireTimerButton.snp.makeConstraints {
+            $0.width.equalTo(66)
+            $0.height.equalTo(28)
             $0.trailing.equalToSuperview().offset(-16)
             $0.centerY.equalToSuperview()
+        }
+        
+        self.view.addSubview(bottomButtonContainer)
+        bottomButtonContainer.snp.makeConstraints {
+            $0.height.equalTo(92)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        bottomButtonContainer.addSubview(confirmButton)
+        confirmButton.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(8)
+            $0.leading.equalToSuperview().offset(16)
+            $0.centerX.equalToSuperview()
         }
     }
 }

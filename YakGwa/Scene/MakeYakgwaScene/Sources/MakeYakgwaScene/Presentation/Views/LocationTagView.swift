@@ -14,7 +14,8 @@ final class LocationTagView: UIView {
     // MARK: - UI Components
     private lazy var locationLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .black
+        label.textColor = .neutral800
+        label.font = UIFont.m12
         return label
     }()
     
