@@ -7,10 +7,17 @@
 
 import Foundation
 
+import Util
+
 import ReactorKit
 
 public final class MakeYakgwaReactor: Reactor {
+    // MARK: - Properties
+    let fetchThemeUseCase: FetchMeetThemesUseCaseProtocol
+    let disposeBag: DisposeBag = DisposeBag()
+    
     public enum Action {
+        case viewWillAppeared
         case confirmButtonTapped
         case alreadySelectedLocationChecked
         case startDateButtonTapped
@@ -21,6 +28,7 @@ public final class MakeYakgwaReactor: Reactor {
     }
     
     public enum Mutation {
+        case setThemes([MeetTheme])
         case showStartDatePicker
         case showEndDatePicker
         case showStartTimePicker
@@ -30,6 +38,8 @@ public final class MakeYakgwaReactor: Reactor {
     public struct State {
         
         @Pulse var isDateViewShow: PickerSheetType?
+        
+        var themes: [MeetTheme] = []
         
         /// 약속 타이틀
         var yakgwaTitle: String?
@@ -57,12 +67,22 @@ public final class MakeYakgwaReactor: Reactor {
     
     public var initialState: State
     
-    init() {
+    init (
+        fetchThemeUseCase: FetchMeetThemesUseCaseProtocol
+    ) {
+        self.fetchThemeUseCase = fetchThemeUseCase
         self.initialState = State()
     }
     
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
+        case .viewWillAppeared:
+            guard let token = AccessTokenManager.readAccessToken() else { return .empty() }// TODO: - Error 처리
+            return fetchThemeUseCase.execute(token: token)
+                .asObservable()
+                .map { Mutation.setThemes($0)}
+                .catchAndReturn(Mutation.setThemes([]))
+            
         case .startDateButtonTapped:
             return .just(.showStartDatePicker)
         case .endDateButtonTapped:
@@ -79,6 +99,8 @@ public final class MakeYakgwaReactor: Reactor {
     public func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         switch mutation {
+        case .setThemes(let themes):
+            newState.themes = themes
         case .showStartDatePicker:
             newState.isDateViewShow = .startDate
         case .showEndDatePicker:

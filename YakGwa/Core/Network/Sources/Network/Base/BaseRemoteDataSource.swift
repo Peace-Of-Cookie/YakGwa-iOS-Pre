@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  BaseRemoteDataSource.swift
+//
 //
 //  Created by Ekko on 5/27/24.
 //

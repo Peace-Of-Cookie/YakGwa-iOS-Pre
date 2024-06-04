@@ -18,7 +18,9 @@ final public class MakeYakgwaCoordinator: Coordinator {
     }
     
     public func start() {
-        let makeYakgwaReactor: MakeYakgwaReactor = MakeYakgwaReactor()
+        
+        let makeYakgwaReactor: MakeYakgwaReactor = MakeYakgwaReactor(fetchThemeUseCase: FetchMeetThemesUseCase(repository: MakeYakgwaRepository(remoteDataSource: RemoteFetchThemeDataSource())))
+        
         let makeYakgwaViewController = MakeYakgwaViewController(reactor: makeYakgwaReactor)
         makeYakgwaViewController.coordinator = self
         

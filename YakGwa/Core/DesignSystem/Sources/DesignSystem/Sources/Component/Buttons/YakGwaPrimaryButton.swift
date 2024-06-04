@@ -6,9 +6,9 @@
 //
 
 import UIKit
-import Util
+// import Util
 
-public class YakGwaPrimaryButton: UIButton, UIComponentBased {
+public class YakGwaPrimaryButton: UIButton {
     
     /// 버튼 타이틀
     public var title: String = "" {

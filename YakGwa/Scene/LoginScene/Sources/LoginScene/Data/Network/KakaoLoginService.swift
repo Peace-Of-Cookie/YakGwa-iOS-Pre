@@ -49,8 +49,7 @@ class LoginService: LoginServiceType {
                                     do {
                                         let loginResponse = try JSONDecoder().decode(LoginResponseDTO.self, from: response.data)
                                         let tokenSet = loginResponse.result.tokenSet
-                                        
-                                        print("토큰토큰: \(tokenSet.accessToken)")
+                                        print("로그인 결과: \(loginResponse)")
                                         
                                         AccessTokenManager.saveAccessToken(token: tokenSet.accessToken)
                                         AccessTokenManager.saveRefreshToken(token: tokenSet.refreshToken)

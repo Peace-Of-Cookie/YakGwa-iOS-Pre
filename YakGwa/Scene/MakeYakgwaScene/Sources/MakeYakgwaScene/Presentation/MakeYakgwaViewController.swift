@@ -132,15 +132,11 @@ public final class MakeYakgwaViewController: UIViewController, View, KeyboardRea
     private lazy var themeCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 8
-        layout.minimumInteritemSpacing = 8
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .white
         collectionView.showsHorizontalScrollIndicator = false
-        
-        collectionView.register(ThemeCell.self, forCellWithReuseIdentifier: ThemeCell.identifier)
+        collectionView.backgroundColor = .clear
         collectionView.delegate = self
-        collectionView.dataSource = self
+        collectionView.register(ThemeCell.self, forCellWithReuseIdentifier: ThemeCell.identifier)
         
         return collectionView
     }()
@@ -327,6 +323,11 @@ public final class MakeYakgwaViewController: UIViewController, View, KeyboardRea
     // MARK: - Binding
     public func bind(reactor: MakeYakgwaReactor) {
         // Action
+        self.rx.viewWillAppear
+            .map { _ in Reactor.Action.viewWillAppeared }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         self.daySelectionView.firstButton.rx.tap
             .map { Reactor.Action.startDateButtonTapped }
             .bind(to: reactor.action)
@@ -370,6 +371,19 @@ public final class MakeYakgwaViewController: UIViewController, View, KeyboardRea
         } else {
             // Fallback on earlier versions
         }
+        
+        reactor.state.map { $0.themes }
+            .distinctUntilChanged()
+            .bind(to: themeCollectionView.rx.items(cellIdentifier: "ThemeCell", cellType: ThemeCell.self)) { _, theme, cell in
+                cell.configure(with: theme)
+            }
+            .disposed(by: disposeBag)
+        
+        themeCollectionView.rx.itemSelected
+            .subscribe(onNext: { indexPath in
+                print(indexPath)
+            })
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Layout
@@ -477,7 +491,7 @@ public final class MakeYakgwaViewController: UIViewController, View, KeyboardRea
             $0.top.equalTo(themeLabel.snp.bottom).offset(8)
             $0.leading.equalToSuperview().offset(16)
             $0.trailing.equalToSuperview().offset(-16)
-            $0.height.equalTo(100)
+            $0.height.equalTo(107)
         }
         
         self.contentView.addSubview(locationLabel)
@@ -681,19 +695,11 @@ extension MakeYakgwaViewController {
     }
 }
 
-extension MakeYakgwaViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
-    }
-    
-    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ThemeCell.identifier, for: indexPath) as? ThemeCell else {
-            return UICollectionViewCell()
-        }
-        
-        cell.configure()
-        
-        return cell
+extension MakeYakgwaViewController: UICollectionViewDelegateFlowLayout {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let height = collectionView.frame.height
+        let width: CGFloat = 96
+        return CGSize(width: width, height: height)
     }
 }
 
