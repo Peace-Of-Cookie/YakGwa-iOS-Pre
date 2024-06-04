@@ -26,6 +26,7 @@ final class YakGwaDefaultCardView: UIView, UIComponentBased {
         label.text = "아직 약속이 없어요"
         label.textAlignment = .center
         label.textColor = .black
+        label.font = UIFont.m16
         return label
     }()
     

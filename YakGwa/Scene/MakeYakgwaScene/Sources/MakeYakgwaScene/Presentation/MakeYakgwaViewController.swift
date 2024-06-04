@@ -31,9 +31,9 @@ public final class MakeYakgwaViewController: UIViewController, View {
     
     private lazy var titleDescriptionLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 0
         label.text = "잡으려는 약속에 대해 알려주세요"
         label.textColor = .black
+        label.font = UIFont.m14
         return label
     }()
     
@@ -41,6 +41,7 @@ public final class MakeYakgwaViewController: UIViewController, View {
         let label = UILabel()
         label.text = "약속의 이름이 무엇인가요?"
         label.textColor = .black
+        label.font = UIFont.m14
         return label
     }()
     
@@ -54,6 +55,7 @@ public final class MakeYakgwaViewController: UIViewController, View {
     private lazy var yakgwaTitleTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "20자 이내로 입력해주세요."
+        textField.font = UIFont.r14
         return textField
     }()
     
@@ -61,6 +63,7 @@ public final class MakeYakgwaViewController: UIViewController, View {
         let label = UILabel()
         label.text = "0/20"
         label.textColor = .black
+        label.font = UIFont.r12
         return label
     }()
     
