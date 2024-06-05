@@ -13,14 +13,14 @@ public protocol CreateMeetUseCaseProtocol {
 }
 
 public final class CreateMeetUseCase: CreateMeetUseCaseProtocol {
-        
-        private let repository: CreateMeetRepositoryProtocol
-        
-        public init(repository: CreateMeetRepositoryProtocol) {
-            self.repository = repository
-        }
-        
-        public func execute(token: String, userId: Int, data: MakeMeetRequestDTO) -> Single<Bool> {
-            repository.createMeet(token: token, userId: userId, data: data)
-        }
+    
+    private let repository: CreateMeetRepositoryProtocol
+    
+    public init(repository: CreateMeetRepositoryProtocol) {
+        self.repository = repository
+    }
+    
+    public func execute(token: String, userId: Int, data: MakeMeetRequestDTO) -> Single<Bool> {
+        return repository.createMeet(token: token, userId: userId, data: data)
+    }
 }

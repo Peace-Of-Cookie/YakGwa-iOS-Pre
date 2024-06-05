@@ -64,7 +64,7 @@ public final class MakeYakgwaReactor: Reactor {
         
         case showExpireHourPicker
         
-        case createNewMeet
+        case createNewMeet(Bool)
     }
     
     public struct State {
@@ -121,12 +121,6 @@ public final class MakeYakgwaReactor: Reactor {
                 .map { Mutation.setThemes($0)}
                 .catchAndReturn(Mutation.setThemes([]))
         case .confirmButtonTapped:
-//            guard let token = AccessTokenManager.readAccessToken() else { return .empty() }
-//            return createMeetUseCase.execute(token: token, 
-//                                             userId: 4,
-//                                             data: MakeMeetRequestDTO(from: Yakgwa()))
-//                .asObservable()
-//                .map { _ in Mutation.createNewMeet }
             let entity = Yakgwa(
                             yakgwaTitle: currentState.yakgwaTitle,
                             yakgwaDescription: currentState.yakgwaDescription,
@@ -145,7 +139,7 @@ public final class MakeYakgwaReactor: Reactor {
             guard let userId = KeyChainManager.read(key: "userId") else { return .empty() }
             return createMeetUseCase.execute(token: token, userId: Int(userId) ?? 0, data: MakeMeetRequestDTO(from: entity))
                 .asObservable()
-                .map { _ in Mutation.createNewMeet }
+                .map { _ in .createNewMeet(true) }
             
         case .updateTitle(let title):
             return .just(.setTitle(title))
@@ -220,9 +214,8 @@ public final class MakeYakgwaReactor: Reactor {
         case .showExpireHourPicker:
             newState.isExpireHourViewSHow = true
             
-        case .createNewMeet:
-            print("컴플리트")
-            newState.makeMeetComplete = true
+        case .createNewMeet(let isComplete):
+            newState.makeMeetComplete = isComplete
         default:
             break
         }

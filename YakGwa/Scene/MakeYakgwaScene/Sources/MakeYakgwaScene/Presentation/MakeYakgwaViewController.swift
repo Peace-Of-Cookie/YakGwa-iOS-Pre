@@ -416,7 +416,13 @@ public final class MakeYakgwaViewController: UIViewController, View, KeyboardRea
             }
             .disposed(by: disposeBag)
         
-        
+        reactor.state.map { $0.makeMeetComplete }
+            .distinctUntilChanged()
+            .subscribe(onNext: { [weak self] complete in
+                print("isComple? \(complete)")
+                // TODO: - 화면 이동 로직
+            })
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Layout

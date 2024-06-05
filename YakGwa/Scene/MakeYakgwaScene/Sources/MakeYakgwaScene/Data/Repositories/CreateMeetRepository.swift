@@ -17,14 +17,9 @@ final class CreateMeetRepository: CreateMeetRepositoryProtocol {
     }
     
     func createMeet(token: String, userId: Int, data: MakeMeetRequestDTO) -> Single<Bool> {
-        remoteDataSource.createMeet(token: token, userId: userId, data: data)
+        return remoteDataSource.createMeet(token: token, userId: userId, data: data)
             .map { result in
-                print("생성 결과: \(result)")
-                if result.status == 200 {
-                    return true
-                } else {
-                    return false
-                }
+                return result.status == 200
             }
     }
 }

@@ -29,8 +29,8 @@ extension MakeYakgwaAPI: YakgwaAPI {
         switch self {
         case .fetchMeetThemes:
             return "/meetThemes"
-        case .createMeet:
-            return "/meets"
+        case let .createMeet(_, userId, _):
+            return "/\(userId)/meets"
         }
     }
     
@@ -61,8 +61,8 @@ extension MakeYakgwaAPI: YakgwaAPI {
         switch self {
         case .fetchMeetThemes:
             return .requestPlain
-        case let .createMeet(_, userId, body):
-            return .requestCompositeData(bodyData: body, urlParameters: ["userId": userId])
+        case let .createMeet(_, _, body):
+            return .requestData(body)
         }
     }
     

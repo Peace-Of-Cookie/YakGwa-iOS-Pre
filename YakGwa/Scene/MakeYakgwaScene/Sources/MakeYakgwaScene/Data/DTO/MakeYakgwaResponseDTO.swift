@@ -24,15 +24,4 @@ struct MakeMeetResponseDTO: Codable {
     let code: String
     /// 응답 메시지
     let message: String
-    /// 결과
-    let result: MakeMeetResult
-    
-    struct MakeMeetResult: Codable {
-        let yakgwaId: Int
-        let name: String
-        let imageUrl: String
-        let price: Int
-        let description: String
-        let ingredients: [String]
-    }
 }
