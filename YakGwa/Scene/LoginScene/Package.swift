@@ -20,6 +20,7 @@ let package = Package(
             url: "https://github.com/kakao/kakao-ios-sdk",
             .upToNextMajor(from: "2.0.0")
         ),
+        .package(path: "./HomeScene")
     ],
     targets: [
         .target(
@@ -30,6 +31,7 @@ let package = Package(
                 .product(name: "Network", package: "Network"),
                 .product(name: "Util", package: "Util"),
                 .product(name: "KakaoSDK", package: "kakao-ios-sdk"),
+                .product(name: "HomeScene", package: "HomeScene")
             ],
             resources: [.process("Assets")]
         ),

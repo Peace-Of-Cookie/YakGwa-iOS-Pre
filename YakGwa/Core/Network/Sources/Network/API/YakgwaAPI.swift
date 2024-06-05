@@ -40,6 +40,8 @@ extension YakgwaAPI {
 public enum YakgwaDomain: String {
     case login
     case vote
+    case user
+    case none
 }
 
 extension YakgwaDomain {
@@ -53,6 +55,10 @@ extension YakgwaDomain {
             return "/auth"
         case .vote:
             return "/vote"
+        case .user:
+            return "/users"
+        case .none:
+            return ""
         }
     }
 }

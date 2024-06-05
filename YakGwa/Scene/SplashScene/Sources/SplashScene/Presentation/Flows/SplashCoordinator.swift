@@ -32,7 +32,7 @@ final public class SplashCoordinator: Coordinator {
     }
     
     private func showLogin() {
-        let loginCoordinator = LoginCoordinator()
+        let loginCoordinator = LoginCoordinator(window: self.window)
         loginCoordinator.parentCoordinator = self.parentCoordinator
         parentCoordinator?.addChildCoordinator(loginCoordinator)
         loginCoordinator.start()

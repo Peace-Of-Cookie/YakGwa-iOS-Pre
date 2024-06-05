@@ -97,7 +97,14 @@ public final class LoginViewController: UIViewController, View {
             .disposed(by: disposeBag)
         
         // State
-        
+        reactor.state
+            .map { $0.isLoggedIn }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .subscribe(onNext: {[weak self] _ in
+                self?.coordinator?.moveToHomeScene()
+            })
+            .disposed(by: disposeBag)
         // View
     }
 }
