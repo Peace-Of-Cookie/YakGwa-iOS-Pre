@@ -12,7 +12,7 @@ import Network
 public enum MakeYakgwaAPI {
     /// 저장된 모임의 테마 전체 조회
     case fetchMeetThemes(token: String)
-    case createYakgwa(token: String, userId: Int, body: Data)
+    case createMeet(token: String, userId: Int, body: Codable)
 }
 
 extension MakeYakgwaAPI: YakgwaAPI {
@@ -20,7 +20,7 @@ extension MakeYakgwaAPI: YakgwaAPI {
         switch self {
         case .fetchMeetThemes:
             return .none
-        case .createYakgwa:
+        case .createMeet:
             return .user
         }
     }
@@ -29,7 +29,7 @@ extension MakeYakgwaAPI: YakgwaAPI {
         switch self {
         case .fetchMeetThemes:
             return "/meetThemes"
-        case .createYakgwa:
+        case .createMeet:
             return "/meets"
         }
     }
@@ -41,7 +41,7 @@ extension MakeYakgwaAPI: YakgwaAPI {
         ]
         
         switch self {
-        case let .fetchMeetThemes(token), let .createYakgwa(token, _, _):
+        case let .fetchMeetThemes(token), let .createMeet(token, _, _):
             defaultHeaders["Authorization"] = "Bearer \(token)"
         }
         
@@ -52,7 +52,7 @@ extension MakeYakgwaAPI: YakgwaAPI {
         switch self {
         case .fetchMeetThemes:
             return .get
-        case .createYakgwa:
+        case .createMeet:
             return .post
         }
     }
@@ -61,8 +61,11 @@ extension MakeYakgwaAPI: YakgwaAPI {
         switch self {
         case .fetchMeetThemes:
             return .requestPlain
-        case let .createYakgwa(_, userId, body):
-            return .requestCompositeData(bodyData: body, urlParameters: ["userId": userId])
+        case let .createMeet(_, userId, body):
+            guard let bodyData = try? JSONSerialization.data(withJSONObject: body, options: []) else {
+                return .requestPlain
+            }
+            return .requestCompositeData(bodyData: bodyData, urlParameters: ["userId": userId])
         }
     }
     

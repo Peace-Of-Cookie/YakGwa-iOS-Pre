@@ -328,6 +328,26 @@ public final class MakeYakgwaViewController: UIViewController, View, KeyboardRea
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        self.yakgwaTitleTextField.rx.text
+            .orEmpty
+            .map { Reactor.Action.updateTitle($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        self.yakgwaDescriptionTextView.rx.text
+            .orEmpty
+            .map { Reactor.Action.updateDescription($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        self.themeCollectionView.rx.modelSelected(MeetTheme.self)
+            .map { Reactor.Action.updateTheme($0.id ?? 0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // Location
+        
+        
         self.daySelectionView.firstButton.rx.tap
             .map { Reactor.Action.startDateButtonTapped }
             .bind(to: reactor.action)
@@ -358,6 +378,11 @@ public final class MakeYakgwaViewController: UIViewController, View, KeyboardRea
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        self.confirmButton.rx.tap
+            .map { Reactor.Action.confirmButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // State
         if #available(iOS 13.4, *) {
             reactor.pulse(\.$isDateViewShow)
@@ -379,11 +404,7 @@ public final class MakeYakgwaViewController: UIViewController, View, KeyboardRea
             }
             .disposed(by: disposeBag)
         
-        themeCollectionView.rx.itemSelected
-            .subscribe(onNext: { indexPath in
-                print(indexPath)
-            })
-            .disposed(by: disposeBag)
+        
     }
     
     // MARK: - Layout
@@ -646,7 +667,6 @@ public final class MakeYakgwaViewController: UIViewController, View, KeyboardRea
 extension MakeYakgwaViewController {
     @available(iOS 13.4, *)
     private func setPickerSheet(type: PickerSheetType) {
-        print("냠냠 :\(type)")
         let pickerSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let datePicker = UIDatePicker()
@@ -669,15 +689,19 @@ extension MakeYakgwaViewController {
             case .startDate:
                 dateFormatter.dateFormat = "yyyy-MM-dd"
                 self.daySelectionView.firstLabel.text = dateFormatter.string(from: datePicker.date)
+                self.reactor?.action.onNext(.updateStartDate(datePicker.date))
             case .endDate:
                 dateFormatter.dateFormat = "yyyy-MM-dd"
                 self.daySelectionView.secondLabel.text = dateFormatter.string(from: datePicker.date)
+                self.reactor?.action.onNext(.updateEndDate(datePicker.date))
             case .startTime:
                 dateFormatter.dateFormat = "HH:mm"
                 self.timeSelectionView.firstLabel.text = dateFormatter.string(from: datePicker.date)
+                self.reactor?.action.onNext(.updateStartTime(datePicker.date))
             case .endTime:
                 dateFormatter.dateFormat = "HH:mm"
                 self.timeSelectionView.secondLabel.text = dateFormatter.string(from: datePicker.date)
+                self.reactor?.action.onNext(.updateEndTime(datePicker.date))
             }
         }
         

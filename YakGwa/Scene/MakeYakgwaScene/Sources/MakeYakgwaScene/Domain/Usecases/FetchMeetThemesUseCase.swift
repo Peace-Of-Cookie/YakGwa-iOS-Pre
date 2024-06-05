@@ -13,9 +13,9 @@ public protocol FetchMeetThemesUseCaseProtocol {
 }
 
 public final class FetchMeetThemesUseCase: FetchMeetThemesUseCaseProtocol {
-    private let repository: MakeYakgwaRepositoryProtocol
+    private let repository: FetchThemeRepositoryProtocol
     
-    public init(repository: MakeYakgwaRepositoryProtocol) {
+    public init(repository: FetchThemeRepositoryProtocol) {
         self.repository = repository
     }
     

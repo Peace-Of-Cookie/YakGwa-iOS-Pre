@@ -63,7 +63,6 @@ final class ThemeCell: UICollectionViewCell {
     }
     
     func configure(with theme: MeetTheme) {
-        print("셀 입니다: \(theme)")
         themeLabel.text = theme.name
     }
 }

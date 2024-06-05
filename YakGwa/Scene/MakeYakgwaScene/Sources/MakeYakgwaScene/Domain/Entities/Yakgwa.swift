@@ -8,10 +8,10 @@
 import Foundation
 
 /// 약속 엔터티
-struct Yakgwa {
+public struct Yakgwa {
     var yakgwaTitle: String?
     var yakgwaDescription: String?
-    var yakgwaTheme: String?
+    var yakgwaTheme: Int?
     var alreadySelectedLocation: Bool = false
     var yakgwaLocation: [String] = []
     var alreadySelectedDate: Bool = false
@@ -19,5 +19,5 @@ struct Yakgwa {
     var yakgwaEndDate: Date?
     var yakgwaStartTime: Date?
     var yakgwaEndTime: Date?
-    var expiredDate: Date?
+    var expiredDate: Int?
 }

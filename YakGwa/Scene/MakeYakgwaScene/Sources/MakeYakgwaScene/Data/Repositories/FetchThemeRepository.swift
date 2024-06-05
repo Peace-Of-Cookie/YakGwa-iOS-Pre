@@ -1,5 +1,5 @@
 //
-//  MakeYakgwaRepository.swift
+//  FetchThemeRepository.swift
 //
 //
 //  Created by Ekko on 6/5/24.
@@ -8,7 +8,7 @@
 import Network
 import RxSwift
 
-final class MakeYakgwaRepository: MakeYakgwaRepositoryProtocol {
+final class FetchThemeRepository: FetchThemeRepositoryProtocol {
     
     private let remoteDataSource: RemoteFetchThemeDataSourceProtocol
     
