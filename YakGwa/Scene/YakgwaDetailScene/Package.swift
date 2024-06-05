@@ -4,34 +4,32 @@
 import PackageDescription
 
 let package = Package(
-    name: "MakeYakgwaScene",
+    name: "YakgwaDetailScene",
     platforms: [.iOS(.v13)],
     products: [
         .library(
-            name: "MakeYakgwaScene",
-            targets: ["MakeYakgwaScene"]),
+            name: "YakgwaDetailScene",
+            targets: ["YakgwaDetailScene"]),
     ],
     dependencies: [
         .package(path: "./CoreKit"),
         .package(path: "./Common"),
         .package(path: "./Network"),
-        .package(path: "./Util"),
-        .package(path: "./YakgwaDetailScene")
+        .package(path: "./Util")
     ],
     targets: [
         .target(
-            name: "MakeYakgwaScene",
+            name: "YakgwaDetailScene",
             dependencies: [
                 .product(name: "CoreKit", package: "CoreKit"),
                 .product(name: "Common", package: "Common"),
                 .product(name: "Network", package: "Network"),
-                .product(name: "Util", package: "Util"),
-                .product(name: "YakgwaDetailScene", package: "YakgwaDetailScene")
+                .product(name: "Util", package: "Util")
             ],
             resources: [.process("Assets")]
         ),
         .testTarget(
-            name: "MakeYakgwaSceneTests",
-            dependencies: ["MakeYakgwaScene"]),
+            name: "YakgwaDetailSceneTests",
+            dependencies: ["YakgwaDetailScene"]),
     ]
 )

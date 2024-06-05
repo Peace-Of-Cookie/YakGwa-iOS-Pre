@@ -60,6 +60,7 @@
 		6AAA7F332C0CA26400779AD4 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		6ABABE292C0643040068477D /* Common */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Common; sourceTree = "<group>"; };
 		6ABABE2A2C0643350068477D /* SceneKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = SceneKit; sourceTree = "<group>"; };
+		6ACD75D12C10CEB900BAECFB /* YakgwaDetailScene */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = YakgwaDetailScene; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +104,7 @@
 		462C32202BFC8532004FA8D2 /* Scene */ = {
 			isa = PBXGroup;
 			children = (
+				6ACD75D12C10CEB900BAECFB /* YakgwaDetailScene */,
 				6A935F482C0DF80A00926582 /* MakeYakgwaScene */,
 				4646B0F12C0D436C008B8582 /* HomeScene */,
 				6ABABE2A2C0643350068477D /* SceneKit */,

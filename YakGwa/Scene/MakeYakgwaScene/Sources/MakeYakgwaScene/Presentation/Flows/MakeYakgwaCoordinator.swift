@@ -7,6 +7,7 @@
 
 import UIKit
 import Common
+import YakgwaDetailScene
 
 final public class MakeYakgwaCoordinator: Coordinator {
     public var navigationController: UINavigationController?
@@ -35,5 +36,23 @@ final public class MakeYakgwaCoordinator: Coordinator {
     
     func popMakeYakgwa() {
         parentCoordinator?.removeChildCoordinator(self)
+    }
+    
+    func moveToYakgwaDetail() {
+        guard let navigationController = navigationController,
+              let homeCoordinator = parentCoordinator as? Coordinator else { return }
+        
+        let yakgwaDetailCoordinator = YakgwaDetailCoordinator(navigationController: navigationController)
+        yakgwaDetailCoordinator.parentCoordinator = homeCoordinator
+        
+        // HomeCoordinator에 YakgwaDetailCoordinator 추가
+        homeCoordinator.addChildCoordinator(yakgwaDetailCoordinator)
+        yakgwaDetailCoordinator.start()
+        
+        // MakeYakgwaCoordinator를 HomeCoordinator의 자식 목록에서 제거
+        homeCoordinator.removeChildCoordinator(self)
+        
+        // 네비게이션 스택에서 MakeYakgwaViewController 제거
+        navigationController.viewControllers.removeAll { $0 is MakeYakgwaViewController }
     }
 }

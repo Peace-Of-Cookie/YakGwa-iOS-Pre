@@ -421,6 +421,7 @@ public final class MakeYakgwaViewController: UIViewController, View, KeyboardRea
             .subscribe(onNext: { [weak self] complete in
                 print("isComple? \(complete)")
                 // TODO: - 화면 이동 로직
+                self?.coordinator?.moveToYakgwaDetail()
             })
             .disposed(by: disposeBag)
     }
