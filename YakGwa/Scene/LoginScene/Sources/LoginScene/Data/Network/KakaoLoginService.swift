@@ -53,6 +53,7 @@ class LoginService: LoginServiceType {
                                         
                                         AccessTokenManager.saveAccessToken(token: tokenSet.accessToken)
                                         AccessTokenManager.saveRefreshToken(token: tokenSet.refreshToken)
+                                        KeyChainManager.save(key: "userId", value: "\(loginResponse.result.userId)")
                                         
                                         observer.onNext(true)
                                         observer.onCompleted()

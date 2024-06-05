@@ -39,6 +39,7 @@ public final class MakeYakgwaReactor: Reactor {
         case startTimeButtonTapped
         case endTimeButtonTapped
         case alreadySelectedDateChecked
+        case changeExpireDateTapped
         
         case confirmButtonTapped
     }
@@ -61,12 +62,15 @@ public final class MakeYakgwaReactor: Reactor {
         case showStartTimePicker
         case showEndTimePicker
         
+        case showExpireHourPicker
+        
         case createNewMeet
     }
     
     public struct State {
         
         @Pulse var isDateViewShow: PickerSheetType?
+        @Pulse var isExpireHourViewSHow: Bool = false
         
         var themes: [MeetTheme] = []
         
@@ -79,7 +83,7 @@ public final class MakeYakgwaReactor: Reactor {
         /// 이미 장소가 결졍된 여부
         var alreadySelectedLocation: Bool = false
         /// 약속 장소
-        var yakgwaLocation: [String] = []
+        var yakgwaLocation: [String] = ["홍대", "역삼역"]
         /// 이미 시간이 정해진 여부
         var alreadySelectedDate: Bool = false
         /// 약속 시작 날짜
@@ -92,6 +96,9 @@ public final class MakeYakgwaReactor: Reactor {
         var yakgwaEndTime: Date?
         /// 초대 마감 시간
         var expiredDate: Int?
+        
+        /// 약속 생성 완료
+        var makeMeetComplete: Bool = false
     }
     
     public var initialState: State
@@ -133,8 +140,12 @@ public final class MakeYakgwaReactor: Reactor {
                             yakgwaEndTime: currentState.yakgwaEndTime,
                             expiredDate: currentState.expiredDate
                         )
-            print("확인 버튼: \(entity)")
-            return .just(.createNewMeet)
+            
+            guard let token = AccessTokenManager.readAccessToken() else { return .empty() }
+            guard let userId = KeyChainManager.read(key: "userId") else { return .empty() }
+            return createMeetUseCase.execute(token: token, userId: Int(userId) ?? 0, data: MakeMeetRequestDTO(from: entity))
+                .asObservable()
+                .map { _ in Mutation.createNewMeet }
             
         case .updateTitle(let title):
             return .just(.setTitle(title))
@@ -164,6 +175,9 @@ public final class MakeYakgwaReactor: Reactor {
         case .endTimeButtonTapped:
             return .just(.showEndTimePicker)
             
+        case .changeExpireDateTapped:
+            return .just(.showExpireHourPicker)
+            
         default:
             return .empty()
         }
@@ -190,6 +204,9 @@ public final class MakeYakgwaReactor: Reactor {
             newState.yakgwaStartTime = time
         case .setEndTime(let time):
             newState.yakgwaEndTime = time
+        
+        case .setExpiredDate(let hour):
+            newState.expiredDate = hour
             
         case .showStartDatePicker:
             newState.isDateViewShow = .startDate
@@ -199,6 +216,13 @@ public final class MakeYakgwaReactor: Reactor {
             newState.isDateViewShow = .startTime
         case .showEndTimePicker:
             newState.isDateViewShow = .endTime
+            
+        case .showExpireHourPicker:
+            newState.isExpireHourViewSHow = true
+            
+        case .createNewMeet:
+            print("컴플리트")
+            newState.makeMeetComplete = true
         default:
             break
         }

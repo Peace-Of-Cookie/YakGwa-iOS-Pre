@@ -12,7 +12,7 @@ import Network
 public enum MakeYakgwaAPI {
     /// 저장된 모임의 테마 전체 조회
     case fetchMeetThemes(token: String)
-    case createMeet(token: String, userId: Int, body: Codable)
+    case createMeet(token: String, userId: Int, body: Data)
 }
 
 extension MakeYakgwaAPI: YakgwaAPI {
@@ -62,10 +62,7 @@ extension MakeYakgwaAPI: YakgwaAPI {
         case .fetchMeetThemes:
             return .requestPlain
         case let .createMeet(_, userId, body):
-            guard let bodyData = try? JSONSerialization.data(withJSONObject: body, options: []) else {
-                return .requestPlain
-            }
-            return .requestCompositeData(bodyData: bodyData, urlParameters: ["userId": userId])
+            return .requestCompositeData(bodyData: body, urlParameters: ["userId": userId])
         }
     }
     

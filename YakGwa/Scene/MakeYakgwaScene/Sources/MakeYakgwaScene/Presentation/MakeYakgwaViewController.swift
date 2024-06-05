@@ -378,6 +378,11 @@ public final class MakeYakgwaViewController: UIViewController, View, KeyboardRea
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        self.changeExpireTimerButton.rx.tap
+            .map { Reactor.Action.changeExpireDateTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         self.confirmButton.rx.tap
             .map { Reactor.Action.confirmButtonTapped }
             .bind(to: reactor.action)
@@ -396,6 +401,13 @@ public final class MakeYakgwaViewController: UIViewController, View, KeyboardRea
         } else {
             // Fallback on earlier versions
         }
+        
+        reactor.pulse(\.$isExpireHourViewSHow)
+            .compactMap { $0 }
+            .subscribe(onNext: { [weak self] _ in
+                self?.setHourPicker()
+            })
+            .disposed(by: disposeBag)
         
         reactor.state.map { $0.themes }
             .distinctUntilChanged()
@@ -717,6 +729,34 @@ extension MakeYakgwaViewController {
         
         self.present(pickerSheet, animated: true, completion: nil)
     }
+    
+    private func setHourPicker() {
+        let pickerSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let hourPicker = UIPickerView()
+        hourPicker.dataSource = self
+        hourPicker.delegate = self
+        
+        let doneAction = UIAlertAction(title: "확인", style: .default, handler: {_ in
+            self.expireTimerLabel.text = "\(hourPicker.selectedRow(inComponent: 0))시간 뒤 초대 마감"
+            self.reactor?.action.onNext(.updateExpiredDate(hourPicker.selectedRow(inComponent: 0)))
+        })
+        
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        
+        pickerSheet.addAction(doneAction)
+        pickerSheet.addAction(cancelAction)
+        
+        let vc = UIViewController()
+        vc.view = hourPicker
+        
+        pickerSheet.setValue(vc, forKey: "contentViewController")
+        
+        self.present(pickerSheet, animated: true, completion: nil)
+        
+    }
+    
+    
 }
 
 extension MakeYakgwaViewController: UICollectionViewDelegateFlowLayout {
@@ -760,5 +800,19 @@ extension MakeYakgwaViewController: UITextViewDelegate {
         if textView.text.isEmpty {
             textViewPlaceholderLabel.isHidden = false
         }
+    }
+}
+
+extension MakeYakgwaViewController: UIPickerViewDataSource, UIPickerViewDelegate {
+    public func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return 24
+    }
+    
+    public func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return "\(row)시"
     }
 }
