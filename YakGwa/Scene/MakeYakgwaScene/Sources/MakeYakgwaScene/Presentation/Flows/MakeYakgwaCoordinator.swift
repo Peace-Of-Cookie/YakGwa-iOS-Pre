@@ -38,6 +38,7 @@ final public class MakeYakgwaCoordinator: Coordinator {
         parentCoordinator?.removeChildCoordinator(self)
     }
     
+    
     func moveToYakgwaDetail() {
         guard let navigationController = navigationController,
               let homeCoordinator = parentCoordinator as? Coordinator else { return }

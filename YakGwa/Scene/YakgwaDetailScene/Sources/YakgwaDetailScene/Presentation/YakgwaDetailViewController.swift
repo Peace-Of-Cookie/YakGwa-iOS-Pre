@@ -13,8 +13,10 @@ import Util
 import ReactorKit
 import RxCocoa
 
-public final class YakgwaDetailViewController: UIViewController {
+public final class YakgwaDetailViewController: UIViewController, View {
     // MARK: - Properties
+    public var disposeBag: DisposeBag = DisposeBag()
+    public var coordinator: YakgwaDetailCoordinator?
     
     // MARK: - UI Components
     private lazy var card: YakgwaCardView = {
@@ -23,8 +25,9 @@ public final class YakgwaDetailViewController: UIViewController {
     }()
     
     // MARK: - Initializers
-    public init() {
+    public init(reactor: YakgwaDetailReactor) {
         super.init(nibName: nil, bundle: nil)
+        self.reactor = reactor
     }
     
     required init?(coder: NSCoder) {
@@ -50,4 +53,14 @@ public final class YakgwaDetailViewController: UIViewController {
     }
     
     // MARK: - Binding
+    public func bind(reactor: YakgwaDetailReactor) {
+        // Action
+        self.rx.viewWillAppear
+            .map { _ in Reactor.Action.viewWillAppeared}
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+            
+        // State
+        
+    }
 }

@@ -18,7 +18,9 @@ final public class YakgwaDetailCoordinator: Coordinator {
     }
     
     public func start() {
-        let yakgwaDetailViewController = YakgwaDetailViewController()
+        let reactor: YakgwaDetailReactor = YakgwaDetailReactor(meetId: 0)
+        let yakgwaDetailViewController = YakgwaDetailViewController(reactor: reactor)
+        yakgwaDetailViewController.coordinator = self
         navigationController?.pushViewController(yakgwaDetailViewController, animated: true)
     }
     
