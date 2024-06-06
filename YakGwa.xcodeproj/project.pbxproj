@@ -17,6 +17,7 @@
 		6A4C6D042BF9E73F00DEBC2E /* YakGwaUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4C6D032BF9E73F00DEBC2E /* YakGwaUITestsLaunchTests.swift */; };
 		6AAA7F342C0CA26400779AD4 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AAA7F332C0CA26400779AD4 /* AppCoordinator.swift */; };
 		6ABABE2C2C0643830068477D /* SceneKit in Frameworks */ = {isa = PBXBuildFile; productRef = 6ABABE2B2C0643830068477D /* SceneKit */; };
+		6ABBEAD02C11CA6500B55549 /* YakgwaDetailScene in Frameworks */ = {isa = PBXBuildFile; productRef = 6ABBEACF2C11CA6500B55549 /* YakgwaDetailScene */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6ABBEAD02C11CA6500B55549 /* YakgwaDetailScene in Frameworks */,
 				6ABABE2C2C0643830068477D /* SceneKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -193,6 +195,7 @@
 			name = YakGwa;
 			packageProductDependencies = (
 				6ABABE2B2C0643830068477D /* SceneKit */,
+				6ABBEACF2C11CA6500B55549 /* YakgwaDetailScene */,
 			);
 			productName = YakGwa;
 			productReference = 6A4C6CDD2BF9E73E00DEBC2E /* YakGwa.app */;
@@ -655,6 +658,10 @@
 		6ABABE2B2C0643830068477D /* SceneKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SceneKit;
+		};
+		6ABBEACF2C11CA6500B55549 /* YakgwaDetailScene */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = YakgwaDetailScene;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -26,5 +26,5 @@ public final class CalendarVoteReactor: Reactor {
     
     public var initialState: State = State()
     
-    init() { }
+    public init() { }
 }
