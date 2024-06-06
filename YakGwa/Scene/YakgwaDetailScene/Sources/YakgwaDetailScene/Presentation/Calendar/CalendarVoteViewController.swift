@@ -111,7 +111,26 @@ public final class CalendarVoteViewController: UIViewController, View {
     }
     // MARK: - Binding
     public func bind(reactor: CalendarVoteReactor) {
+        // Action
+        collectionView.rx.itemSelected
+            .map { [weak self] indexPath -> Reactor.Action in
+                guard let self = self else { return Reactor.Action.dateSelected( Date()) }
+                let selectedDate = self.dates[indexPath.item + 1]
+                return Reactor.Action.dateSelected(selectedDate)
+            }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
+        // State
+        reactor.state.map { $0.showDateTimePicker }
+            .distinctUntilChanged()
+            .subscribe(onNext: { [weak self] date in
+                guard let self = self else { return }
+                if let date = date {
+                    print("\(date)")
+                }
+            })
+            .disposed(by: disposeBag)
     }
 }
 
