@@ -17,6 +17,7 @@
 		6A4C6D042BF9E73F00DEBC2E /* YakGwaUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4C6D032BF9E73F00DEBC2E /* YakGwaUITestsLaunchTests.swift */; };
 		6AAA7F342C0CA26400779AD4 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AAA7F332C0CA26400779AD4 /* AppCoordinator.swift */; };
 		6ABABE2C2C0643830068477D /* SceneKit in Frameworks */ = {isa = PBXBuildFile; productRef = 6ABABE2B2C0643830068477D /* SceneKit */; };
+		6ABBEAD02C11CA6500B55549 /* YakgwaDetailScene in Frameworks */ = {isa = PBXBuildFile; productRef = 6ABBEACF2C11CA6500B55549 /* YakgwaDetailScene */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +61,7 @@
 		6AAA7F332C0CA26400779AD4 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		6ABABE292C0643040068477D /* Common */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Common; sourceTree = "<group>"; };
 		6ABABE2A2C0643350068477D /* SceneKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = SceneKit; sourceTree = "<group>"; };
+		6ACD75D12C10CEB900BAECFB /* YakgwaDetailScene */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = YakgwaDetailScene; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6ABBEAD02C11CA6500B55549 /* YakgwaDetailScene in Frameworks */,
 				6ABABE2C2C0643830068477D /* SceneKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -103,6 +106,7 @@
 		462C32202BFC8532004FA8D2 /* Scene */ = {
 			isa = PBXGroup;
 			children = (
+				6ACD75D12C10CEB900BAECFB /* YakgwaDetailScene */,
 				6A935F482C0DF80A00926582 /* MakeYakgwaScene */,
 				4646B0F12C0D436C008B8582 /* HomeScene */,
 				6ABABE2A2C0643350068477D /* SceneKit */,
@@ -191,6 +195,7 @@
 			name = YakGwa;
 			packageProductDependencies = (
 				6ABABE2B2C0643830068477D /* SceneKit */,
+				6ABBEACF2C11CA6500B55549 /* YakgwaDetailScene */,
 			);
 			productName = YakGwa;
 			productReference = 6A4C6CDD2BF9E73E00DEBC2E /* YakGwa.app */;
@@ -409,7 +414,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -466,7 +471,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -490,7 +495,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -518,7 +523,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -653,6 +658,10 @@
 		6ABABE2B2C0643830068477D /* SceneKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SceneKit;
+		};
+		6ABBEACF2C11CA6500B55549 /* YakgwaDetailScene */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = YakgwaDetailScene;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

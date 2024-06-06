@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "MakeYakgwaScene",
-    platforms: [.iOS(.v13)],
+    platforms: [.iOS(.v15)],
     products: [
         .library(
             name: "MakeYakgwaScene",
@@ -15,7 +15,8 @@ let package = Package(
         .package(path: "./CoreKit"),
         .package(path: "./Common"),
         .package(path: "./Network"),
-        .package(path: "./Util")
+        .package(path: "./Util"),
+        .package(path: "./YakgwaDetailScene")
     ],
     targets: [
         .target(
@@ -24,7 +25,8 @@ let package = Package(
                 .product(name: "CoreKit", package: "CoreKit"),
                 .product(name: "Common", package: "Common"),
                 .product(name: "Network", package: "Network"),
-                .product(name: "Util", package: "Util")
+                .product(name: "Util", package: "Util"),
+                .product(name: "YakgwaDetailScene", package: "YakgwaDetailScene")
             ],
             resources: [.process("Assets")]
         ),

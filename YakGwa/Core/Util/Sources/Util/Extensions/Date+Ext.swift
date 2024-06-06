@@ -14,3 +14,12 @@ public extension Date {
         return dateFormatter.string(from: self)
     }
 }
+
+public extension String {
+    func toDate(format: String) -> Date {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        return dateFormatter.date(from: self) ?? Date()
+    }
+}

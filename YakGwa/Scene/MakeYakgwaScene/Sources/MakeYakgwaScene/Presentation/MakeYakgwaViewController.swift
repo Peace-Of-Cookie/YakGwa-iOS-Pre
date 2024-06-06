@@ -290,8 +290,8 @@ public final class MakeYakgwaViewController: UIViewController, View, KeyboardRea
         return view
     }()
     
-    private lazy var confirmButton: YakGwaPrimaryButton = {
-        let button = YakGwaPrimaryButton()
+    private lazy var confirmButton: YakGwaButton = {
+        let button = YakGwaButton()
         button.title = "약속 만들기"
         return button
     }()
@@ -416,11 +416,13 @@ public final class MakeYakgwaViewController: UIViewController, View, KeyboardRea
             }
             .disposed(by: disposeBag)
         
-        reactor.state.map { $0.makeMeetComplete }
+        reactor.state.map { $0.makeMeetComplete ?? 0 }
             .distinctUntilChanged()
-            .subscribe(onNext: { [weak self] complete in
-                print("isComple? \(complete)")
-                // TODO: - 화면 이동 로직
+            .subscribe(onNext: { [weak self] meetId in
+                // 화면 이동
+                if meetId != 0 {
+                    self?.coordinator?.moveToYakgwaDetail(with: meetId)
+                }
             })
             .disposed(by: disposeBag)
     }

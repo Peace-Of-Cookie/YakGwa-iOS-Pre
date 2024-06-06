@@ -9,5 +9,5 @@ import Network
 import RxSwift
 
 public protocol CreateMeetRepositoryProtocol {
-    func createMeet(token: String, userId: Int, data: MakeMeetRequestDTO) -> Single<Bool>
+    func createMeet(token: String, userId: Int, data: MakeMeetRequestDTO) -> Single<Int>
 }
