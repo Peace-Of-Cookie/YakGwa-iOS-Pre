@@ -17,6 +17,10 @@ public final class YakgwaDetailViewController: UIViewController {
     // MARK: - Properties
     
     // MARK: - UI Components
+    private lazy var card: YakgwaCardView = {
+        let view = YakgwaCardView(type: .noParticipants)
+        return view
+    }()
     
     // MARK: - Initializers
     public init() {
@@ -30,12 +34,19 @@ public final class YakgwaDetailViewController: UIViewController {
     // MARK: - Life cycles
     public override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .systemRed
+        setUI()
     }
     
     // MARK: - Layout
     private func setUI() {
+        self.view.backgroundColor = .neutral200
         
+        self.view.addSubview(card)
+        card.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(100)
+            $0.leading.equalTo(16)
+            $0.centerX.equalToSuperview()
+        }
     }
     
     // MARK: - Binding

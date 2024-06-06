@@ -1,5 +1,5 @@
 //
-//  YakGwaDefaultCardView.swift
+//  YakGwaHomeCardView.swift
 //
 //
 //  Created by Kim Dongjoo on 6/3/24.
@@ -10,7 +10,7 @@ import UIKit
 import CoreKit
 import Util
 
-final class YakGwaDefaultCardView: UIView, UIComponentBased {
+final class YakGwaHomeCardView: UIView, UIComponentBased {
     // MARK: - Properties
     
     // MARK: - UI Components
@@ -30,8 +30,8 @@ final class YakGwaDefaultCardView: UIView, UIComponentBased {
         return label
     }()
     
-    var confirmbutton: YakGwaPrimaryButton = {
-        let button = YakGwaPrimaryButton()
+    var confirmbutton: YakGwaButton = {
+        let button = YakGwaButton()
         button.isEnabled = true
         button.title = "약속 만들러 가기"
         return button

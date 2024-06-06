@@ -290,8 +290,8 @@ public final class MakeYakgwaViewController: UIViewController, View, KeyboardRea
         return view
     }()
     
-    private lazy var confirmButton: YakGwaPrimaryButton = {
-        let button = YakGwaPrimaryButton()
+    private lazy var confirmButton: YakGwaButton = {
+        let button = YakGwaButton()
         button.title = "약속 만들기"
         return button
     }()

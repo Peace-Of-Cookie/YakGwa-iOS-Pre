@@ -18,8 +18,8 @@ public final class HomeViewController: UIViewController, View {
     public var disposeBag: DisposeBag = DisposeBag()
     public var coordinator: HomeCoordinator?
     // MARK: - UI Componenets
-    private var cardView: YakGwaDefaultCardView = {
-        let cardView = YakGwaDefaultCardView()
+    private var cardView: YakGwaHomeCardView = {
+        let cardView = YakGwaHomeCardView()
         return cardView
     }()
     
