@@ -76,7 +76,6 @@ public final class YakgwaDetailViewController: UIViewController, View {
             $0.leading.equalToSuperview().offset(16)
             $0.centerX.equalToSuperview()
         }
-        
     }
     
     // MARK: - Binding

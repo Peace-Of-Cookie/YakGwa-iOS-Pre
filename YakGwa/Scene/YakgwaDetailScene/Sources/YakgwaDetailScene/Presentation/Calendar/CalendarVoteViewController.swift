@@ -10,6 +10,9 @@ import SnapKit
 import ReactorKit
 import RxCocoa
 
+import CoreKit
+import Util
+
 public final class CalendarVoteViewController: UIViewController, View {
     // MARK: - Properties
     public var disposeBag: DisposeBag = DisposeBag()
@@ -83,10 +86,23 @@ public final class CalendarVoteViewController: UIViewController, View {
     
     private lazy var participantLabel: UILabel = {
         let label = UILabel()
-        label.text = "3명 참여 >"
+        label.text = "N명 참여 >"
         label.font = .m11
         label.textColor = .neutral600
         return label
+    }()
+    
+    private lazy var bottomButtonContainer: UIView = {
+        let view = UIView()
+        view.backgroundColor = .neutralWhite
+        view.layer.applySketchShadow(color: .neutral600, alpha: 0.2, x: 0, y: -1, blur: 20, spread: 0)
+        return view
+    }()
+
+    private lazy var confirmButton: YakGwaButton = {
+        let button = YakGwaButton()
+        button.title = "다음으로"
+        return button
     }()
     
     // MARK: - Initializers
@@ -157,6 +173,19 @@ public final class CalendarVoteViewController: UIViewController, View {
             $0.height.equalTo(50)
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalToSuperview().offset(-16)
+        }
+        
+        self.view.addSubview(bottomButtonContainer)
+        bottomButtonContainer.snp.makeConstraints {
+            $0.height.equalTo(92)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        bottomButtonContainer.addSubview(confirmButton)
+        confirmButton.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(8)
+            $0.leading.equalToSuperview().offset(16)
+            $0.centerX.equalToSuperview()
         }
     }
     

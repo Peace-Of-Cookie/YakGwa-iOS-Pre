@@ -19,6 +19,7 @@ public final class CalendarVoteReactor: Reactor {
         case viewWillAppeared
         case dateSelected(Date)
         case timeSelected(String)
+        case nextButtonTapped
     }
     
     public enum Mutation {
@@ -27,6 +28,7 @@ public final class CalendarVoteReactor: Reactor {
         case setTimeRange(startTime: Date, endTime: Date)
         case setLoading(Bool)
         case setSelectedTimes(Date, [String])
+        case navigateToLocationVoteScene(Int) // 모임 id 포함
     }
     
     public struct State {
@@ -36,6 +38,9 @@ public final class CalendarVoteReactor: Reactor {
         var fetchedTime: (startTime: Date, endTime: Date)?
         var showDateTimePicker: Date? = nil
         var selectedTimes: [Date: [String]] = [:]
+        
+        @Pulse var shouldNavigateToVoteScene: Int = 0
+        
     }
     
     public var initialState: State
@@ -82,6 +87,8 @@ public final class CalendarVoteReactor: Reactor {
             }
             
             return .just(.setSelectedTimes(selectedDate, times))
+        case .nextButtonTapped:
+            return .just(.navigateToLocationVoteScene(currentState.meetId))
         }
     }
     
@@ -100,6 +107,8 @@ public final class CalendarVoteReactor: Reactor {
             newState.fetchedTime = (startTime: startTime, endTime: endTime)
         case .setSelectedTimes(let date, let times):
             newState.selectedTimes[date] = times
+        case .navigateToLocationVoteScene(let meetId):
+            newState.shouldNavigateToVoteScene = meetId
         }
         return newState
     }
