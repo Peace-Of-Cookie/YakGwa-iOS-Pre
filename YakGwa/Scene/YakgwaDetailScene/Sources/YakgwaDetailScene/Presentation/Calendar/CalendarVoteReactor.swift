@@ -6,7 +6,6 @@
 //
 
 import Foundation
-
 import ReactorKit
 import Util
 import Network
@@ -14,7 +13,6 @@ import Network
 public final class CalendarVoteReactor: Reactor {
     // MARK: - Properties
     let fetchMeetVoteInfoUseCase: FetchMeetVoteInfoUseCaseProtocol
-    
     let disposeBag: DisposeBag = DisposeBag()
     
     public enum Action {
@@ -23,17 +21,17 @@ public final class CalendarVoteReactor: Reactor {
     }
     
     public enum Mutation {
-        case setInfo(MeetVoteInfo)
         case selectedDate(Date)
+        case setDateRange(startDate: Date, endDate: Date)
+        case setTimeRange(startTime: Date, endTime: Date)
+        case setLoading(Bool)
     }
     
     public struct State {
+        var isLoading: Bool? = false
         var meetId: Int
-        var meetVoteInfo: MeetVoteInfo?
-        var startDate: Date?
-        var endDate: Date?
-        var startTime: Date?
-        var endTime: Date?
+        var fetchedDate: (startDate: Date, endDate: Date)?
+        var fetchedTime: (startTime: Date, endTime: Date)?
         var showDateTimePicker: Date? = nil
     }
     
@@ -50,10 +48,23 @@ public final class CalendarVoteReactor: Reactor {
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewWillAppeared:
-            return fetchMeetVoteInfoUseCase
-                .execute(meetId: currentState.meetId)
-                .asObservable()
-                .map { .setInfo($0) }
+            return Observable.concat([
+                Observable.just(Mutation.setLoading(true)),
+                fetchMeetVoteInfoUseCase
+                    .execute(meetId: currentState.meetId)
+                    .asObservable()
+                    .flatMap { meetVoteInfo -> Observable<Mutation> in
+                        let startDate = meetVoteInfo.startDate?.toDate(format: "yyyy-MM-dd") ?? Date()
+                        let endDate = meetVoteInfo.endDate?.toDate(format: "yyyy-MM-dd") ?? Date()
+                        let startTime = meetVoteInfo.startTime?.toDate(format: "HH:mm") ?? Date()
+                        let endTime = meetVoteInfo.endTime?.toDate(format: "HH:mm") ?? Date()
+                        return Observable.from([
+                            .setDateRange(startDate: startDate, endDate: endDate),
+                            .setTimeRange(startTime: startTime, endTime: endTime)
+                        ])
+                    },
+                Observable.just(Mutation.setLoading(false))
+            ])
             
         case .dateSelected(let date):
             return .just(.selectedDate(date))
@@ -63,14 +74,14 @@ public final class CalendarVoteReactor: Reactor {
     public func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         switch mutation {
-        case .setInfo(let info):
-            newState.meetVoteInfo = info
-            newState.startDate = info.startDate?.toDate(format: "yyyy-MM-dd")
-            newState.endDate = info.endDate?.toDate(format: "yyyy-MM-dd")
-            newState.startTime = info.startTime?.toDate(format: "HH:mm")
-            newState.endTime = info.startTime?.toDate(format: "HH:mm")
+        case .setLoading(let isLoading):
+            newState.isLoading = isLoading
         case .selectedDate(let date):
             newState.showDateTimePicker = date
+        case .setDateRange(let startDate, let endDate):
+            newState.fetchedDate = (startDate: startDate, endDate: endDate)
+        case .setTimeRange(let startTime, let endTime):
+            newState.fetchedTime = (startTime: startTime, endTime: endTime)
         }
         return newState
     }

@@ -29,6 +29,9 @@ public final class CalendarVoteViewController: UIViewController, View {
         layout.minimumLineSpacing = 0
         layout.headerReferenceSize = CGSize(width: UIScreen.main.bounds.width, height: 40)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        
+        collectionView.backgroundColor = .neutralWhite
+        
         collectionView.register(DateCell.self, forCellWithReuseIdentifier: "DateCell")
         collectionView.register(WeekdayHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: WeekdayHeaderView.reuseIdentifier)
         collectionView.delegate = self
@@ -45,7 +48,7 @@ public final class CalendarVoteViewController: UIViewController, View {
     
     private lazy var calendarTitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "2024년 5월"
+        label.text = "2024년 6월"
         label.font = .sb16
         label.textColor = .neutralBlack
         return label
@@ -63,7 +66,7 @@ public final class CalendarVoteViewController: UIViewController, View {
     public init(reactor: CalendarVoteReactor) {
         super.init(nibName: nil, bundle: nil)
         self.reactor = reactor
-        self.setupDate()
+        // self.setupDate()
     }
     
     required init?(coder: NSCoder) {
@@ -127,13 +130,6 @@ public final class CalendarVoteViewController: UIViewController, View {
             .disposed(by: disposeBag)
         
         // State
-        reactor.state
-            .map { $0.meetVoteInfo }
-            .subscribe(onNext: { [weak self] info in
-                print("결과: \(info)")
-            }).disposed(by: disposeBag)
-        
-        
         reactor.state.map { $0.showDateTimePicker }
             .distinctUntilChanged()
             .subscribe(onNext: { [weak self] date in
@@ -143,6 +139,17 @@ public final class CalendarVoteViewController: UIViewController, View {
                 }
             })
             .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.fetchedDate }
+            .subscribe(onNext: { [weak self] dates in
+                guard let self = self else { return }
+                if let dates = dates {
+                    self.startDate = dates.startDate
+                    self.endDate = dates.endDate
+                    self.dates = self.generateCalendarDates(startDate: dates.startDate, endDate: dates.endDate)
+                    self.collectionView.reloadData()
+                }
+            }).disposed(by: disposeBag)
     }
 }
 

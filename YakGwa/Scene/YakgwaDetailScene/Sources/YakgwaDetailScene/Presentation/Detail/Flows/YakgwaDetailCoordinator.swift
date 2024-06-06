@@ -42,7 +42,8 @@ final public class YakgwaDetailCoordinator: Coordinator {
     }
     
     func navigateToVoteScene(meetId: Int) {
-        let calendarVoteCoordinator = CalendarVoteCoordinator(navigationController: navigationController!)
+        guard let navigationController = navigationController else { return }
+        let calendarVoteCoordinator = CalendarVoteCoordinator(navigationController: navigationController)
         calendarVoteCoordinator.parentCoordinator = self
         self.addChildCoordinator(calendarVoteCoordinator)
         calendarVoteCoordinator.start(with: meetId)
