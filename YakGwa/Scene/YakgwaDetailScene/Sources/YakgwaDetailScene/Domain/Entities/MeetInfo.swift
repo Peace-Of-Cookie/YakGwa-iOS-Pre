@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Network
 
 /// 모임 정보 엔터티
 public struct MeetInfo: Equatable {
@@ -18,20 +19,22 @@ public struct MeetInfo: Equatable {
     /// 모임 설명
     let description: String?
     /// 투표 종료 시간
-    let expiredAfter: LeftInviteTime?
+    let expiredAfter: String?
     /// 참여자 정보
     let participantsInfo: [ParticipantInfo]?
-    
-    struct LeftInviteTime: Equatable {
-        let hour: Int = 0
-        let minute: Int = 0
-        let second: Int = 0
-        let nano: Int = 0
-    }
     
     struct ParticipantInfo: Equatable {
         let role: Int?
         let entryId: String?
         let profileImageUrl: String?
     }
+    
+//    public init(with: MeetInfoResponseDTO) {
+//        sel
+//        self.themeName = with.themeName
+//        self.name = with.name
+//        self.description = with.description
+//        self.expiredAfter = with.expiredAfter
+//        self.participantsInfo = with.participantsInfo?.map { ParticipantInfo(with: $0) }
+//    }
 }
