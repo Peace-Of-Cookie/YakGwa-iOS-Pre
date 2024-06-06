@@ -216,6 +216,11 @@ public final class CalendarVoteViewController: UIViewController, View {
             }.bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        confirmButton.rx.tap
+            .map { Reactor.Action.nextButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // State
         reactor.state.map { $0.showDateTimePicker }
             .distinctUntilChanged()
@@ -261,6 +266,14 @@ public final class CalendarVoteViewController: UIViewController, View {
             .subscribe(onNext: { [weak self] result in
                 print("체크: \(result)")
             }).disposed(by: disposeBag)
+        
+        reactor.pulse(\.$shouldNavigateToVoteScene)
+            .compactMap { $0 }
+            .subscribe(onNext: {[weak self] meetId in
+                print("장소 투표 화면으로 이동: \(meetId)")
+                self?.coordinator?.navigateToPlaceVoteScene(meetId: meetId)
+            })
+        
     }
 }
 

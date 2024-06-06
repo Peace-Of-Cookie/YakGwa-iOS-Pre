@@ -32,6 +32,14 @@ final public class CalendarVoteCoordinator: Coordinator {
         navigationController?.pushViewController(calendarVoteViewController, animated: true)
     }
     
+    func navigateToPlaceVoteScene(meetId: Int) {
+        guard let navigationController = navigationController else { return }
+        let placeVoteCoordinator = PlaceVoteCoordinator(navigationController: navigationController)
+        placeVoteCoordinator.parentCoordinator = self
+        self.addChildCoordinator(placeVoteCoordinator)
+        placeVoteCoordinator.start(with: meetId)
+    }
+    
     func popCalendarVote() {
         parentCoordinator?.removeChildCoordinator(self)
     }
