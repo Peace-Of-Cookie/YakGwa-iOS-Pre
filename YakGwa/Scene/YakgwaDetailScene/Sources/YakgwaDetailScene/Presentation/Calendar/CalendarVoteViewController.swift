@@ -112,6 +112,11 @@ public final class CalendarVoteViewController: UIViewController, View {
     // MARK: - Binding
     public func bind(reactor: CalendarVoteReactor) {
         // Action
+        self.rx.viewWillAppear
+            .map { _ in Reactor.Action.viewWillAppeared }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         collectionView.rx.itemSelected
             .map { [weak self] indexPath -> Reactor.Action in
                 guard let self = self else { return Reactor.Action.dateSelected( Date()) }
@@ -122,6 +127,13 @@ public final class CalendarVoteViewController: UIViewController, View {
             .disposed(by: disposeBag)
         
         // State
+        reactor.state
+            .map { $0.meetVoteInfo }
+            .subscribe(onNext: { [weak self] info in
+                print("결과: \(info)")
+            }).disposed(by: disposeBag)
+        
+        
         reactor.state.map { $0.showDateTimePicker }
             .distinctUntilChanged()
             .subscribe(onNext: { [weak self] date in

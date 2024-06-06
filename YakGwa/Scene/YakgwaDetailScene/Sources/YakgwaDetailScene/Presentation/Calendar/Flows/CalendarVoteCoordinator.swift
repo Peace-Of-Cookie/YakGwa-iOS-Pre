@@ -21,7 +21,10 @@ final public class CalendarVoteCoordinator: Coordinator {
     public func start() {}
     
     public func start(with meetId: Int) {
-        let reactor: CalendarVoteReactor = CalendarVoteReactor()
+        let reactor: CalendarVoteReactor = CalendarVoteReactor(
+            fetchMeetVoteInfoUseCase: FetchMeetVoteInfoUseCase(
+                repository: FetchMeetVoteInfoRepository(
+                    remoteDataSource: RemoteFetchMeetVoteDataSource())))
         
         let calendarVoteViewController = CalendarVoteViewController(reactor: reactor)
         calendarVoteViewController.coordinator = self
