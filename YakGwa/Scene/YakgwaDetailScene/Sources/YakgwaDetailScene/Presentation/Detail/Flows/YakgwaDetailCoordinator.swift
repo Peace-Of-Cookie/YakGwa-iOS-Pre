@@ -40,4 +40,11 @@ final public class YakgwaDetailCoordinator: Coordinator {
     func popYakgwaDetail() {
         parentCoordinator?.removeChildCoordinator(self)
     }
+    
+    func navigateToVoteScene(meetId: Int) {
+        let calendarVoteCoordinator = CalendarVoteCoordinator(navigationController: navigationController!)
+        calendarVoteCoordinator.parentCoordinator = self
+        self.addChildCoordinator(calendarVoteCoordinator)
+        calendarVoteCoordinator.start(with: meetId)
+    }
 }
