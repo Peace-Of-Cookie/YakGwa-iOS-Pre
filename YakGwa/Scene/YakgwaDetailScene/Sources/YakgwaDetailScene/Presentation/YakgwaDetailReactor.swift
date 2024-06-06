@@ -27,6 +27,7 @@ public final class YakgwaDetailReactor: Reactor {
     
     init(meetId: Int) {
         self.initialState = State(meetId: meetId)
+        print("리액터 아이디: \(meetId)")
     }
     
 //    public func mutate(action: Action) -> Observable<Mutation> {

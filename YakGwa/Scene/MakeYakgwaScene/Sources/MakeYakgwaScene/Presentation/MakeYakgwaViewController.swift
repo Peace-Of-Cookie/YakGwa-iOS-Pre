@@ -416,12 +416,13 @@ public final class MakeYakgwaViewController: UIViewController, View, KeyboardRea
             }
             .disposed(by: disposeBag)
         
-        reactor.state.map { $0.makeMeetComplete }
+        reactor.state.map { $0.makeMeetComplete ?? 0 }
             .distinctUntilChanged()
-            .subscribe(onNext: { [weak self] complete in
-                print("isComple? \(complete)")
-                // TODO: - 화면 이동 로직
-                self?.coordinator?.moveToYakgwaDetail()
+            .subscribe(onNext: { [weak self] meetId in
+                // 화면 이동
+                if meetId != 0 {
+                    self?.coordinator?.moveToYakgwaDetail(with: meetId)
+                }
             })
             .disposed(by: disposeBag)
     }

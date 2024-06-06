@@ -39,7 +39,7 @@ final public class MakeYakgwaCoordinator: Coordinator {
     }
     
     
-    func moveToYakgwaDetail() {
+    func moveToYakgwaDetail(with meetId: Int) {
         guard let navigationController = navigationController,
               let homeCoordinator = parentCoordinator as? Coordinator else { return }
         
@@ -48,7 +48,7 @@ final public class MakeYakgwaCoordinator: Coordinator {
         
         // HomeCoordinator에 YakgwaDetailCoordinator 추가
         homeCoordinator.addChildCoordinator(yakgwaDetailCoordinator)
-        yakgwaDetailCoordinator.start()
+        yakgwaDetailCoordinator.start(with: meetId)
         
         // MakeYakgwaCoordinator를 HomeCoordinator의 자식 목록에서 제거
         homeCoordinator.removeChildCoordinator(self)

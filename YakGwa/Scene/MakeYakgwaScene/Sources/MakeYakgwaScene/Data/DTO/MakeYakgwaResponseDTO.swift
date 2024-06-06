@@ -24,4 +24,11 @@ struct MakeMeetResponseDTO: Codable {
     let code: String
     /// 응답 메시지
     let message: String
+    /// 응답 결과
+    let result: ResultInfo
+    
+    struct ResultInfo: Codable {
+        /// 모임 아이디
+        let meetId: Int
+    }
 }

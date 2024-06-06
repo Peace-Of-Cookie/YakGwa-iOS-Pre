@@ -16,10 +16,10 @@ final class CreateMeetRepository: CreateMeetRepositoryProtocol {
         self.remoteDataSource = remoteDataSource
     }
     
-    func createMeet(token: String, userId: Int, data: MakeMeetRequestDTO) -> Single<Bool> {
+    func createMeet(token: String, userId: Int, data: MakeMeetRequestDTO) -> Single<Int> {
         return remoteDataSource.createMeet(token: token, userId: userId, data: data)
             .map { result in
-                return result.status == 200
+                return result.result.meetId
             }
     }
 }

@@ -9,7 +9,7 @@ import Network
 import RxSwift
 
 public protocol CreateMeetUseCaseProtocol {
-    func execute(token: String, userId: Int, data: MakeMeetRequestDTO) -> Single<Bool>
+    func execute(token: String, userId: Int, data: MakeMeetRequestDTO) -> Single<Int>
 }
 
 public final class CreateMeetUseCase: CreateMeetUseCaseProtocol {
@@ -20,7 +20,7 @@ public final class CreateMeetUseCase: CreateMeetUseCaseProtocol {
         self.repository = repository
     }
     
-    public func execute(token: String, userId: Int, data: MakeMeetRequestDTO) -> Single<Bool> {
+    public func execute(token: String, userId: Int, data: MakeMeetRequestDTO) -> Single<Int> {
         return repository.createMeet(token: token, userId: userId, data: data)
     }
 }

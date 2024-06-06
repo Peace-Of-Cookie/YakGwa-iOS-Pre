@@ -64,7 +64,7 @@ public final class MakeYakgwaReactor: Reactor {
         
         case showExpireHourPicker
         
-        case createNewMeet(Bool)
+        case createNewMeet(Int)
     }
     
     public struct State {
@@ -98,7 +98,7 @@ public final class MakeYakgwaReactor: Reactor {
         var expiredDate: Int?
         
         /// 약속 생성 완료
-        var makeMeetComplete: Bool = false
+        var makeMeetComplete: Int?
     }
     
     public var initialState: State
@@ -139,7 +139,7 @@ public final class MakeYakgwaReactor: Reactor {
             guard let userId = KeyChainManager.read(key: "userId") else { return .empty() }
             return createMeetUseCase.execute(token: token, userId: Int(userId) ?? 0, data: MakeMeetRequestDTO(from: entity))
                 .asObservable()
-                .map { _ in .createNewMeet(true) }
+                .map { meetId in .createNewMeet(meetId) }
             
         case .updateTitle(let title):
             return .just(.setTitle(title))
@@ -214,8 +214,8 @@ public final class MakeYakgwaReactor: Reactor {
         case .showExpireHourPicker:
             newState.isExpireHourViewSHow = true
             
-        case .createNewMeet(let isComplete):
-            newState.makeMeetComplete = isComplete
+        case .createNewMeet(let meetId):
+            newState.makeMeetComplete = meetId
         default:
             break
         }
