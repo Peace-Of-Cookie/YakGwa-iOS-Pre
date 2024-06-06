@@ -5,31 +5,32 @@
 //  Created by Ekko on 6/6/24.
 //
 
-public struct MeetInfoResponseDTO: Codable {
+public struct MeetInfoResponseDTO: Codable, Equatable {
     public let time: String
     public let status: Int
     public let code: String
     public let message: String
     public let result: ResultInfo
     
-    public struct ResultInfo: Codable {
-        let userMeetRole: String
-        let meetInfo: MeetInfo
+    public struct ResultInfo: Codable, Equatable {
+        public let userMeetRole: String
+        public let meetInfo: MeetInfo
+        public let participantInfo: [ParticipantInfo]
         
-        struct MeetInfo: Codable {
-            let meetStatus: String
-            let meetId: Int
-            let meetThemeName: String
-            let meetName: String
-            let meetDescription: String
-            let leftInviteTime: String
+        public struct MeetInfo: Codable, Equatable {
+            public let meetStatus: String
+            public let meetId: Int
+            public let meetThemeName: String
+            public let meetName: String
+            public let meetDescription: String
+            public let leftInviteTime: String
         }
     }
     
-    struct ParticipantInfo: Codable {
-        let meetRole: String
-        let entryId: Int
-        let imageUrl: String?
+    public struct ParticipantInfo: Codable, Equatable {
+        public let meetRole: String
+        public let entryId: Int
+        public let imageUrl: String?
     }
 }
 

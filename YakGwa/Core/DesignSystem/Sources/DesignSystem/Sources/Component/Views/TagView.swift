@@ -7,9 +7,11 @@
 
 import UIKit
 
+import RxSwift
+
 /// 테크 뷰
 public final class TagView: UIView {
-    private lazy var tagLabel: UILabel = {
+    lazy var tagLabel: UILabel = {
         let label = UILabel()
         label.font = .sb14
         label.textColor = UIColor.secondary700
@@ -29,14 +31,22 @@ public final class TagView: UIView {
     private func setupUI() {
         self.layer.borderColor = UIColor.secondary700.cgColor
         self.layer.borderWidth = 1
-        self.layer.cornerRadius = 16
+        self.layer.cornerRadius = 15
         
         addSubview(tagLabel)
         
         tagLabel.snp.makeConstraints {
-            $0.top.equalTo(8)
-            $0.leading.equalTo(16)
+            $0.top.equalTo(6)
+            $0.leading.equalTo(12)
             $0.centerX.centerY.equalToSuperview()
+        }
+    }
+}
+
+public extension Reactive where Base: TagView {
+    var text: Binder<String?> {
+        return Binder(self.base) { tagView, text in
+            tagView.tagLabel.text = text
         }
     }
 }

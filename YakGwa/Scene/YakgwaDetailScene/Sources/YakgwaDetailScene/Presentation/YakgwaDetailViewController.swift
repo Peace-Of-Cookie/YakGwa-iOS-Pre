@@ -61,6 +61,32 @@ public final class YakgwaDetailViewController: UIViewController, View {
             .disposed(by: disposeBag)
             
         // State
+        reactor.state.map { (state: YakgwaDetailReactor.State) -> String in
+            guard let meetInfo = state.meetInfo else { return "" }
+            return meetInfo.themeName ?? ""
+        }.distinctUntilChanged()
+            .bind(to: card.themeTag.rx.text)
+            .disposed(by: disposeBag)
         
+        reactor.state.map { (state: YakgwaDetailReactor.State) -> String in
+            guard let meetInfo = state.meetInfo else { return "" }
+            return meetInfo.name ?? ""
+        }.distinctUntilChanged()
+            .bind(to: card.meetTitle.rx.text)
+            .disposed(by: disposeBag)
+        
+        reactor.state.map { (state: YakgwaDetailReactor.State) -> String in
+            guard let meetInfo = state.meetInfo else { return "" }
+            return meetInfo.description ?? ""
+        }.distinctUntilChanged()
+            .bind(to: card.meetDescription.rx.text)
+            .disposed(by: disposeBag)
+        
+        reactor.state.map { (state: YakgwaDetailReactor.State) -> String in
+            guard let meetInfo = state.meetInfo else { return "" }
+            return "\(meetInfo.expiredAfter ?? "") 뒤 초대 마감"
+        }.distinctUntilChanged()
+            .bind(to: card.expireTime.rx.text)
+            .disposed(by: disposeBag)
     }
 }

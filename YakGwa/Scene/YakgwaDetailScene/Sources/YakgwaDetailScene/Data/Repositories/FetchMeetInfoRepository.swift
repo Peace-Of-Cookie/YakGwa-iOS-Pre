@@ -9,9 +9,9 @@ import Network
 import RxSwift
 
 public final class FetchMeetInfoRepository: FetchMeetInfoRepositoryProtocol {
-    private let remoteDataSource: FetchMeetInfoRepositoryProtocol
+    private let remoteDataSource: RemoteFetchMeetInfoDataSourceProtocol
     
-    init(remoteDataSource: FetchMeetInfoRepositoryProtocol) {
+    init(remoteDataSource: RemoteFetchMeetInfoDataSourceProtocol) {
         self.remoteDataSource = remoteDataSource
     }
     

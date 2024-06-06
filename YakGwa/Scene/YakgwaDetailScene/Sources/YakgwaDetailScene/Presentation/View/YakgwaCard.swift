@@ -17,12 +17,12 @@ enum YakgwaCardType {
 final class YakgwaCardView: UIView {
     private let type: YakgwaCardType
     
-    private lazy var themeTag: TagView = {
+    lazy var themeTag: TagView = {
         let view = TagView(tag: "테마명")
         return view
     }()
     
-    private lazy var meetTitle: UILabel = {
+    lazy var meetTitle: UILabel = {
         let label = UILabel()
         label.font = .h3
         label.textColor = .neutralBlack
@@ -30,7 +30,7 @@ final class YakgwaCardView: UIView {
         return label
     }()
     
-    private lazy var meetDescription: UILabel = {
+    lazy var meetDescription: UILabel = {
         let label = UILabel()
         label.font = .m14
         label.textColor = .neutral500
@@ -38,7 +38,7 @@ final class YakgwaCardView: UIView {
         return label
     }()
     
-    private lazy var expireTime: UILabel = {
+    lazy var expireTime: UILabel = {
         let label = UILabel()
         label.font = .sb14
         label.textColor = .primary800

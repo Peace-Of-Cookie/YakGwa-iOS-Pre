@@ -7,6 +7,7 @@
 
 import UIKit
 import Common
+import Network
 
 final public class YakgwaDetailCoordinator: Coordinator {
     public var navigationController: UINavigationController?
@@ -25,7 +26,12 @@ final public class YakgwaDetailCoordinator: Coordinator {
     }
     
     public func start(with meetId: Int) {
-        let reactor: YakgwaDetailReactor = YakgwaDetailReactor(meetId: meetId)
+        let reactor: YakgwaDetailReactor = YakgwaDetailReactor(
+            meetId: meetId,
+            fetchMeetInfoUseCase: FetchMeetInfoUseCase(
+                repository: FetchMeetInfoRepository(
+                    remoteDataSource: RemoteFetchMeetInfoDataSource()))
+        )
         let yakgwaDetailViewController = YakgwaDetailViewController(reactor: reactor)
         yakgwaDetailViewController.coordinator = self
         navigationController?.pushViewController(yakgwaDetailViewController, animated: true)

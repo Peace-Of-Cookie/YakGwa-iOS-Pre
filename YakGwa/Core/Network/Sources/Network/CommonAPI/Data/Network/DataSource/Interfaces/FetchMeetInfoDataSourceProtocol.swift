@@ -9,6 +9,6 @@ import Foundation
 
 import RxSwift
 
-protocol RemoteFetchMeetInfoDataSourceProtocol {
+public protocol RemoteFetchMeetInfoDataSourceProtocol {
     func fetchMeetInfo(token: String, userId: Int, meetId: Int) -> Single<MeetInfoResponseDTO>
 }

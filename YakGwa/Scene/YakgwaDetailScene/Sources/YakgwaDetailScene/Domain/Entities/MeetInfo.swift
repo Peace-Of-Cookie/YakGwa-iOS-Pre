@@ -9,7 +9,7 @@ import Foundation
 import Network
 
 /// 모임 정보 엔터티
-public struct MeetInfo: Equatable {
+public struct MeetInfo: Equatable, Codable {
     /// 모임 id
     let id: Int?
     /// 테마 명
@@ -23,18 +23,9 @@ public struct MeetInfo: Equatable {
     /// 참여자 정보
     let participantsInfo: [ParticipantInfo]?
     
-    struct ParticipantInfo: Equatable {
-        let role: Int?
-        let entryId: String?
+    struct ParticipantInfo: Equatable, Codable {
+        let role: String?
+        let entryId: Int?
         let profileImageUrl: String?
     }
-    
-//    public init(with: MeetInfoResponseDTO) {
-//        sel
-//        self.themeName = with.themeName
-//        self.name = with.name
-//        self.description = with.description
-//        self.expiredAfter = with.expiredAfter
-//        self.participantsInfo = with.participantsInfo?.map { ParticipantInfo(with: $0) }
-//    }
 }
