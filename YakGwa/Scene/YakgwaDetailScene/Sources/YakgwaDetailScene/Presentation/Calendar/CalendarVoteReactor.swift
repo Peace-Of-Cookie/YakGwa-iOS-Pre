@@ -18,6 +18,7 @@ public final class CalendarVoteReactor: Reactor {
     public enum Action {
         case viewWillAppeared
         case dateSelected(Date)
+        case timeSelected(String)
     }
     
     public enum Mutation {
@@ -25,6 +26,7 @@ public final class CalendarVoteReactor: Reactor {
         case setDateRange(startDate: Date, endDate: Date)
         case setTimeRange(startTime: Date, endTime: Date)
         case setLoading(Bool)
+        case setSelectedTimes(Date, [String])
     }
     
     public struct State {
@@ -33,6 +35,7 @@ public final class CalendarVoteReactor: Reactor {
         var fetchedDate: (startDate: Date, endDate: Date)?
         var fetchedTime: (startTime: Date, endTime: Date)?
         var showDateTimePicker: Date? = nil
+        var selectedTimes: [Date: [String]] = [:]
     }
     
     public var initialState: State
@@ -68,6 +71,17 @@ public final class CalendarVoteReactor: Reactor {
             
         case .dateSelected(let date):
             return .just(.selectedDate(date))
+        case .timeSelected(let selectedTime):
+            guard let selectedDate = currentState.showDateTimePicker else { return .empty() }
+            var times = currentState.selectedTimes[selectedDate] ?? []
+            
+            if let index = times.firstIndex(of: selectedTime) {
+                times.remove(at: index)
+            } else {
+                times.append(selectedTime)
+            }
+            
+            return .just(.setSelectedTimes(selectedDate, times))
         }
     }
     
@@ -77,11 +91,15 @@ public final class CalendarVoteReactor: Reactor {
         case .setLoading(let isLoading):
             newState.isLoading = isLoading
         case .selectedDate(let date):
+            // let calendar  = Calendar.current
+            // guard let selectedDate = calendar.date(byAdding: .day, value: 1, to: date) else { return newState }
             newState.showDateTimePicker = date
         case .setDateRange(let startDate, let endDate):
             newState.fetchedDate = (startDate: startDate, endDate: endDate)
         case .setTimeRange(let startTime, let endTime):
             newState.fetchedTime = (startTime: startTime, endTime: endTime)
+        case .setSelectedTimes(let date, let times):
+            newState.selectedTimes[date] = times
         }
         return newState
     }

@@ -170,11 +170,21 @@ public final class CalendarVoteViewController: UIViewController, View {
         
         dateCollectionView.rx.itemSelected
             .map { [weak self] indexPath -> Reactor.Action in
-                guard let self = self else { return Reactor.Action.dateSelected(Date()) }
-                let selectedDate = self.dates[indexPath.item + 1]
+                guard let self = self else {
+                    return Reactor.Action.dateSelected(Date())
+                }
+                print("날짜 배열: \(dates)")
+                let selectedDate = self.dates[indexPath.item]
                 return Reactor.Action.dateSelected(selectedDate)
             }
             .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        timeCollectionView.rx.itemSelected
+            .map { [weak self] indexPath -> Reactor.Action in
+                let selectedTime = self?.timeSlots[indexPath.item]
+                return Reactor.Action.timeSelected(selectedTime!)
+            }.bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         // State
@@ -209,6 +219,19 @@ public final class CalendarVoteViewController: UIViewController, View {
                     self.timeCollectionView.reloadData()
                 }
             }).disposed(by: disposeBag)
+        
+        reactor.state.map { $0.showDateTimePicker }
+            .subscribe(onNext: { [weak self] date in
+                guard let date = date else { return }
+                print("오잉: \(date)")
+                self?.timeTableDateLabel.text = date.toString(format: "yyyy/MM/dd")
+                self?.dateCollectionView.reloadData()
+            }).disposed(by: disposeBag)
+        
+        reactor.state.map { $0.selectedTimes }
+            .subscribe(onNext: { [weak self] result in
+                print("체크: \(result)")
+            }).disposed(by: disposeBag)
     }
 }
 
@@ -236,7 +259,6 @@ extension CalendarVoteViewController {
                 dates.append(date)
             }
         }
-        
         return dates
     }
     
@@ -284,11 +306,26 @@ extension CalendarVoteViewController: UICollectionViewDataSource, UICollectionVi
                 cell.contentView.backgroundColor = .white
             }
             
+            if date == reactor?.currentState.showDateTimePicker {
+                cell.contentView.backgroundColor = .primary300
+            } else {
+                cell.contentView.backgroundColor = .neutralWhite
+            }
+            
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TimeSlotCell", for: indexPath) as! TimeSlotCell
             let date = timeSlots[indexPath.item]
             cell.timeLabel.text = date
+            
+            if let selectedDate = reactor?.currentState.showDateTimePicker,
+               let selectedTimes = reactor?.currentState.selectedTimes[selectedDate],
+               selectedTimes.contains(date) {
+                cell.boxView.backgroundColor = .primary100
+            } else {
+                cell.boxView.backgroundColor = .neutral300
+            }
+            
             return cell
         }
     }
