@@ -17,10 +17,12 @@ public final class YakgwaDetailReactor: Reactor {
     
     public enum Action {
         case viewWillAppeared
+        case voteButtonTapped
     }
     
     public enum Mutation {
         case setInfo(MeetInfo)
+        case navigateToVoteScene(Int)
     }
     
     public struct State {
@@ -28,6 +30,8 @@ public final class YakgwaDetailReactor: Reactor {
         var meetId: Int
         /// 모임 정보 (will be deprecated)
         var meetInfo: MeetInfo?
+        /// 투표 화면 이동
+        @Pulse var shouldNavigateToVoteScene: Int = 0
     }
     
     public var initialState: State
@@ -71,6 +75,9 @@ public final class YakgwaDetailReactor: Reactor {
                     print("Error occurred: \(error)")
                     return Observable.empty()
                 }
+            
+        case .voteButtonTapped:
+            return .just(.navigateToVoteScene(currentState.meetId))
         }
     }
     
@@ -79,7 +86,9 @@ public final class YakgwaDetailReactor: Reactor {
         switch mutation {
         case .setInfo(let meetInfo):
             newState.meetInfo = meetInfo
-        
+        case .navigateToVoteScene(let meetId):
+            newState.shouldNavigateToVoteScene = meetId
+            
         }
         return newState
     }
