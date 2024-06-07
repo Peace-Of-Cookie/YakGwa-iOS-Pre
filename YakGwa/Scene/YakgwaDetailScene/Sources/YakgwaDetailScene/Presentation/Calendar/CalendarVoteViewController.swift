@@ -263,6 +263,7 @@ public final class CalendarVoteViewController: UIViewController, View {
             }).disposed(by: disposeBag)
         
         reactor.state.map { $0.selectedTimes }
+            .distinctUntilChanged()
             .subscribe(onNext: { [weak self] result in
                 print("체크: \(result)")
             }).disposed(by: disposeBag)
@@ -272,8 +273,13 @@ public final class CalendarVoteViewController: UIViewController, View {
             .subscribe(onNext: {[weak self] meetId in
                 print("장소 투표 화면으로 이동: \(meetId)")
                 self?.coordinator?.navigateToPlaceVoteScene(meetId: meetId)
-            })
+            }).disposed(by: disposeBag)
         
+        reactor.state.map { $0.postVoteSchedulesResult }
+            .distinctUntilChanged()
+            .subscribe(onNext: { [weak self] result in
+                print("포스트 결과 :\(result)")
+            }).disposed(by: disposeBag)
     }
 }
 

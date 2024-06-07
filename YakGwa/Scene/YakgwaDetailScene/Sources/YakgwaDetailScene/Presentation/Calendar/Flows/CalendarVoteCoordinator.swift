@@ -25,7 +25,11 @@ final public class CalendarVoteCoordinator: Coordinator {
             meetId: meetId,
             fetchMeetVoteInfoUseCase: FetchMeetVoteInfoUseCase(
                 repository: FetchMeetVoteInfoRepository(
-                    remoteDataSource: RemoteFetchMeetVoteDataSource())))
+                    remoteDataSource: RemoteFetchMeetVoteDataSource())), 
+            postVoteScheduleUseCase: PostVoteScheduleUseCase(
+                repository: PostVoteScheduleRepository(
+                    remoteDataSource: RemotePostVoteScheduleDataSource()))
+        )
         
         let calendarVoteViewController = CalendarVoteViewController(reactor: reactor)
         calendarVoteViewController.coordinator = self
