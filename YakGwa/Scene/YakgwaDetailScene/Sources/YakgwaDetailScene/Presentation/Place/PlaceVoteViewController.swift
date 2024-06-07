@@ -21,6 +21,7 @@ public final class PlaceVoteViewController: UIViewController, View {
     // MARK: - UI Components
     private lazy var placeTableView: UITableView = {
         let tableView = UITableView()
+        tableView.backgroundColor = .neutralWhite
         tableView.register(PlaceCell.self, forCellReuseIdentifier: PlaceCell.identifier)
         return tableView
     }()

@@ -78,7 +78,7 @@ public final class CalendarVoteViewController: UIViewController, View {
     
     private lazy var timeTableDateLabel: UILabel = {
         let label = UILabel()
-        label.text = "2024/05/14"
+        // label.text = "2024/05/14"
         label.font = .m14
         label.textColor = .neutralBlack
         return label

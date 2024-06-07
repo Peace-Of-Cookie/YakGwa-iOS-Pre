@@ -41,6 +41,7 @@ final class ThemeCell: UICollectionViewCell {
         super.prepareForReuse()
         themeImageView.image = nil
         themeLabel.text = nil
+        contentView.backgroundColor = .neutralWhite
     }
     
     private func setUI() {
@@ -62,7 +63,9 @@ final class ThemeCell: UICollectionViewCell {
         }
     }
     
-    func configure(with theme: MeetTheme) {
+    func configure(with theme: MeetTheme, isSelected: Bool) {
+        themeImageView.image = UIImage(named: "Yakgwa_Theme_Default", in: .module, with: nil)
         themeLabel.text = theme.name
+        contentView.backgroundColor = isSelected ? .primary100 : .neutralWhite
     }
 }

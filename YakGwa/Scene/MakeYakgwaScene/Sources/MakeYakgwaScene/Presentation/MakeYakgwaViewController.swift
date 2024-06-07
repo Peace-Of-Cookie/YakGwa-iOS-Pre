@@ -341,7 +341,7 @@ public final class MakeYakgwaViewController: UIViewController, View, KeyboardRea
             .disposed(by: disposeBag)
         
         self.themeCollectionView.rx.modelSelected(MeetTheme.self)
-            .map { Reactor.Action.updateTheme($0.id ?? 0) }
+            .map { Reactor.Action.updateTheme($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -411,9 +411,17 @@ public final class MakeYakgwaViewController: UIViewController, View, KeyboardRea
         
         reactor.state.map { $0.themes }
             .distinctUntilChanged()
-            .bind(to: themeCollectionView.rx.items(cellIdentifier: "ThemeCell", cellType: ThemeCell.self)) { _, theme, cell in
-                cell.configure(with: theme)
+            .bind(to: themeCollectionView.rx.items(cellIdentifier: "ThemeCell", cellType: ThemeCell.self)) { index, theme, cell in
+                let isSelected = (reactor.currentState.selectedThemeId == theme.id)
+                cell.configure(with: theme, isSelected: isSelected)
             }
+            .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.selectedThemeId }
+            .distinctUntilChanged()
+            .subscribe(onNext: { [weak self] _ in
+                self?.themeCollectionView.reloadData()
+            })
             .disposed(by: disposeBag)
         
         reactor.state.map { $0.makeMeetComplete ?? 0 }
@@ -475,8 +483,9 @@ public final class MakeYakgwaViewController: UIViewController, View, KeyboardRea
         
         self.yakgwaTitleTextField.addSubview(textFieldPlaceholderLabel)
         textFieldPlaceholderLabel.snp.makeConstraints {
-            $0.top.equalTo(yakgwaTitleTextField.snp.top).offset(4)
-            $0.leading.equalTo(yakgwaTitleTextField.snp.leading).offset(16)
+            // $0.top.equalTo(yakgwaTitleTextField.snp.top).offset(4)
+            $0.centerY.equalToSuperview()
+            $0.leading.equalTo(yakgwaTitleTextField.snp.leading).offset(8)
         }
         
         self.yakgwaTitleInputContainerView.addSubview(yakgwaTitleTextCountLabel)
@@ -510,8 +519,9 @@ public final class MakeYakgwaViewController: UIViewController, View, KeyboardRea
         
         self.yakgwaDescriptionTextView.addSubview(textViewPlaceholderLabel)
         textViewPlaceholderLabel.snp.makeConstraints {
-            $0.top.equalTo(yakgwaDescriptionTextView.snp.top).offset(4)
-            $0.leading.equalTo(yakgwaDescriptionTextView.snp.leading).offset(16)
+            $0.top.equalTo(yakgwaDescriptionTextView.snp.top).offset(8)
+//            $0.centerY.equalToSuperview()
+            $0.leading.equalTo(yakgwaDescriptionTextView.snp.leading).offset(8)
         }
         
         self.yakgwaDescriptionInputContainerView.addSubview(yakgwaDescriptionTextCountLabel)
@@ -589,8 +599,8 @@ public final class MakeYakgwaViewController: UIViewController, View, KeyboardRea
             $0.leading.equalToSuperview().offset(16)
         }
         
-//        self.locationStack.addArrangedSubview(LocationTagView(location: "홍대"))
-//        self.locationStack.addArrangedSubview(LocationTagView(location: "역삼역"))
+        self.locationStack.addArrangedSubview(LocationTagView(location: "홍대"))
+        self.locationStack.addArrangedSubview(LocationTagView(location: "역삼역"))
         
         self.contentView.addSubview(timeLabel)
         timeLabel.snp.makeConstraints {
@@ -709,18 +719,22 @@ extension MakeYakgwaViewController {
             case .startDate:
                 dateFormatter.dateFormat = "yyyy-MM-dd"
                 self.daySelectionView.firstLabel.text = dateFormatter.string(from: datePicker.date)
+                self.daySelectionView.firstLabel.textColor = .neutralBlack
                 self.reactor?.action.onNext(.updateStartDate(datePicker.date))
             case .endDate:
                 dateFormatter.dateFormat = "yyyy-MM-dd"
                 self.daySelectionView.secondLabel.text = dateFormatter.string(from: datePicker.date)
+                self.daySelectionView.secondLabel.textColor = .neutralBlack
                 self.reactor?.action.onNext(.updateEndDate(datePicker.date))
             case .startTime:
                 dateFormatter.dateFormat = "HH:mm"
                 self.timeSelectionView.firstLabel.text = dateFormatter.string(from: datePicker.date)
+                self.timeSelectionView.firstLabel.textColor = .neutralBlack
                 self.reactor?.action.onNext(.updateStartTime(datePicker.date))
             case .endTime:
                 dateFormatter.dateFormat = "HH:mm"
                 self.timeSelectionView.secondLabel.text = dateFormatter.string(from: datePicker.date)
+                self.timeSelectionView.secondLabel.textColor = .neutralBlack
                 self.reactor?.action.onNext(.updateEndTime(datePicker.date))
             }
         }
