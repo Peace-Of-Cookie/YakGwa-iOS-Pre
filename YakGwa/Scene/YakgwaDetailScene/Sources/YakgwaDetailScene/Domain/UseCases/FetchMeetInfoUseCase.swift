@@ -15,7 +15,7 @@ public protocol FetchMeetInfoUseCaseProtocol {
 public final class FetchMeetInfoUseCase: FetchMeetInfoUseCaseProtocol {
     private let repository: FetchMeetInfoRepositoryProtocol
     
-    init(repository: FetchMeetInfoRepositoryProtocol) {
+    public init(repository: FetchMeetInfoRepositoryProtocol) {
         self.repository = repository
     }
     

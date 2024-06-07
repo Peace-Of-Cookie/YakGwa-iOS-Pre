@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Ekko on 6/7/24.
 //
@@ -32,6 +32,14 @@ final public class PlaceVoteCoordinator: Coordinator {
         let viewController = PlaceVoteViewController(reactor: reactor)
         viewController.coordinator = self
         navigationController?.pushViewController(viewController, animated: true)
+    }
+    
+    public func navigateToAfterVoteScene(meetId: Int) {
+        guard let navigationController = navigationController else { return }
+        let userVoteStatusCoordinator = UserVoteStatusCoordinator(navigationController: navigationController)
+        userVoteStatusCoordinator.parentCoordinator = self
+        self.addChildCoordinator(userVoteStatusCoordinator)
+        userVoteStatusCoordinator.start(with: meetId)
     }
     
     func popViewController() {

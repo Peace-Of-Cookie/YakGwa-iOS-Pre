@@ -29,14 +29,33 @@ public final class UserVoteStatusViewController: UIViewController, View {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    // MARK: - Life cycles
     
+    // MARK: - Life cycles
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        self.view.backgroundColor = .systemMint
+    }
     // MARK: - Layout
     
     // MARK: - Binding
     public func bind(reactor: UserVoteStatusReactor) {
         // Action
+        self.rx.viewWillAppear
+            .map { _ in Reactor.Action.viewWillAppeared }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
         // State
+        reactor.state.map { $0.userVoteStatus }
+            .distinctUntilChanged()
+            .subscribe(onNext: {[weak self] result in
+                print("투표 현황: \(result)")
+            }).disposed(by: disposeBag)
+        
+        reactor.state.map { $0.meetInfo }
+            .distinctUntilChanged()
+            .subscribe(onNext: {[weak self] result in
+                print("모임 정보: \(result)")
+            }).disposed(by: disposeBag)
     }
 }

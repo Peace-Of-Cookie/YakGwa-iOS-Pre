@@ -119,5 +119,10 @@ public final class PlaceVoteViewController: UIViewController, View {
             .bind { [weak self] result in
                 print("포스트 결과 :\(result)")
             }.disposed(by: disposeBag)
+        
+        reactor.pulse(\.$shouldNavigateToAfterSelectionScene)
+            .subscribe(onNext: { [weak self] meetId in
+                self?.coordinator?.navigateToAfterVoteScene(meetId: meetId)
+            }).disposed(by: disposeBag)
     }
 }

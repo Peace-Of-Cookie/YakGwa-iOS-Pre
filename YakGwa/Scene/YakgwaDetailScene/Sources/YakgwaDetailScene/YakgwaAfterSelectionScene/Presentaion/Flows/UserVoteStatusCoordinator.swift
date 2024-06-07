@@ -7,6 +7,7 @@
 
 import UIKit
 import Common
+import Network
 
 final public class UserVoteStatusCoordinator: Coordinator {
     public var navigationController: UINavigationController?
@@ -24,7 +25,9 @@ final public class UserVoteStatusCoordinator: Coordinator {
             meetId: meetId,
             fetchUserVoteStatusUseCase: FetchUserVoteStatusUseCase(
                 repository: FetchUserVoteStatusRepository(
-                    remoteDataSource: RemoteFetchUserVoteStatusDataSource()))
+                    remoteDataSource: RemoteFetchUserVoteStatusDataSource())),
+            fetchMeetInfoUseCase: FetchMeetInfoUseCase(
+                        repository: FetchMeetInfoRepository(remoteDataSource: RemoteFetchMeetInfoDataSource()))
         )
         
         let viewController = UserVoteStatusViewController(reactor: reactor)
