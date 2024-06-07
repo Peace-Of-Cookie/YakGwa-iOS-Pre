@@ -179,15 +179,23 @@ public final class MakeYakgwaViewController: UIViewController, View, KeyboardRea
         return view
     }()
     
-    private lazy var alreadyLocationTextField: UITextField = {
+    private lazy var locationTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "지역/지하철역을 검색해주세요"
-        textField.textColor = .neutral500
+        textField.textColor = .neutralBlack
         textField.font = UIFont.r14
+        textField.delegate = self
         return textField
     }()
     
-    private lazy var alreadyLocationSearchButton: UIButton = {
+    private lazy var locationPlaceholderLabel: UILabel = {
+        let label = UILabel()
+        label.text = "지역/지하철역을 검색해주세요."
+        label.textColor = .neutral500
+        label.font = UIFont.r14
+        return label
+    }()
+    
+    private lazy var locationSearchButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "SearchIcons", in: .module, with: nil), for: .normal)
         return button
@@ -388,6 +396,9 @@ public final class MakeYakgwaViewController: UIViewController, View, KeyboardRea
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // self.locationSearchButton.rx.tap
+            
+        
         // State
         if #available(iOS 13.4, *) {
             reactor.pulse(\.$isDateViewShow)
@@ -579,16 +590,22 @@ public final class MakeYakgwaViewController: UIViewController, View, KeyboardRea
             $0.trailing.equalToSuperview().offset(-16)
         }
         
-        self.alreadyLocationInputContainerView.addSubview(alreadyLocationTextField)
-        alreadyLocationTextField.snp.makeConstraints {
+        self.alreadyLocationInputContainerView.addSubview(locationTextField)
+        locationTextField.snp.makeConstraints {
             $0.top.equalToSuperview().offset(8)
             $0.leading.equalToSuperview().offset(16)
             $0.trailing.equalToSuperview().offset(-16)
             $0.bottom.equalToSuperview().offset(-8)
         }
         
-        self.alreadyLocationInputContainerView.addSubview(alreadyLocationSearchButton)
-        alreadyLocationSearchButton.snp.makeConstraints {
+        self.locationTextField.addSubview(locationPlaceholderLabel)
+        locationPlaceholderLabel.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.leading.equalTo(locationTextField.snp.leading).offset(8)
+        }
+        
+        self.alreadyLocationInputContainerView.addSubview(locationSearchButton)
+        locationSearchButton.snp.makeConstraints {
             $0.trailing.equalToSuperview().offset(-16)
             $0.centerY.equalToSuperview()
         }
@@ -791,18 +808,37 @@ extension MakeYakgwaViewController: UICollectionViewDelegateFlowLayout {
 
 extension MakeYakgwaViewController: UITextFieldDelegate {
     public func textFieldDidBeginEditing(_ textField: UITextField) {
-        textFieldPlaceholderLabel.isHidden = true
+        // textFieldPlaceholderLabel.isHidden = true
+        if textField == yakgwaTitleTextField {
+            textFieldPlaceholderLabel.isHidden = true
+        } else if textField == locationTextField {
+            locationPlaceholderLabel.isHidden = true
+        }
     }
     
     public func textFieldDidEndEditing(_ textField: UITextField) {
-        if textField.text?.isEmpty ?? true {
-            textFieldPlaceholderLabel.isHidden = false
+//        if textField.text?.isEmpty ?? true {
+//            textFieldPlaceholderLabel.isHidden = false
+//        }
+        if textField == yakgwaTitleTextField {
+            if textField.text?.isEmpty ?? true {
+                textFieldPlaceholderLabel.isHidden = false
+            }
+        } else if textField == locationTextField {
+            if textField.text?.isEmpty ?? true {
+                locationPlaceholderLabel.isHidden = false
+            }
         }
     }
     
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         DispatchQueue.main.async {
-            self.textFieldPlaceholderLabel.isHidden = !(textField.text?.isEmpty ?? true)
+            // self.textFieldPlaceholderLabel.isHidden = !(textField.text?.isEmpty ?? true)
+            if textField == self.yakgwaTitleTextField {
+                self.textFieldPlaceholderLabel.isHidden = !(textField.text?.isEmpty ?? true)
+            } else if textField == self.locationTextField {
+                self.locationPlaceholderLabel.isHidden = !(textField.text?.isEmpty ?? true)
+            }
         }
         return true
     }

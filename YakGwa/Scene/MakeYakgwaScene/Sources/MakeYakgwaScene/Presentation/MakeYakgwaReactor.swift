@@ -33,6 +33,8 @@ public final class MakeYakgwaReactor: Reactor {
         case updateEndTime(Date)
         case updateExpiredDate(Int)
         
+        case addLoaction(String)
+        
         case alreadySelectedLocationChecked
         case startDateButtonTapped
         case endDateButtonTapped
@@ -57,6 +59,8 @@ public final class MakeYakgwaReactor: Reactor {
         case setStartTime(Date)
         case setEndTime(Date)
         case setExpiredDate(Int)
+        
+        case addLoacation(String)
         
         case showStartDatePicker
         case showEndDatePicker
@@ -165,6 +169,9 @@ public final class MakeYakgwaReactor: Reactor {
         case .updateExpiredDate(let expiredDate):
             return .just(.setExpiredDate(expiredDate))
             
+        case .addLoaction(let location):
+            return .just(.addLoacation(location))
+        
         case .startDateButtonTapped:
             return .just(.showStartDatePicker)
         case .endDateButtonTapped:
