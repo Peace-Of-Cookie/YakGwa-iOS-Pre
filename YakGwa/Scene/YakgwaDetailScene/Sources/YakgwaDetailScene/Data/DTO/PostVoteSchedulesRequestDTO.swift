@@ -26,18 +26,15 @@ public struct PostVoteSchedulesRequestDTO: Codable, Equatable {
     
     public init(selectedTimes: [Date: [String]]) {
         var schedules: [PossibleScheduleDTO] = []
-        let dateFormatter = ISO8601DateFormatter()
-        dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
         
         let calendar = Calendar.current
         
         for (date, times) in selectedTimes {
             for time in times {
                 if let startHour = Int(time.replacingOccurrences(of: "시", with: "")) {
-                    var modifiedDate = calendar.date(byAdding: .day, value: 1, to: date)!
-                    modifiedDate = calendar.startOfDay(for: modifiedDate)
-                    
-                    let startDate = calendar.date(bySettingHour: startHour, minute: 0, second: 0, of: modifiedDate)!
+                    let startDate = calendar.date(bySettingHour: startHour, minute: 0, second: 0, of: date)!
                     let endDate = calendar.date(byAdding: .hour, value: 1, to: startDate)!
                     
                     let possibleStartTime = dateFormatter.string(from: startDate)

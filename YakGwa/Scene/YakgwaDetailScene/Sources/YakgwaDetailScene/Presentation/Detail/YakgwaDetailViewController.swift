@@ -123,7 +123,6 @@ public final class YakgwaDetailViewController: UIViewController, View {
         reactor.pulse(\.$shouldNavigateToVoteScene)
             .compactMap { $0 }
             .subscribe(onNext: { [weak self] meetId in
-                print("투표 화면으로 이동:\(meetId)")
                 self?.coordinator?.navigateToVoteScene(meetId: meetId)
             }).disposed(by: disposeBag)
             

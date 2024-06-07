@@ -16,6 +16,10 @@ import Foundation
  */
 public struct PostVotePlacesRequestDTO: Codable, Equatable {
     public let candidatePlaceIds: [Int]
+    
+    public init(selectedPlaces: [Int]) {
+            self.candidatePlaceIds = selectedPlaces
+    }
 }
 
 

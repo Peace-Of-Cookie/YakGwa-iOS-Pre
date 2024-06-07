@@ -202,7 +202,6 @@ public final class CalendarVoteViewController: UIViewController, View {
                 guard let self = self else {
                     return Reactor.Action.dateSelected(Date())
                 }
-                print("날짜 배열: \(dates)")
                 let selectedDate = self.dates[indexPath.item]
                 return Reactor.Action.dateSelected(selectedDate)
             }
@@ -222,16 +221,6 @@ public final class CalendarVoteViewController: UIViewController, View {
             .disposed(by: disposeBag)
         
         // State
-        reactor.state.map { $0.showDateTimePicker }
-            .distinctUntilChanged()
-            .subscribe(onNext: { [weak self] date in
-                guard let self = self else { return }
-                if let date = date {
-                    print("\(date)")
-                }
-            })
-            .disposed(by: disposeBag)
-        
         reactor.state.map { $0.fetchedDate }
             .subscribe(onNext: { [weak self] dates in
                 guard let self = self else { return }
@@ -257,21 +246,13 @@ public final class CalendarVoteViewController: UIViewController, View {
         reactor.state.map { $0.showDateTimePicker }
             .subscribe(onNext: { [weak self] date in
                 guard let date = date else { return }
-                print("오잉: \(date)")
                 self?.timeTableDateLabel.text = date.toString(format: "yyyy/MM/dd")
                 self?.dateCollectionView.reloadData()
-            }).disposed(by: disposeBag)
-        
-        reactor.state.map { $0.selectedTimes }
-            .distinctUntilChanged()
-            .subscribe(onNext: { [weak self] result in
-                print("체크: \(result)")
             }).disposed(by: disposeBag)
         
         reactor.pulse(\.$shouldNavigateToVoteScene)
             .compactMap { $0 }
             .subscribe(onNext: {[weak self] meetId in
-                print("장소 투표 화면으로 이동: \(meetId)")
                 self?.coordinator?.navigateToPlaceVoteScene(meetId: meetId)
             }).disposed(by: disposeBag)
         
@@ -279,6 +260,13 @@ public final class CalendarVoteViewController: UIViewController, View {
             .distinctUntilChanged()
             .subscribe(onNext: { [weak self] result in
                 print("포스트 결과 :\(result)")
+            }).disposed(by: disposeBag)
+        
+        //test
+        reactor.state.map { $0.selectedTimes }
+            .distinctUntilChanged()
+            .subscribe(onNext: { [weak self] result in
+                print("시간 선택 결과: \(result)")
             }).disposed(by: disposeBag)
     }
 }

@@ -49,7 +49,7 @@ public final class CalendarVoteReactor: Reactor {
     public var initialState: State
     
     public init(
-        meetId: Int = 23, // TODO: - Test 40
+        meetId: Int,
         fetchMeetVoteInfoUseCase: FetchMeetVoteInfoUseCaseProtocol,
         postVoteScheduleUseCase: PostVoteScheduleUseCaseProtocol
     ) {
@@ -94,7 +94,6 @@ public final class CalendarVoteReactor: Reactor {
             return .just(.setSelectedTimes(selectedDate, times))
         case .nextButtonTapped:
             guard let userId = KeyChainManager.read(key: "userId") else { return .empty() }
-            // let userId: Int = 4 // TODO: - User Id 테스트를 위한 임시 값 입니다.
             return Observable.concat([
                 postVoteScheduleUseCase
                     .execute(
@@ -104,12 +103,10 @@ public final class CalendarVoteReactor: Reactor {
                     .asObservable()
                     .map { Mutation.postVoteSchedule($0) }
                     .catch { error in
-                        print("Error occured: \(error)")
                         return Observable.empty()
                     },
                 Observable.just(.navigateToLocationVoteScene(currentState.meetId))
             ])
-            // return .just(.navigateToLocationVoteScene(currentState.meetId))
         }
     }
     

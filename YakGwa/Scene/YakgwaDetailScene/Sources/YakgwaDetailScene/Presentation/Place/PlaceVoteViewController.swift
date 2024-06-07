@@ -91,14 +91,12 @@ public final class PlaceVoteViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        // State
-        reactor.state
-            .map { $0.places }
-            .distinctUntilChanged()
-            .subscribe(onNext: { [weak self] places in
-                print("테스트 \(places)")
-            }).disposed(by: disposeBag)
+        confirmButton.rx.tap
+            .map { Reactor.Action.completeButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
+        // State
         reactor.state
             .map { $0.places ?? [] }
             .distinctUntilChanged()
@@ -113,6 +111,13 @@ public final class PlaceVoteViewController: UIViewController, View {
             .bind { [weak self] selectedPlaces in
                 print("선택된 장소 \(selectedPlaces)")
                 self?.placeTableView.reloadData()
+            }.disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.postVotePlacesResult }
+            .distinctUntilChanged()
+            .bind { [weak self] result in
+                print("포스트 결과 :\(result)")
             }.disposed(by: disposeBag)
     }
 }

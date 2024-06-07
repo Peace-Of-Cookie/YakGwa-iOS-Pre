@@ -12,6 +12,8 @@ import LoginScene
 import SplashScene
 import KakaoSDKAuth
 
+import YakgwaDetailScene
+
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
@@ -28,6 +30,36 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.appCoordinator = appCoordinator
         appCoordinator.start()
     }
+    
+//    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+//        guard let windowScene = (scene as? UIWindowScene) else { return }
+//        
+//        let window = UIWindow(windowScene: windowScene)
+//        
+//        // 장소 테스트
+//        let reactor: PlaceVoteViewReactor = PlaceVoteViewReactor(
+//            fetchMeetVoteInfoUseCase: FetchMeetVoteInfoUseCase(
+//                repository: FetchMeetVoteInfoRepository(
+//                    remoteDataSource: RemoteFetchMeetVoteDataSource())),
+//            postVotePlaceUseCase: PostVotePlaceUseCase(
+//                repository: PostVotePlaceRepositoy(
+//                    remoteDataSource: RemotePostVotePlaceDataSource())))
+//
+//        let placeVoteViewController = PlaceVoteViewController(reactor: reactor)
+//        
+//        // 스케줄 테스트
+////        let reactor: CalendarVoteReactor = CalendarVoteReactor(
+////            fetchMeetVoteInfoUseCase: FetchMeetVoteInfoUseCase(
+////                repository: FetchMeetVoteInfoRepository(
+////                    remoteDataSource: RemoteFetchMeetVoteDataSource())),
+////            postVoteScheduleUseCase: PostVoteScheduleUseCase(repository: PostVoteScheduleRepository(remoteDataSource: RemotePostVoteScheduleDataSource())))
+//        
+//        // let calendarVoteViewController = CalendarVoteViewController(reactor: reactor)
+//        
+//        window.rootViewController = placeVoteViewController
+//        self.window = window
+//        window.makeKeyAndVisible()
+//    }
 
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.

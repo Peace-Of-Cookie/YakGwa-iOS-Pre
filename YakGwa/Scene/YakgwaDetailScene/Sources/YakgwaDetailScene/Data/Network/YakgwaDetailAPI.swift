@@ -46,17 +46,14 @@ extension YakgwaDetailAPI: YakgwaAPI {
         ]
         
         switch self {
-        case let .fetchMeetVoteInfo(meetId):
-//            guard let token = AccessTokenManager.readAccessToken() else { return defaultHeaders }
-            let token = "eyJhbGciOiJIUzUxMiJ9.eyJhdXRoSWQiOiIzNDcwMzk2ODMyIiwic3ViIjoiMzQ3MDM5NjgzMiIsImV4cCI6MTcxODI5MTMyMiwiaWF0IjoxNzE3Njg2NTIyfQ.iaMhkIjZDUUY5542FfpGQB4KH22zJEv5_vMN00J3OlUyy_2RxPIk8vXKnfRvS4UsE1GXEu6Rulxq-RBMO2L5_g"
+        case .fetchMeetVoteInfo:
+            guard let token = AccessTokenManager.readAccessToken() else { return defaultHeaders }
             defaultHeaders["Authorization"] = "Bearer \(token)"
         case .postScheduleVote:
-            // guard let token = AccessTokenManager.readAccessToken() else { return defaultHeaders }
-            let token = "eyJhbGciOiJIUzUxMiJ9.eyJhdXRoSWQiOiIzNDcwMzk2ODMyIiwic3ViIjoiMzQ3MDM5NjgzMiIsImV4cCI6MTcxODI5MTMyMiwiaWF0IjoxNzE3Njg2NTIyfQ.iaMhkIjZDUUY5542FfpGQB4KH22zJEv5_vMN00J3OlUyy_2RxPIk8vXKnfRvS4UsE1GXEu6Rulxq-RBMO2L5_g"
+            guard let token = AccessTokenManager.readAccessToken() else { return defaultHeaders }
             defaultHeaders["Authorization"] = "Bearer \(token)"
         case .postPlaceVote:
-            // guard let token = AccessTokenManager.readAccessToken() else { return defaultHeaders }
-            let token = "eyJhbGciOiJIUzUxMiJ9.eyJhdXRoSWQiOiIzNDcwMzk2ODMyIiwic3ViIjoiMzQ3MDM5NjgzMiIsImV4cCI6MTcxODI5MTMyMiwiaWF0IjoxNzE3Njg2NTIyfQ.iaMhkIjZDUUY5542FfpGQB4KH22zJEv5_vMN00J3OlUyy_2RxPIk8vXKnfRvS4UsE1GXEu6Rulxq-RBMO2L5_g"
+            guard let token = AccessTokenManager.readAccessToken() else { return defaultHeaders }
             defaultHeaders["Authorization"] = "Bearer \(token)"
         }
         

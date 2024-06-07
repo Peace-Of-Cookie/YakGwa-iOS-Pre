@@ -14,7 +14,7 @@ final public class PlaceVoteCoordinator: Coordinator {
     public var childCoordinators = [Coordinator]()
     
     public init(navigationController: UINavigationController) {
-        
+        self.navigationController = navigationController
     }
     
     public func start() { }
@@ -24,7 +24,10 @@ final public class PlaceVoteCoordinator: Coordinator {
             meetId: meetId,
             fetchMeetVoteInfoUseCase: FetchMeetVoteInfoUseCase(
                 repository: FetchMeetVoteInfoRepository(
-                    remoteDataSource: RemoteFetchMeetVoteDataSource())))
+                    remoteDataSource: RemoteFetchMeetVoteDataSource())),
+            postVotePlaceUseCase: PostVotePlaceUseCase(
+                repository: PostVotePlaceRepositoy(
+                    remoteDataSource: RemotePostVotePlaceDataSource())))
         
         let viewController = PlaceVoteViewController(reactor: reactor)
         viewController.coordinator = self
