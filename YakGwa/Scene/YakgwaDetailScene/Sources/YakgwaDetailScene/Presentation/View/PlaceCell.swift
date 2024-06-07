@@ -86,10 +86,11 @@ final class PlaceCell: UITableViewCell {
         }
     }
     
-    func configure(place: MeetVoteInfo.RecommendPlace) {
-        placeImageView.image = UIImage(systemName: "photo")
+    func configure(place: MeetVoteInfo.RecommendPlace, isSelected: Bool) {
+        placeImageView.image = UIImage(named: "yakgwa_title", in: .module, with: nil)
         placeNameLabel.text = place.name
         placeAddressLabel.text = place.address
         placeDescriptionLabel.text = place.description
+        contentView.backgroundColor = isSelected ? .primary100 : .neutralWhite
     }
 }

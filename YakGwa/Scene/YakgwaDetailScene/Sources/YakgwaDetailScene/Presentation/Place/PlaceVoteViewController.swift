@@ -84,6 +84,13 @@ public final class PlaceVoteViewController: UIViewController, View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        placeTableView.rx.modelSelected(MeetVoteInfo.RecommendPlace.self)
+            .map { place -> Reactor.Action in
+                return Reactor.Action.placeSelected(place.placeId ?? 0)
+            }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // State
         reactor.state
             .map { $0.places }
@@ -96,7 +103,16 @@ public final class PlaceVoteViewController: UIViewController, View {
             .map { $0.places ?? [] }
             .distinctUntilChanged()
             .bind(to: placeTableView.rx.items(cellIdentifier: PlaceCell.identifier, cellType: PlaceCell.self)) { index, place, cell in
-                cell.configure(place: place)
+                let isSelected = reactor.currentState.selectedPlaces.contains(place.placeId ?? 0)
+                cell.configure(place: place, isSelected: isSelected)
+            }.disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.selectedPlaces }
+            .distinctUntilChanged()
+            .bind { [weak self] selectedPlaces in
+                print("선택된 장소 \(selectedPlaces)")
+                self?.placeTableView.reloadData()
             }.disposed(by: disposeBag)
     }
 }

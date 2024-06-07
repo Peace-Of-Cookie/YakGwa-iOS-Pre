@@ -13,17 +13,22 @@ public final class PlaceVoteViewReactor: Reactor {
     let fetchMeetVoteInfoUseCase: FetchMeetVoteInfoUseCaseProtocol
     let disposeBag: DisposeBag = DisposeBag()
     
+    public typealias placeId = Int
+    
     public enum Action {
         case viewWillAppeared
+        case placeSelected(Int)
     }
     
     public enum Mutation {
         case setPlaces([MeetVoteInfo.RecommendPlace])
+        case setSelectedPlaces([placeId])
     }
     
     public struct State {
         var meetId: Int
         var places: [MeetVoteInfo.RecommendPlace]?
+        var selectedPlaces: [placeId] = []
     }
     
     public var initialState: State
@@ -32,7 +37,7 @@ public final class PlaceVoteViewReactor: Reactor {
         meetId: Int = 40,
         fetchMeetVoteInfoUseCase: FetchMeetVoteInfoUseCaseProtocol
     ) {
-        self.initialState = State(meetId: meetId)
+        self.initialState = State(meetId: meetId, selectedPlaces: [])
         self.fetchMeetVoteInfoUseCase = fetchMeetVoteInfoUseCase
     }
     
@@ -45,6 +50,15 @@ public final class PlaceVoteViewReactor: Reactor {
                     result.recommendPlaces ?? []
                 }.asObservable()
                 .map { Mutation.setPlaces($0)}
+            
+        case .placeSelected(let placeId):
+            var selectedPlaces = currentState.selectedPlaces
+            if selectedPlaces.contains(placeId) {
+                selectedPlaces.removeAll() { $0 == placeId }
+            } else {
+                selectedPlaces.append(placeId)
+            }
+            return .just(Mutation.setSelectedPlaces(selectedPlaces))
         }
     }
     
@@ -53,6 +67,8 @@ public final class PlaceVoteViewReactor: Reactor {
         switch mutation {
         case .setPlaces(let places):
             newState.places = places
+        case .setSelectedPlaces(let selectedPlaces):
+            newState.selectedPlaces = selectedPlaces
         }
         
         return newState
