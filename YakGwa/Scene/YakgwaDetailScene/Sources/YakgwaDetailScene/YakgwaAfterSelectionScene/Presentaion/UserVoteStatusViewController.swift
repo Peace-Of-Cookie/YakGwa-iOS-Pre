@@ -33,7 +33,7 @@ public final class UserVoteStatusViewController: UIViewController, View {
     // MARK: - Life cycles
     public override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .systemMint
+        self.view.backgroundColor = .neutral200
     }
     // MARK: - Layout
     

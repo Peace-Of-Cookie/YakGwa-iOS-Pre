@@ -88,7 +88,7 @@ public final class MakeYakgwaReactor: Reactor {
         /// 이미 장소가 결졍된 여부
         var alreadySelectedLocation: Bool = false
         /// 약속 장소
-        var yakgwaLocation: [String] = ["홍대", "역삼역"]
+        var yakgwaLocation: [String] = []
         /// 이미 시간이 정해진 여부
         var alreadySelectedDate: Bool = false
         /// 약속 시작 날짜
@@ -230,6 +230,9 @@ public final class MakeYakgwaReactor: Reactor {
             newState.makeMeetComplete = meetId
         case .setSelectedThemeId(let id):
             newState.selectedThemeId = id
+            
+        case .addLoacation(let location):
+            newState.yakgwaLocation.append(location)
         default:
             break
         }

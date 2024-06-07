@@ -396,7 +396,12 @@ public final class MakeYakgwaViewController: UIViewController, View, KeyboardRea
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        // self.locationSearchButton.rx.tap
+        self.locationSearchButton.rx.tap
+            .withLatestFrom(locationTextField.rx.text.orEmpty)
+            .filter { !$0.isEmpty }
+            .map { Reactor.Action.addLoaction($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
             
         
         // State
@@ -441,6 +446,18 @@ public final class MakeYakgwaViewController: UIViewController, View, KeyboardRea
                 // 화면 이동
                 if meetId != 0 {
                     self?.coordinator?.moveToYakgwaDetail(with: meetId)
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.yakgwaLocation }
+            .distinctUntilChanged()
+            .subscribe(onNext: { [weak self] locations in
+                self?.locationStack.arrangedSubviews.forEach { $0.removeFromSuperview() }
+                locations.forEach { location in
+                    let tagView = LocationTagView(location: location)
+                    self?.locationStack.addArrangedSubview(tagView)
+                    self?.locationTextField.text = ""
                 }
             })
             .disposed(by: disposeBag)
