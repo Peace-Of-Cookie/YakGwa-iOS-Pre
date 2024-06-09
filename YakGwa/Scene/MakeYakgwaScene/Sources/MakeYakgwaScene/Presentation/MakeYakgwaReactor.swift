@@ -25,13 +25,15 @@ public final class MakeYakgwaReactor: Reactor {
         case updateDescription(String)
         
         /// 테마 선택 시 IndexPath 반환
-        case updateTheme(Int)
+        case updateTheme(MeetTheme)
         case updateLocation(String)
         case updateStartDate(Date)
         case updateEndDate(Date)
         case updateStartTime(Date)
         case updateEndTime(Date)
         case updateExpiredDate(Int)
+        
+        case addLoaction(String)
         
         case alreadySelectedLocationChecked
         case startDateButtonTapped
@@ -42,6 +44,7 @@ public final class MakeYakgwaReactor: Reactor {
         case changeExpireDateTapped
         
         case confirmButtonTapped
+        
     }
     
     public enum Mutation {
@@ -49,13 +52,15 @@ public final class MakeYakgwaReactor: Reactor {
         
         case setTitle(String)
         case setDescription(String)
-        case setTheme(Int)
+        case setTheme(MeetTheme)
         case setLocation(String)
         case setStartDate(Date)
         case setEndDate(Date)
         case setStartTime(Date)
         case setEndTime(Date)
         case setExpiredDate(Int)
+        
+        case addLoacation(String)
         
         case showStartDatePicker
         case showEndDatePicker
@@ -65,6 +70,7 @@ public final class MakeYakgwaReactor: Reactor {
         case showExpireHourPicker
         
         case createNewMeet(Int)
+        case setSelectedThemeId(Int)
     }
     
     public struct State {
@@ -73,17 +79,16 @@ public final class MakeYakgwaReactor: Reactor {
         @Pulse var isExpireHourViewSHow: Bool = false
         
         var themes: [MeetTheme] = []
-        
         /// 약속 타이틀
         var yakgwaTitle: String?
         /// 약속 설명
         var yakgwaDescription: String?
         /// 약속 테마 (선택된 Index)
-        var yakgwaTheme: Int?
+        var yakgwaTheme: MeetTheme?
         /// 이미 장소가 결졍된 여부
         var alreadySelectedLocation: Bool = false
         /// 약속 장소
-        var yakgwaLocation: [String] = ["홍대", "역삼역"]
+        var yakgwaLocation: [String] = []
         /// 이미 시간이 정해진 여부
         var alreadySelectedDate: Bool = false
         /// 약속 시작 날짜
@@ -99,6 +104,7 @@ public final class MakeYakgwaReactor: Reactor {
         
         /// 약속 생성 완료
         var makeMeetComplete: Int?
+        var selectedThemeId: Int?
     }
     
     public var initialState: State
@@ -124,7 +130,7 @@ public final class MakeYakgwaReactor: Reactor {
             let entity = Yakgwa(
                             yakgwaTitle: currentState.yakgwaTitle,
                             yakgwaDescription: currentState.yakgwaDescription,
-                            yakgwaTheme: currentState.yakgwaTheme,
+                            yakgwaTheme: currentState.yakgwaTheme?.id,
                             alreadySelectedLocation: currentState.alreadySelectedLocation,
                             yakgwaLocation: currentState.yakgwaLocation,
                             alreadySelectedDate: currentState.alreadySelectedDate,
@@ -146,7 +152,10 @@ public final class MakeYakgwaReactor: Reactor {
         case .updateDescription(let description):
             return .just(.setDescription(description))
         case .updateTheme(let theme):
-            return .just(.setTheme(theme))
+            return .concat([
+                        .just(.setTheme(theme)),
+                        .just(.setSelectedThemeId(theme.id ?? 0))
+                    ])
         case .updateLocation(let location):
             return .just(.setLocation(location))
         case .updateStartDate(let startDate):
@@ -160,6 +169,9 @@ public final class MakeYakgwaReactor: Reactor {
         case .updateExpiredDate(let expiredDate):
             return .just(.setExpiredDate(expiredDate))
             
+        case .addLoaction(let location):
+            return .just(.addLoacation(location))
+        
         case .startDateButtonTapped:
             return .just(.showStartDatePicker)
         case .endDateButtonTapped:
@@ -216,6 +228,11 @@ public final class MakeYakgwaReactor: Reactor {
             
         case .createNewMeet(let meetId):
             newState.makeMeetComplete = meetId
+        case .setSelectedThemeId(let id):
+            newState.selectedThemeId = id
+            
+        case .addLoacation(let location):
+            newState.yakgwaLocation.append(location)
         default:
             break
         }

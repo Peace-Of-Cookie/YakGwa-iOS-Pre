@@ -11,7 +11,7 @@ import RxSwift
 public final class FetchMeetInfoRepository: FetchMeetInfoRepositoryProtocol {
     private let remoteDataSource: RemoteFetchMeetInfoDataSourceProtocol
     
-    init(remoteDataSource: RemoteFetchMeetInfoDataSourceProtocol) {
+    public init(remoteDataSource: RemoteFetchMeetInfoDataSourceProtocol) {
         self.remoteDataSource = remoteDataSource
     }
     

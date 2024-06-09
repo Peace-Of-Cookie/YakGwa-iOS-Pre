@@ -25,11 +25,23 @@ final public class CalendarVoteCoordinator: Coordinator {
             meetId: meetId,
             fetchMeetVoteInfoUseCase: FetchMeetVoteInfoUseCase(
                 repository: FetchMeetVoteInfoRepository(
-                    remoteDataSource: RemoteFetchMeetVoteDataSource())))
+                    remoteDataSource: RemoteFetchMeetVoteDataSource())), 
+            postVoteScheduleUseCase: PostVoteScheduleUseCase(
+                repository: PostVoteScheduleRepository(
+                    remoteDataSource: RemotePostVoteScheduleDataSource()))
+        )
         
         let calendarVoteViewController = CalendarVoteViewController(reactor: reactor)
         calendarVoteViewController.coordinator = self
         navigationController?.pushViewController(calendarVoteViewController, animated: true)
+    }
+    
+    func navigateToPlaceVoteScene(meetId: Int) {
+        guard let navigationController = navigationController else { return }
+        let placeVoteCoordinator = PlaceVoteCoordinator(navigationController: navigationController)
+        placeVoteCoordinator.parentCoordinator = self
+        self.addChildCoordinator(placeVoteCoordinator)
+        placeVoteCoordinator.start(with: meetId)
     }
     
     func popCalendarVote() {

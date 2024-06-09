@@ -12,6 +12,8 @@ import LoginScene
 import SplashScene
 import KakaoSDKAuth
 
+import YakgwaDetailScene
+
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
@@ -21,13 +23,55 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window.windowScene = windowScene
-//        window?.rootViewController = SplashViewController()
-//        window?.makeKeyAndVisible()
         self.window = window
         let appCoordinator = AppCoordinator(window: window)
         self.appCoordinator = appCoordinator
         appCoordinator.start()
     }
+    
+//    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+//        guard let windowScene = (scene as? UIWindowScene) else { return }
+//        
+//        let window = UIWindow(windowScene: windowScene)
+//        
+//        
+////        let reactor: PlaceVoteViewReactor = PlaceVoteViewReactor(
+////            fetchMeetVoteInfoUseCase: FetchMeetVoteInfoUseCase(
+////                repository: FetchMeetVoteInfoRepository(
+////                    remoteDataSource: RemoteFetchMeetVoteDataSource())),
+////            postVotePlaceUseCase: PostVotePlaceUseCase(
+////                repository: PostVotePlaceRepositoy(
+////                    remoteDataSource: RemotePostVotePlaceDataSource())))
+////
+////        let placeVoteViewController = PlaceVoteViewController(reactor: reactor)
+////        
+////         스케줄 테스트
+////        let reactor: CalendarVoteReactor = CalendarVoteReactor(
+////            fetchMeetVoteInfoUseCase: FetchMeetVoteInfoUseCase(
+////                repository: FetchMeetVoteInfoRepository(
+////                    remoteDataSource: RemoteFetchMeetVoteDataSource())),
+////            postVoteScheduleUseCase: PostVoteScheduleUseCase(repository: PostVoteScheduleRepository(remoteDataSource: RemotePostVoteScheduleDataSource())))
+////        
+////         let calendarVoteViewController = CalendarVoteViewController(reactor: reactor)
+////        
+////         투표 현황 테스트
+////        let reactor: UserVoteStatusReactor = UserVoteStatusReactor(
+////            meetId: 65,
+////            fetchUserVoteStatusUseCase: FetchUserVoteStatusUseCase(
+////                repository: FetchUserVoteStatusRepository(
+////                    remoteDataSource: RemoteFetchUserVoteStatusDataSource())),
+////            fetchMeetInfoUseCase: FetchMeetInfoUseCase(
+////                        repository: FetchMeetInfoRepository(remoteDataSource: RemoteFetchMeetInfoDataSource()))
+////        )
+////        
+////        let voteViewController = UserVoteStatusViewController(reactor: reactor)
+//        
+//        let viewController = TestUIViewController()
+//        
+//        window.rootViewController = viewController
+//        self.window = window
+//        window.makeKeyAndVisible()
+//    }
 
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.

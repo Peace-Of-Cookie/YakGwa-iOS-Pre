@@ -1,6 +1,6 @@
 //
 //  CalendarVoteReactor.swift
-//  
+//
 //
 //  Created by Ekko on 6/6/24.
 //
@@ -13,12 +13,14 @@ import Network
 public final class CalendarVoteReactor: Reactor {
     // MARK: - Properties
     let fetchMeetVoteInfoUseCase: FetchMeetVoteInfoUseCaseProtocol
+    let postVoteScheduleUseCase: PostVoteScheduleUseCaseProtocol
     let disposeBag: DisposeBag = DisposeBag()
     
     public enum Action {
         case viewWillAppeared
         case dateSelected(Date)
         case timeSelected(String)
+        case nextButtonTapped
     }
     
     public enum Mutation {
@@ -27,6 +29,8 @@ public final class CalendarVoteReactor: Reactor {
         case setTimeRange(startTime: Date, endTime: Date)
         case setLoading(Bool)
         case setSelectedTimes(Date, [String])
+        case navigateToLocationVoteScene(Int) // 모임 id 포함
+        case postVoteSchedule(PostVoteSchedulesResponseDTO)
     }
     
     public struct State {
@@ -36,16 +40,22 @@ public final class CalendarVoteReactor: Reactor {
         var fetchedTime: (startTime: Date, endTime: Date)?
         var showDateTimePicker: Date? = nil
         var selectedTimes: [Date: [String]] = [:]
+        var postVoteSchedulesResult: PostVoteSchedulesResponseDTO?
+        
+        @Pulse var shouldNavigateToVoteScene: Int = 0
+        
     }
     
     public var initialState: State
     
     public init(
-        meetId: Int = 23, // TODO: - Test 40
-        fetchMeetVoteInfoUseCase: FetchMeetVoteInfoUseCaseProtocol
+        meetId: Int,
+        fetchMeetVoteInfoUseCase: FetchMeetVoteInfoUseCaseProtocol,
+        postVoteScheduleUseCase: PostVoteScheduleUseCaseProtocol
     ) {
         self.initialState = State(meetId: meetId)
         self.fetchMeetVoteInfoUseCase = fetchMeetVoteInfoUseCase
+        self.postVoteScheduleUseCase = postVoteScheduleUseCase
     }
     
     public func mutate(action: Action) -> Observable<Mutation> {
@@ -82,6 +92,21 @@ public final class CalendarVoteReactor: Reactor {
             }
             
             return .just(.setSelectedTimes(selectedDate, times))
+        case .nextButtonTapped:
+            guard let userId = KeyChainManager.read(key: "userId") else { return .empty() }
+            return Observable.concat([
+                postVoteScheduleUseCase
+                    .execute(
+                        userId: Int(userId) ?? 0,
+                        meetId: currentState.meetId,
+                        requestDTO: PostVoteSchedulesRequestDTO(selectedTimes: currentState.selectedTimes))
+                    .asObservable()
+                    .map { Mutation.postVoteSchedule($0) }
+                    .catch { error in
+                        return Observable.empty()
+                    },
+                Observable.just(.navigateToLocationVoteScene(currentState.meetId))
+            ])
         }
     }
     
@@ -100,6 +125,10 @@ public final class CalendarVoteReactor: Reactor {
             newState.fetchedTime = (startTime: startTime, endTime: endTime)
         case .setSelectedTimes(let date, let times):
             newState.selectedTimes[date] = times
+        case .navigateToLocationVoteScene(let meetId):
+            newState.shouldNavigateToVoteScene = meetId
+        case .postVoteSchedule(let postVoteSchedulesResponseDTO):
+            newState.postVoteSchedulesResult = postVoteSchedulesResponseDTO
         }
         return newState
     }

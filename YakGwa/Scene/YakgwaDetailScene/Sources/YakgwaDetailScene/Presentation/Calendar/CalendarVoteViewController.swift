@@ -10,6 +10,9 @@ import SnapKit
 import ReactorKit
 import RxCocoa
 
+import CoreKit
+import Util
+
 public final class CalendarVoteViewController: UIViewController, View {
     // MARK: - Properties
     public var disposeBag: DisposeBag = DisposeBag()
@@ -75,7 +78,7 @@ public final class CalendarVoteViewController: UIViewController, View {
     
     private lazy var timeTableDateLabel: UILabel = {
         let label = UILabel()
-        label.text = "2024/05/14"
+        // label.text = "2024/05/14"
         label.font = .m14
         label.textColor = .neutralBlack
         return label
@@ -83,10 +86,23 @@ public final class CalendarVoteViewController: UIViewController, View {
     
     private lazy var participantLabel: UILabel = {
         let label = UILabel()
-        label.text = "3명 참여 >"
+        label.text = "N명 참여 >"
         label.font = .m11
         label.textColor = .neutral600
         return label
+    }()
+    
+    private lazy var bottomButtonContainer: UIView = {
+        let view = UIView()
+        view.backgroundColor = .neutralWhite
+        view.layer.applySketchShadow(color: .neutral600, alpha: 0.2, x: 0, y: -1, blur: 20, spread: 0)
+        return view
+    }()
+
+    private lazy var confirmButton: YakGwaButton = {
+        let button = YakGwaButton()
+        button.title = "다음으로"
+        return button
     }()
     
     // MARK: - Initializers
@@ -158,6 +174,19 @@ public final class CalendarVoteViewController: UIViewController, View {
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalToSuperview().offset(-16)
         }
+        
+        self.view.addSubview(bottomButtonContainer)
+        bottomButtonContainer.snp.makeConstraints {
+            $0.height.equalTo(92)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        bottomButtonContainer.addSubview(confirmButton)
+        confirmButton.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(8)
+            $0.leading.equalToSuperview().offset(16)
+            $0.centerX.equalToSuperview()
+        }
     }
     
     // MARK: - Binding
@@ -173,7 +202,6 @@ public final class CalendarVoteViewController: UIViewController, View {
                 guard let self = self else {
                     return Reactor.Action.dateSelected(Date())
                 }
-                print("날짜 배열: \(dates)")
                 let selectedDate = self.dates[indexPath.item]
                 return Reactor.Action.dateSelected(selectedDate)
             }
@@ -187,17 +215,12 @@ public final class CalendarVoteViewController: UIViewController, View {
             }.bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        // State
-        reactor.state.map { $0.showDateTimePicker }
-            .distinctUntilChanged()
-            .subscribe(onNext: { [weak self] date in
-                guard let self = self else { return }
-                if let date = date {
-                    print("\(date)")
-                }
-            })
+        confirmButton.rx.tap
+            .map { Reactor.Action.nextButtonTapped }
+            .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // State
         reactor.state.map { $0.fetchedDate }
             .subscribe(onNext: { [weak self] dates in
                 guard let self = self else { return }
@@ -223,14 +246,27 @@ public final class CalendarVoteViewController: UIViewController, View {
         reactor.state.map { $0.showDateTimePicker }
             .subscribe(onNext: { [weak self] date in
                 guard let date = date else { return }
-                print("오잉: \(date)")
                 self?.timeTableDateLabel.text = date.toString(format: "yyyy/MM/dd")
                 self?.dateCollectionView.reloadData()
             }).disposed(by: disposeBag)
         
-        reactor.state.map { $0.selectedTimes }
+        reactor.pulse(\.$shouldNavigateToVoteScene)
+            .compactMap { $0 }
+            .subscribe(onNext: {[weak self] meetId in
+                self?.coordinator?.navigateToPlaceVoteScene(meetId: meetId)
+            }).disposed(by: disposeBag)
+        
+        reactor.state.map { $0.postVoteSchedulesResult }
+            .distinctUntilChanged()
             .subscribe(onNext: { [weak self] result in
-                print("체크: \(result)")
+                print("포스트 결과 :\(result)")
+            }).disposed(by: disposeBag)
+        
+        //test
+        reactor.state.map { $0.selectedTimes }
+            .distinctUntilChanged()
+            .subscribe(onNext: { [weak self] result in
+                print("시간 선택 결과: \(result)")
             }).disposed(by: disposeBag)
     }
 }

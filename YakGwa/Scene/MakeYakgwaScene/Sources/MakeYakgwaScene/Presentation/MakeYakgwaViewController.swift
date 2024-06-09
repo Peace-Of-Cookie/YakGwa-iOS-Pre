@@ -179,15 +179,23 @@ public final class MakeYakgwaViewController: UIViewController, View, KeyboardRea
         return view
     }()
     
-    private lazy var alreadyLocationTextField: UITextField = {
+    private lazy var locationTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "지역/지하철역을 검색해주세요"
-        textField.textColor = .neutral500
+        textField.textColor = .neutralBlack
         textField.font = UIFont.r14
+        textField.delegate = self
         return textField
     }()
     
-    private lazy var alreadyLocationSearchButton: UIButton = {
+    private lazy var locationPlaceholderLabel: UILabel = {
+        let label = UILabel()
+        label.text = "지역/지하철역을 검색해주세요."
+        label.textColor = .neutral500
+        label.font = UIFont.r14
+        return label
+    }()
+    
+    private lazy var locationSearchButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "SearchIcons", in: .module, with: nil), for: .normal)
         return button
@@ -341,7 +349,7 @@ public final class MakeYakgwaViewController: UIViewController, View, KeyboardRea
             .disposed(by: disposeBag)
         
         self.themeCollectionView.rx.modelSelected(MeetTheme.self)
-            .map { Reactor.Action.updateTheme($0.id ?? 0) }
+            .map { Reactor.Action.updateTheme($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -388,6 +396,14 @@ public final class MakeYakgwaViewController: UIViewController, View, KeyboardRea
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        self.locationSearchButton.rx.tap
+            .withLatestFrom(locationTextField.rx.text.orEmpty)
+            .filter { !$0.isEmpty }
+            .map { Reactor.Action.addLoaction($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+            
+        
         // State
         if #available(iOS 13.4, *) {
             reactor.pulse(\.$isDateViewShow)
@@ -411,9 +427,17 @@ public final class MakeYakgwaViewController: UIViewController, View, KeyboardRea
         
         reactor.state.map { $0.themes }
             .distinctUntilChanged()
-            .bind(to: themeCollectionView.rx.items(cellIdentifier: "ThemeCell", cellType: ThemeCell.self)) { _, theme, cell in
-                cell.configure(with: theme)
+            .bind(to: themeCollectionView.rx.items(cellIdentifier: "ThemeCell", cellType: ThemeCell.self)) { index, theme, cell in
+                let isSelected = (reactor.currentState.selectedThemeId == theme.id)
+                cell.configure(with: theme, isSelected: isSelected)
             }
+            .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.selectedThemeId }
+            .distinctUntilChanged()
+            .subscribe(onNext: { [weak self] _ in
+                self?.themeCollectionView.reloadData()
+            })
             .disposed(by: disposeBag)
         
         reactor.state.map { $0.makeMeetComplete ?? 0 }
@@ -422,6 +446,18 @@ public final class MakeYakgwaViewController: UIViewController, View, KeyboardRea
                 // 화면 이동
                 if meetId != 0 {
                     self?.coordinator?.moveToYakgwaDetail(with: meetId)
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.yakgwaLocation }
+            .distinctUntilChanged()
+            .subscribe(onNext: { [weak self] locations in
+                self?.locationStack.arrangedSubviews.forEach { $0.removeFromSuperview() }
+                locations.forEach { location in
+                    let tagView = LocationTagView(location: location)
+                    self?.locationStack.addArrangedSubview(tagView)
+                    self?.locationTextField.text = ""
                 }
             })
             .disposed(by: disposeBag)
@@ -475,8 +511,9 @@ public final class MakeYakgwaViewController: UIViewController, View, KeyboardRea
         
         self.yakgwaTitleTextField.addSubview(textFieldPlaceholderLabel)
         textFieldPlaceholderLabel.snp.makeConstraints {
-            $0.top.equalTo(yakgwaTitleTextField.snp.top).offset(4)
-            $0.leading.equalTo(yakgwaTitleTextField.snp.leading).offset(16)
+            // $0.top.equalTo(yakgwaTitleTextField.snp.top).offset(4)
+            $0.centerY.equalToSuperview()
+            $0.leading.equalTo(yakgwaTitleTextField.snp.leading).offset(8)
         }
         
         self.yakgwaTitleInputContainerView.addSubview(yakgwaTitleTextCountLabel)
@@ -510,8 +547,9 @@ public final class MakeYakgwaViewController: UIViewController, View, KeyboardRea
         
         self.yakgwaDescriptionTextView.addSubview(textViewPlaceholderLabel)
         textViewPlaceholderLabel.snp.makeConstraints {
-            $0.top.equalTo(yakgwaDescriptionTextView.snp.top).offset(4)
-            $0.leading.equalTo(yakgwaDescriptionTextView.snp.leading).offset(16)
+            $0.top.equalTo(yakgwaDescriptionTextView.snp.top).offset(8)
+//            $0.centerY.equalToSuperview()
+            $0.leading.equalTo(yakgwaDescriptionTextView.snp.leading).offset(8)
         }
         
         self.yakgwaDescriptionInputContainerView.addSubview(yakgwaDescriptionTextCountLabel)
@@ -569,16 +607,22 @@ public final class MakeYakgwaViewController: UIViewController, View, KeyboardRea
             $0.trailing.equalToSuperview().offset(-16)
         }
         
-        self.alreadyLocationInputContainerView.addSubview(alreadyLocationTextField)
-        alreadyLocationTextField.snp.makeConstraints {
+        self.alreadyLocationInputContainerView.addSubview(locationTextField)
+        locationTextField.snp.makeConstraints {
             $0.top.equalToSuperview().offset(8)
             $0.leading.equalToSuperview().offset(16)
             $0.trailing.equalToSuperview().offset(-16)
             $0.bottom.equalToSuperview().offset(-8)
         }
         
-        self.alreadyLocationInputContainerView.addSubview(alreadyLocationSearchButton)
-        alreadyLocationSearchButton.snp.makeConstraints {
+        self.locationTextField.addSubview(locationPlaceholderLabel)
+        locationPlaceholderLabel.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.leading.equalTo(locationTextField.snp.leading).offset(8)
+        }
+        
+        self.alreadyLocationInputContainerView.addSubview(locationSearchButton)
+        locationSearchButton.snp.makeConstraints {
             $0.trailing.equalToSuperview().offset(-16)
             $0.centerY.equalToSuperview()
         }
@@ -589,8 +633,8 @@ public final class MakeYakgwaViewController: UIViewController, View, KeyboardRea
             $0.leading.equalToSuperview().offset(16)
         }
         
-//        self.locationStack.addArrangedSubview(LocationTagView(location: "홍대"))
-//        self.locationStack.addArrangedSubview(LocationTagView(location: "역삼역"))
+        self.locationStack.addArrangedSubview(LocationTagView(location: "홍대"))
+        self.locationStack.addArrangedSubview(LocationTagView(location: "역삼역"))
         
         self.contentView.addSubview(timeLabel)
         timeLabel.snp.makeConstraints {
@@ -709,18 +753,22 @@ extension MakeYakgwaViewController {
             case .startDate:
                 dateFormatter.dateFormat = "yyyy-MM-dd"
                 self.daySelectionView.firstLabel.text = dateFormatter.string(from: datePicker.date)
+                self.daySelectionView.firstLabel.textColor = .neutralBlack
                 self.reactor?.action.onNext(.updateStartDate(datePicker.date))
             case .endDate:
                 dateFormatter.dateFormat = "yyyy-MM-dd"
                 self.daySelectionView.secondLabel.text = dateFormatter.string(from: datePicker.date)
+                self.daySelectionView.secondLabel.textColor = .neutralBlack
                 self.reactor?.action.onNext(.updateEndDate(datePicker.date))
             case .startTime:
                 dateFormatter.dateFormat = "HH:mm"
                 self.timeSelectionView.firstLabel.text = dateFormatter.string(from: datePicker.date)
+                self.timeSelectionView.firstLabel.textColor = .neutralBlack
                 self.reactor?.action.onNext(.updateStartTime(datePicker.date))
             case .endTime:
                 dateFormatter.dateFormat = "HH:mm"
                 self.timeSelectionView.secondLabel.text = dateFormatter.string(from: datePicker.date)
+                self.timeSelectionView.secondLabel.textColor = .neutralBlack
                 self.reactor?.action.onNext(.updateEndTime(datePicker.date))
             }
         }
@@ -777,18 +825,37 @@ extension MakeYakgwaViewController: UICollectionViewDelegateFlowLayout {
 
 extension MakeYakgwaViewController: UITextFieldDelegate {
     public func textFieldDidBeginEditing(_ textField: UITextField) {
-        textFieldPlaceholderLabel.isHidden = true
+        // textFieldPlaceholderLabel.isHidden = true
+        if textField == yakgwaTitleTextField {
+            textFieldPlaceholderLabel.isHidden = true
+        } else if textField == locationTextField {
+            locationPlaceholderLabel.isHidden = true
+        }
     }
     
     public func textFieldDidEndEditing(_ textField: UITextField) {
-        if textField.text?.isEmpty ?? true {
-            textFieldPlaceholderLabel.isHidden = false
+//        if textField.text?.isEmpty ?? true {
+//            textFieldPlaceholderLabel.isHidden = false
+//        }
+        if textField == yakgwaTitleTextField {
+            if textField.text?.isEmpty ?? true {
+                textFieldPlaceholderLabel.isHidden = false
+            }
+        } else if textField == locationTextField {
+            if textField.text?.isEmpty ?? true {
+                locationPlaceholderLabel.isHidden = false
+            }
         }
     }
     
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         DispatchQueue.main.async {
-            self.textFieldPlaceholderLabel.isHidden = !(textField.text?.isEmpty ?? true)
+            // self.textFieldPlaceholderLabel.isHidden = !(textField.text?.isEmpty ?? true)
+            if textField == self.yakgwaTitleTextField {
+                self.textFieldPlaceholderLabel.isHidden = !(textField.text?.isEmpty ?? true)
+            } else if textField == self.locationTextField {
+                self.locationPlaceholderLabel.isHidden = !(textField.text?.isEmpty ?? true)
+            }
         }
         return true
     }

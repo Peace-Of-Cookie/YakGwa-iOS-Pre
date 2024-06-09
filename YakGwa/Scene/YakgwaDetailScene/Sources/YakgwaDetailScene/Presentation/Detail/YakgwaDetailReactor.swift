@@ -42,7 +42,6 @@ public final class YakgwaDetailReactor: Reactor {
     ) {
         self.initialState = State(meetId: meetId)
         self.fetchMeetInfoUseCase = fetchMeetInfoUseCase
-        print("모임 아이디: \(meetId)")
     }
     
     public func mutate(action: Action) -> Observable<Mutation> {
@@ -72,7 +71,6 @@ public final class YakgwaDetailReactor: Reactor {
                 .asObservable()
                 .map { Mutation.setInfo($0) }
                 .catch { error in
-                    print("Error occurred: \(error)")
                     return Observable.empty()
                 }
             

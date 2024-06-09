@@ -41,34 +41,34 @@ import Foundation
    }
  }
  */
-public struct MeetVoteResponseDTO: Codable {
+public struct MeetVoteResponseDTO: Codable, Equatable {
     let time: String
     let status: Int
     let code: String
     let message: String
     let result: ResultDTO
     
-    struct ResultDTO: Codable {
+    struct ResultDTO: Codable, Equatable {
         let placeItems: [PlaceItemDTO]
         let timeItems: TimeItemsDTO
         
-        struct PlaceItemDTO: Codable {
+        struct PlaceItemDTO: Codable, Equatable {
             let candidatePlaceId: Int
             let name: String
             let address: String
             let description: String
         }
         
-        struct TimeItemsDTO: Codable {
+        struct TimeItemsDTO: Codable, Equatable {
             let timeRange: TimeRangeDTO
             let dateRange: DateRangeDTO
             
-            struct TimeRangeDTO: Codable {
+            struct TimeRangeDTO: Codable, Equatable {
                 let start: String
                 let end: String
             }
             
-            struct DateRangeDTO: Codable {
+            struct DateRangeDTO: Codable, Equatable {
                 let start: String
                 let end: String
             }

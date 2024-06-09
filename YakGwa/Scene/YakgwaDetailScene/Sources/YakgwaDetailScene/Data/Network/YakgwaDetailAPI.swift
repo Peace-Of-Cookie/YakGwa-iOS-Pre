@@ -12,12 +12,18 @@ import Util
 
 public enum YakgwaDetailAPI {
     case fetchMeetVoteInfo(meetId: Int)
+    case postScheduleVote(userId: Int, meetId: Int, times: Data)
+    case postPlaceVote(userId: Int, meetId: Int, places: Data)
 }
 
 extension YakgwaDetailAPI: YakgwaAPI {
     public var domain: YakgwaDomain {
         switch self {
         case .fetchMeetVoteInfo:
+            return .none
+        case .postScheduleVote:
+            return .none
+        case .postPlaceVote:
             return .none
         }
     }
@@ -26,6 +32,10 @@ extension YakgwaDetailAPI: YakgwaAPI {
         switch self {
         case let .fetchMeetVoteInfo(meetId):
             return "/meets/\(meetId)/vote/items"
+        case let .postScheduleVote(userId, meetId, _):
+            return "/users/\(userId)/meets/\(meetId)/vote/schedules"
+        case let .postPlaceVote(userId, meetId, _):
+            return "/users/\(userId)/meets/\(meetId)/vote/places"
         }
     }
     
@@ -36,7 +46,13 @@ extension YakgwaDetailAPI: YakgwaAPI {
         ]
         
         switch self {
-        case let .fetchMeetVoteInfo(meetId):
+        case .fetchMeetVoteInfo:
+            guard let token = AccessTokenManager.readAccessToken() else { return defaultHeaders }
+            defaultHeaders["Authorization"] = "Bearer \(token)"
+        case .postScheduleVote:
+            guard let token = AccessTokenManager.readAccessToken() else { return defaultHeaders }
+            defaultHeaders["Authorization"] = "Bearer \(token)"
+        case .postPlaceVote:
             guard let token = AccessTokenManager.readAccessToken() else { return defaultHeaders }
             defaultHeaders["Authorization"] = "Bearer \(token)"
         }
@@ -48,6 +64,10 @@ extension YakgwaDetailAPI: YakgwaAPI {
         switch self {
         case .fetchMeetVoteInfo:
             return .get
+        case .postScheduleVote:
+            return .post
+        case .postPlaceVote:
+            return .post
         }
     }
     
@@ -55,6 +75,10 @@ extension YakgwaDetailAPI: YakgwaAPI {
         switch self {
         case .fetchMeetVoteInfo:
             return .requestPlain
+        case let .postScheduleVote(_ ,_ , body):
+            return .requestData(body)
+        case let .postPlaceVote(_ ,_ , body):
+            return .requestData(body)
         }
     }
     
