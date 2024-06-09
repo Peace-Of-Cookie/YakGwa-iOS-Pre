@@ -23,8 +23,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window.windowScene = windowScene
-//        window?.rootViewController = SplashViewController()
-//        window?.makeKeyAndVisible()
         self.window = window
         let appCoordinator = AppCoordinator(window: window)
         self.appCoordinator = appCoordinator
@@ -36,27 +34,41 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //        
 //        let window = UIWindow(windowScene: windowScene)
 //        
-//        // 장소 테스트
-//        let reactor: PlaceVoteViewReactor = PlaceVoteViewReactor(
-//            fetchMeetVoteInfoUseCase: FetchMeetVoteInfoUseCase(
-//                repository: FetchMeetVoteInfoRepository(
-//                    remoteDataSource: RemoteFetchMeetVoteDataSource())),
-//            postVotePlaceUseCase: PostVotePlaceUseCase(
-//                repository: PostVotePlaceRepositoy(
-//                    remoteDataSource: RemotePostVotePlaceDataSource())))
-//
-//        let placeVoteViewController = PlaceVoteViewController(reactor: reactor)
 //        
-//        // 스케줄 테스트
+////        let reactor: PlaceVoteViewReactor = PlaceVoteViewReactor(
+////            fetchMeetVoteInfoUseCase: FetchMeetVoteInfoUseCase(
+////                repository: FetchMeetVoteInfoRepository(
+////                    remoteDataSource: RemoteFetchMeetVoteDataSource())),
+////            postVotePlaceUseCase: PostVotePlaceUseCase(
+////                repository: PostVotePlaceRepositoy(
+////                    remoteDataSource: RemotePostVotePlaceDataSource())))
+////
+////        let placeVoteViewController = PlaceVoteViewController(reactor: reactor)
+////        
+////         스케줄 테스트
 ////        let reactor: CalendarVoteReactor = CalendarVoteReactor(
 ////            fetchMeetVoteInfoUseCase: FetchMeetVoteInfoUseCase(
 ////                repository: FetchMeetVoteInfoRepository(
 ////                    remoteDataSource: RemoteFetchMeetVoteDataSource())),
 ////            postVoteScheduleUseCase: PostVoteScheduleUseCase(repository: PostVoteScheduleRepository(remoteDataSource: RemotePostVoteScheduleDataSource())))
+////        
+////         let calendarVoteViewController = CalendarVoteViewController(reactor: reactor)
+////        
+////         투표 현황 테스트
+////        let reactor: UserVoteStatusReactor = UserVoteStatusReactor(
+////            meetId: 65,
+////            fetchUserVoteStatusUseCase: FetchUserVoteStatusUseCase(
+////                repository: FetchUserVoteStatusRepository(
+////                    remoteDataSource: RemoteFetchUserVoteStatusDataSource())),
+////            fetchMeetInfoUseCase: FetchMeetInfoUseCase(
+////                        repository: FetchMeetInfoRepository(remoteDataSource: RemoteFetchMeetInfoDataSource()))
+////        )
+////        
+////        let voteViewController = UserVoteStatusViewController(reactor: reactor)
 //        
-//        // let calendarVoteViewController = CalendarVoteViewController(reactor: reactor)
+//        let viewController = TestUIViewController()
 //        
-//        window.rootViewController = placeVoteViewController
+//        window.rootViewController = viewController
 //        self.window = window
 //        window.makeKeyAndVisible()
 //    }

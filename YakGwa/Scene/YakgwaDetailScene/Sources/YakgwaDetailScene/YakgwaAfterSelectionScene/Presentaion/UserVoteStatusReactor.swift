@@ -4,7 +4,7 @@
 //
 //  Created by Ekko on 6/7/24.
 //
-
+import Foundation
 import ReactorKit
 import Util
 import Network
@@ -26,6 +26,12 @@ public final class UserVoteStatusReactor: Reactor {
         var meetId: Int
         var userVoteStatus: UserVoteStatus?
         var meetInfo: MeetInfo?
+        
+        // UI 바인딩 값
+        var meetTheme: String?
+        var meetName: String?
+        var meetDescription: String?
+        var meetVotedTime: [String]?
     }
     
     public var initialState: State
@@ -72,11 +78,6 @@ public final class UserVoteStatusReactor: Reactor {
                     .asObservable()
                     .map { Mutation.setUserVoteInfo($0) }
             ])
-            
-//            return fetchUserVoteStatusUseCase
-//                .execute(userId: 4, meetId: currentState.meetId) // TODO: - UserId 교체
-//                .asObservable()
-//                .map { Mutation.setUserVoteInfo($0) }
         }
     }
     
@@ -85,10 +86,41 @@ public final class UserVoteStatusReactor: Reactor {
         switch mutation {
         case .setUserVoteInfo(let userVoteStatus):
             newState.userVoteStatus = userVoteStatus
+            newState.meetVotedTime = userVoteStatus.scheduleVoteInfos.map { formatDateRange(startDate: $0.startDate, endDate: $0.endDate) ?? "" }
         case .setMeetInfo(let meetInfo):
             newState.meetInfo = meetInfo
+            newState.meetTheme = meetInfo.themeName
+            newState.meetName = meetInfo.name
+            newState.meetDescription = meetInfo.description
         }
         return newState
     }
     
+}
+
+extension UserVoteStatusReactor {
+    private func formatDateRange(startDate: String, endDate: String) -> String? {
+        let inputDateFormat = "yyyy-MM-dd HH:mm"
+        let outputDateFormat = "yy/MM/dd H시"
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = inputDateFormat
+        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        
+        guard let start = dateFormatter.date(from: startDate), let end = dateFormatter.date(from: endDate) else {
+            return nil
+        }
+        
+        dateFormatter.dateFormat = outputDateFormat
+        
+        let formattedStart = dateFormatter.string(from: start)
+        
+        let hourFormatter = DateFormatter()
+        hourFormatter.dateFormat = "H"
+        hourFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        
+        let formattedEndHour = hourFormatter.string(from: end)
+        
+        return "\(formattedStart) - \(formattedEndHour)시"
+    }
 }
