@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import Common
+import CoreKit
 
 final public class PlaceVoteCoordinator: Coordinator {
     public var navigationController: UINavigationController?

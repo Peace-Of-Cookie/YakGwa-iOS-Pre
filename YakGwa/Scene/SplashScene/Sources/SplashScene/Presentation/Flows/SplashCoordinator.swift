@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import Common
+import CoreKit
 import LoginScene
 
 final public class SplashCoordinator: Coordinator {

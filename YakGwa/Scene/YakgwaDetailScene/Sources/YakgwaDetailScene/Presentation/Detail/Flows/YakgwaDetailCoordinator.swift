@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import Common
+import CoreKit
 import Network
 
 final public class YakgwaDetailCoordinator: Coordinator {

@@ -7,7 +7,7 @@
 
 import UIKit
 
-import Common
+import CoreKit
 import HomeScene
 
 public final class LoginCoordinator: Coordinator {

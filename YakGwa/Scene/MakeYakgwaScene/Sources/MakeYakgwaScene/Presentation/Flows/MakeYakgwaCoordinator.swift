@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import Common
+import CoreKit
 import YakgwaDetailScene
 
 final public class MakeYakgwaCoordinator: Coordinator {
