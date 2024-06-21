@@ -13,8 +13,6 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "./CoreKit"),
-        .package(path: "./Common"),
-        .package(path: "./Util"),
         .package(path: "./LoginScene")
     ],
     targets: [
@@ -22,8 +20,6 @@ let package = Package(
             name: "SplashScene",
             dependencies: [
                 .product(name: "CoreKit", package: "CoreKit"),
-                .product(name: "Common", package: "Common"),
-                .product(name: "Util", package: "Util"),
                 .product(name: "LoginScene", package: "LoginScene")
             ],
             resources: [.process("Assets")]

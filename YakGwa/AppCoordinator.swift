@@ -7,10 +7,9 @@
 
 import UIKit
 
-import Common
+import CoreKit
 import SceneKit
 import SplashScene
-import LoginScene
 
 class AppCoordinator: Coordinator {
     var window: UIWindow

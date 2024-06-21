@@ -13,9 +13,6 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "./CoreKit"),
-        .package(path: "./Common"),
-        .package(path: "./Network"),
-        .package(path: "/Util"),
         .package(
             url: "https://github.com/kakao/kakao-ios-sdk",
             .upToNextMajor(from: "2.0.0")
@@ -27,9 +24,6 @@ let package = Package(
             name: "LoginScene",
             dependencies: [
                 .product(name: "CoreKit", package: "CoreKit"),
-                .product(name: "Common", package: "Common"),
-                .product(name: "Network", package: "Network"),
-                .product(name: "Util", package: "Util"),
                 .product(name: "KakaoSDK", package: "kakao-ios-sdk"),
                 .product(name: "HomeScene", package: "HomeScene")
             ],

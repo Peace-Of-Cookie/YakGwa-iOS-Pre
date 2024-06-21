@@ -12,19 +12,13 @@ let package = Package(
             targets: ["YakgwaDetailScene"]),
     ],
     dependencies: [
-        .package(path: "./CoreKit"),
-        .package(path: "./Common"),
-        .package(path: "./Network"),
-        .package(path: "./Util")
+        .package(path: "./CoreKit")
     ],
     targets: [
         .target(
             name: "YakgwaDetailScene",
             dependencies: [
-                .product(name: "CoreKit", package: "CoreKit"),
-                .product(name: "Common", package: "Common"),
-                .product(name: "Network", package: "Network"),
-                .product(name: "Util", package: "Util")
+                .product(name: "CoreKit", package: "CoreKit")
             ],
             resources: [.process("Assets")]
         ),
