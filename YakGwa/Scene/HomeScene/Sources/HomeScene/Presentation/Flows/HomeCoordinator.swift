@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import Common
+import CoreKit
 import MakeYakgwaScene
 
 final public class HomeCoordinator: Coordinator {
