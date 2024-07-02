@@ -8,6 +8,8 @@
 import Foundation
 
 public enum YakgwaCommonAPI {
+    /// 로그인 Access Token 갱신
+    case reissue(refreshToken: String)
     /// 모임 상세 정보 조회
     case fetchMeetInfo(token: String, userId: Int, meetId: Int)
 }
@@ -15,6 +17,8 @@ public enum YakgwaCommonAPI {
 extension YakgwaCommonAPI: YakgwaAPI {
     public var domain: YakgwaDomain {
         switch self {
+        case .reissue:
+            return .login
         case .fetchMeetInfo:
             return .none
         }
@@ -22,6 +26,9 @@ extension YakgwaCommonAPI: YakgwaAPI {
     
     public var urlPath: String {
         switch self {
+        case .reissue:
+            return "/reissue"
+            
         case let .fetchMeetInfo(_ , userId, meetId):
             return "/users/\(userId)/meets/\(meetId)"
         }
@@ -34,6 +41,8 @@ extension YakgwaCommonAPI: YakgwaAPI {
         ]
         
         switch self {
+        case let .reissue(refreshToken):
+            defaultHeaders["refreshToken"] = "Bearer \(refreshToken)"
         case let .fetchMeetInfo(token, _, _):
             defaultHeaders["Authorization"] = "Bearer \(token)"
         }
@@ -43,6 +52,9 @@ extension YakgwaCommonAPI: YakgwaAPI {
     
     public var method: Moya.Method {
         switch self {
+            
+        case .reissue:
+            return .get
         case .fetchMeetInfo:
             return .get
         }
@@ -50,6 +62,8 @@ extension YakgwaCommonAPI: YakgwaAPI {
     
     public var task: Moya.Task {
         switch self {
+        case .reissue:
+            return .requestPlain
         case .fetchMeetInfo:
             return .requestPlain
         }
