@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "DesignSystem",
-    platforms: [.iOS(.v15)],
+    platforms: [.iOS(.v17)],
     products: [
         .library(
             name: "DesignSystem",
@@ -15,13 +15,15 @@ let package = Package(
         .package(
             url: "https://github.com/SnapKit/SnapKit",
             .upToNextMajor(from: "5.0.0")
-        )
+        ),
+        .package(url: "https://github.com/ReactiveX/RxSwift.git", .upToNextMajor(from: "6.0.0"))
     ],
     targets: [
         .target(
             name: "DesignSystem",
             dependencies: [
-                .product(name: "SnapKit", package: "SnapKit")
+                .product(name: "SnapKit", package: "SnapKit"),
+                .product(name: "RxSwift", package: "RxSwift")
             ],
             resources: [.process("Resources")]
         ),

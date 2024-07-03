@@ -51,3 +51,7 @@ public final class SplashViewController: UIViewController {
     }
     // MARK: - Binding
 }
+
+#Preview {
+    SplashViewController()
+}
