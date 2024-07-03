@@ -49,5 +49,5 @@ public final class SplashViewController: UIViewController {
             $0.leading.equalToSuperview()
         }
     }
-    // MARK: - Binding
+    // MARK: - Bindingㅇ
 }
